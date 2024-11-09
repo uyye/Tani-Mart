@@ -1,0 +1,369 @@
+:root {
+  --primary: #00801c;
+  --bg: rgb(213, 236, 229);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg);
+  /* min-height: 200px; */
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 7px 7%;
+  background-color: rgba(224, 252, 233, 0.8);
+  border-bottom: 1.5px solid #7fb190;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  margin-right: -40px;
+}
+.navbar a img {
+  padding-left: -30px;
+}
+.navbar .navbar-nav a {
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  font-size: 1.3;
+  margin: 0rem;
+  margin-right: 5px;
+  padding: 5px;
+}
+.navbar .navbar-nav a:hover {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a::after {
+  content: "";
+  display: block;
+  padding-bottom: 0.1rem;
+  border-bottom: 0.1rem solid var(--primary);
+  transform: scaleX(0);
+  transition: 0.2s linear;
+}
+
+.navbar .navbar-nav a:hover::after {
+  transform: scaleX(0.5);
+}
+
+.navbar-button1 a {
+  color: rgb(0, 0, 0);
+  padding: 5px 12px;
+  border-radius: 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border: 1px solid #48ad8b;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+.navbar .navbar-button1 a:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(37, 163, 83);
+}
+.navbar .navbar-button1 a:hover::after {
+  transform: scaleX(0.5);
+  transition: 0.2s linear;
+}
+.navbar .navbar-button2 a {
+  color: black;
+  /* margin-right: -50px; */
+  /* margin-left: -90px; */
+  font-size: 40px;
+  /* margin: 0 0.5rem; */
+}
+
+.navbar .navbar-button2 a:hover {
+  color: var(--primary);
+}
+
+#hamburger-menu {
+  display: none;
+}
+
+/* Media Queries */
+/* Laptop */
+@media (max-width: 1366px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+/* Tablet */
+@media (max-width: 758px) {
+  html {
+    font-size: 70%;
+  }
+
+  #hamburger-menu {
+    display: inline-block;
+  }
+
+  .navbar .navbar-nav {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    background-color: #34d780;
+    width: 30rem;
+    height: 100vh;
+    transition: 0.3s;
+  }
+
+  .navbar .navbar-nav.active {
+    right: 0;
+  }
+
+  .navbar .navbar-nav a {
+    color: rgb(0, 0, 0);
+    display: block;
+    margin: 1.5rem;
+    padding: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .navbar .navbar-nav a::after {
+    transform-origin: 0 0;
+  }
+
+  .navbar .navbar-nav a:hover::after {
+    transform: scaleX(0.2);
+  }
+  .about p {
+    font-size: 1rem;
+  }
+  .hero .content span {
+    display: inline-block;
+    margin-top: 10px;
+  }
+  .about p {
+    font-size: 13px;
+  }
+  .footer {
+    display: inline-block;
+  }
+}
+
+/* Mobile Phone */
+@media (max-width: 450px) {
+  html {
+    font-size: 55%;
+  }
+}
+
+/* hero section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+.hero img {
+  background-size: cover;
+}
+.hero::before {
+  content: "";
+  background-image: url("img/hero.jpg");
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; /* Menempatkan blur di bawah teks */
+  opacity: 0.3; /* Opsional: atur transparansi */
+}
+.hero::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  bottom: 0;
+  background: linear-gradient(black);
+}
+.hero .content {
+  padding: 1.9rem 7%;
+  max-width: 100rem;
+}
+
+.hero .content h1 {
+  color: rgb(0, 0, 0);
+  text-shadow: 1px 1px 3px rgb(255, 255, 255);
+  line-height: 1.3rem;
+  font-size: 30px;
+}
+
+.hero .content h1 span {
+  color: rgb(64, 255, 0);
+  text-decoration: solid;
+  text-shadow: 1px 1px 3px rgb(0, 0, 0);
+  margin-top: 3rem;
+}
+
+.hero .content p {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  line-height: 1.4rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 3px rgb(148, 216, 196);
+}
+
+.hero .content .cta {
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.5rem;
+  background: linear-gradient(
+    0deg,
+    rgb(188, 250, 219) 1%,
+    rgba(224, 252, 233, 0.8) 25%
+  );
+  font-size: 1.4rem;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  box-shadow: 2px 1px 1px rgb(118, 243, 174);
+}
+
+.about {
+  padding: 4rem 10% 5rem;
+  /* display: inline-block; */
+  /* padding-top: 50px; Sesuaikan dengan tinggi navbar */
+  /* margin-top: 20px; Sesuaikan dengan padding-top */
+  height: 100vh;
+}
+.about h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 4rem;
+  margin-top: 60px;
+}
+.about span {
+  color: #24a15f;
+}
+.about a img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  width: 50%;
+}
+.about p {
+  /* font-size: 20px; */
+  text-align: justify;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+.untung {
+  padding: 3rem 10% 2rem;
+  /* display: inline-block; */
+  /* padding-top: -80px; */
+  margin-top: -80px;
+  /* height: 120vh; */
+}
+.untung h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  margin-top: 20px;
+}
+.untung span {
+  color: #24a15f;
+}
+.keuntungan-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.keuntungan-item {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.keuntungan-item:hover {
+  transform: scale(1.05);
+}
+
+.keuntungan-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.keuntungan-item h3 {
+  font-size: 1.2em;
+  color: #333;
+  margin: 10px 0;
+}
+
+.keuntungan-item p {
+  color: #666;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+/* Footer */
+footer {
+  background-color: var(--primary);
+  text-align: center;
+  padding: 1rem 0 3rem;
+  margin-top: 3rem;
+}
+
+footer .socials {
+  padding: 1rem 0;
+}
+
+footer .socials a {
+  color: #fff;
+  margin: 1rem;
+}
+
+footer .socials a:hover,
+footer .links a:hover {
+  color: black;
+}
+
+footer .links {
+  margin-bottom: 1.4rem;
+}
+
+footer .links a {
+  color: #fff;
+  padding: 0.7rem 1rem;
+}
+
+footer .credit {
+  font-size: 0.8rem;
+}
+
+footer .credit a {
+  color: white;
+  font-weight: 700;
+}
