@@ -1,0 +1,72 @@
+/* Mengatur tampilan dasar untuk halaman daftar */
+.register-container {
+  max-width: 500px;
+  height: 80vh;
+  margin: 70px auto;
+  padding: 20 0px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.register-container h2 {
+  color: #4caf50;
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.register-button {
+  width: 30%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.register-button:hover {
+  background-color: #45a049;
+}
+
+/* Styling link untuk kembali ke halaman login */
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-link button {
+  background: none;
+  border: none;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.login-link button:hover {
+  color: #45a049;
+}
