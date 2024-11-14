@@ -20,14 +20,8 @@ function DetailProduk() {
       <p className="product-price">{product.price}</p>
       <p className="product-unit">{product.unit}</p>
       <p className="product-description">{product.description}</p>
-      <a href={`tel:${product.phoneNumber}`} className="contact-button1">
-        Chat Admin
-      </a>
       <Link to="/keranjang" className="contact-button2">
         Masukkan Keranjang
-      </Link>
-      <Link to="/checkout" className="contact-button3">
-        Beli Sekarang
       </Link>
     </div>
   );
