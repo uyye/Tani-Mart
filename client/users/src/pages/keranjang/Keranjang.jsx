@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./keranjang.css";
 
-function Cart() {
+export default function Keranjang() {
   // Data produk dalam keranjang
   const [items, setItems] = useState([
     { id: 1, name: "Produk A", quantity: 1, price: 10000 },
@@ -100,4 +100,3 @@ function Cart() {
   );
 }
 
-export default Cart;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./AddProduct.css";
+import "./InputProduk.css";
 
-const AddProduct = () => {
+export default function AddProduct() {
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -75,5 +75,3 @@ const AddProduct = () => {
     </div>
   );
 };
-
-export default AddProduct;
