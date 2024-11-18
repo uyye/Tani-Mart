@@ -1,0 +1,64 @@
+.untung {
+  max-width: 2000px;
+  /* margin: 30px auto;
+  padding: 10px; */
+  text-align: center;
+}
+.untung h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 10px;
+  color: black;
+}
+.untung span {
+  color: #24a15f;
+}
+.keuntungan-list {
+  /* display: flex; */
+  justify-content: center; /* Rata tengah secara horizontal */
+  align-items: center; /* Rata tengah secara vertikal */
+  display: inline-block;
+  place-items: center;
+}
+.keuntungan-item {
+  align-content: center;
+  flex: 2 1 calc(33.333% - 5px);
+  background-color: #fff;
+  padding: 5px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 310px;
+  height: 280px;
+  margin: 30px -20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  margin-left: 90px;
+  display: inline-table;
+  justify-content: center;
+}
+
+.keuntungan-item:hover {
+  transform: scale(1.05);
+}
+
+.keuntungan-item img {
+  width: 80px;
+  height: 75px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  /* object-fit: cover; */
+}
+
+.keuntungan-item h3 {
+  font-size: 1.2em;
+  color: #333;
+  margin: 10px 30px;
+  display: flex;
+}
+
+.keuntungan-item p {
+  color: #666;
+  font-size: 0.95em;
+  line-height: 1.7rem;
+}

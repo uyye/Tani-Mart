@@ -1,0 +1,72 @@
+/* Mengatur styling dasar untuk halaman login */
+.login-container {
+  max-width: 500px;
+  height: 60vh;
+  margin: 100px auto;
+  padding: 20 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  text-align: center;
+}
+
+h2 {
+  color: #4caf50;
+  margin-bottom: 80px;
+  margin-top: 20px;
+}
+
+.form-group {
+  margin: 20px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-button {
+  width: 30%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.login-button:hover {
+  background-color: #45a049;
+}
+/* Login.css */
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-button-link {
+  background: none;
+  border: none;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.register-button-link:hover {
+  color: #45a049;
+}
