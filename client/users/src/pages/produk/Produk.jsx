@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Produk.css";
-import { tomatImage } from "../../assets/lg.png";
+import tomatImage  from "../../assets/lg.png";
+
 const products = [
   {
     id: 1,
@@ -120,7 +121,7 @@ const ProductCard = ({ product }) => {
   );
 };
 
-const App = () => {
+const Produk = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -159,4 +160,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Produk;

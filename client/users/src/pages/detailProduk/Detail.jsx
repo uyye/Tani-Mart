@@ -2,7 +2,8 @@ import React from "react";
 import "./Detail.css";
 import gambar from "../../assets/wortel.jpg";
 import { Link } from "react-router-dom";
-function DetailProduk() {
+
+export default function DetailProduk() {
   const product = {
     Image: gambar,
     name: "Wortel",
@@ -27,7 +28,6 @@ function DetailProduk() {
   );
 }
 
-export default DetailProduk;
 {
   /* <Link to="/product" className="cta">
   Beli Sekarang
