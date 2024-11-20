@@ -1,42 +1,184 @@
 import React, { useState } from "react";
 import "./Presale.css";
+import { Link } from "react-router-dom";
+function Presale() {
+  const [quantity, setQuantity] = useState(1); // State untuk kuantitas
+  const presaleProducts = [
+    {
+      id: 1,
+      name: "Tomat Segar",
+      price: "10000",
+      harvestDate: "2024-11-25",
+      sellableDate: "2024-11-23",
+      image: "https://via.placeholder.com/150?text=Tomat+Segar", // Gambar produk
+    },
+    {
+      id: 2,
+      name: "Kentang",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 3,
+      name: "Wortel ",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 4,
+      name: "Bayam",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 5,
+      name: "Kangkung",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 6,
+      name: "Cabai Geriting",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 7,
+      name: "Jagung",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 8,
+      name: "Cengkeh",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 9,
+      name: "Jagung Manis",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 10,
+      name: "Bawang Merah",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 11,
+      name: "Terong",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+    {
+      id: 12,
+      name: "Sawi",
+      price: "15000",
+      harvestDate: "2024-11-28",
+      sellableDate: "2024-11-26",
+      image: "https://via.placeholder.com/150?text=Cabai+Merah", // Gambar produk
+    },
+  ];
+  const [cart, setCart] = useState([]);
 
-function PresaleForm() {
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (message.trim() === "") {
-      alert("Pesan tidak boleh kosong.");
-      return;
-    }
-    // Simpan atau kirim data ke server
-    console.log("Pesan Presale:", message);
-
-    // Clear input setelah submit
-    setMessage("");
-    alert("Pesan Anda telah dikirim ke daftar presale.");
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+  const buyProduct = (id) => {
+    setCart(cart.filter((product) => product.id !== id));
+  };
+  const removeFromCart = (id) => {
+    setCart(cart.filter((product) => product.id !== id));
   };
 
   return (
-    <div>
-      <h1>Presale Siafarm</h1>
-      <form className="presale-form" onSubmit={handleSubmit}>
-        <label htmlFor="message">
-          Pesan untuk Produk yang Ingin Dipresale:
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Tuliskan produk yang ingin Anda pesan..."
-          required
-        />
-        <button type="submit">Daftar Presale</button>
-      </form>
+    <div className="presale-buyer">
+      <header className="App-header">
+        <h1>Produk Presale</h1>
+      </header>
+      <div className="product-grid">
+        {presaleProducts.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} />
+            <h3>{product.name}</h3>
+            <p>Harga: Rp{product.price}/kg</p>
+            <p>Panen: {product.harvestDate}</p>
+            <p>Tersedia Mulai: {product.sellableDate}</p>
+            <button onClick={() => addToCart(product)}>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="cart-section">
+        <h2>Keranjang Anda</h2>
+        {cart.length === 0 ? (
+          <p>Keranjang kosong</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Gambar</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Tanggal Panen</th>
+                <th>Layak Jual</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((product) => (
+                <tr key={product.id}>
+                  <td>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="cart-image"
+                    />
+                  </td>
+                  <td>{product.name}</td>
+                  <td>Rp{product.price}</td>
+                  <td>{product.harvestDate}</td>
+                  <td>{product.sellableDate}</td>
+                  <td>
+                    <Link to="/checkout" className="Buy-Now">
+                      Checkout
+                    </Link>
+                    <button onClick={() => removeFromCart(product.id)}>
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }
 
-export default PresaleForm;
+export default Presale;

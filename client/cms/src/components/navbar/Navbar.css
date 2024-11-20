@@ -169,7 +169,7 @@ body {
     font-size: 55%;
   }
 }
-.navbar .navbar-button2 {
+.navbar .navbar-button1 {
   color: rgb(255, 0, 0);
   /* margin-right: -50px;
   margin-left: -90px; */
@@ -177,7 +177,7 @@ body {
   /* margin: 0 0.5rem; */
 }
 
-.navbar .navbar-button2 a:hover {
+.navbar .navbar-button1 a:hover {
   color: var(--primary);
 }
 

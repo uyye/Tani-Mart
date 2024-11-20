@@ -3,6 +3,10 @@
   /* margin: 30px auto;
   padding: 10px; */
   text-align: center;
+  position: relative;
+  padding: 50px;
+  /* background-color: #ddffe898; */
+  backdrop-filter: blur(30px);
 }
 .untung h2 {
   text-align: center;

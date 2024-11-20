@@ -1,54 +1,109 @@
-.App {
-  text-align: center;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-h1 {
-  margin-top: 135px;
-  text-align: center;
-  color: black;
-  font-size: 30px;
-}
-.presale-form {
-  background-color: #ffffff;
+
+.App-header {
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-top: 20px;
 }
 
-.presale-form label {
-  display: block;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
+.presale-buyer {
+  padding: 20px;
 }
 
-.presale-form textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
+.product-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
   border: 1px solid #ddd;
-  border-radius: 4px;
-  resize: vertical;
-  min-height: 100px;
-  margin-bottom: 16px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.presale-form button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.product-card img {
   width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
-.presale-form button:hover {
-  background-color: #45a049;
+.product-card h3 {
+  margin: 0 0 10px;
+}
+
+.product-card button {
+  padding: 10px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cart-section {
+  margin-top: 20px;
+}
+
+.cart-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-section th,
+.cart-section td {
+  border: 2px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.cart-section th {
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.cart-section .cart-image {
+  width: 50px;
+  height: auto;
+  border-radius: 5px;
+}
+.Buy-Now {
+  padding: 8px;
+  background-color: rgb(0, 224, 34);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 10px;
+}
+.Buy-Now:hover {
+  color: rgb(255, 255, 255);
+  background-color: black;
+}
+.cart-section button {
+  margin: 5px;
+  padding: 8px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.cart-section button:hover {
+  color: rgb(255, 255, 255);
+  background-color: black;
 }
