@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Detail.css";
 import gambar from "../../assets/wortel.jpg";
 import { Link } from "react-router-dom";
 
 export default function DetailProduk() {
+  const [quantity, setQuantity] = useState(1); // State untuk kuantitas
+
   const product = {
     Image: gambar,
     name: "Wortel",
-    unit: "pcs/satuan/kg",
-    price: "Rp 50.000",
+    price: "Rp 50.000/kg",
     description:
-      "Ini adalah deskripsi singkat produk yang menjelaskan kegunaan, kualitas, dan informasi penting lainnya.",
-    phoneNumber: "08777635123",
+      "Wortel segar dan berkualitas tinggi, langsung dari petani lokal. Kaya akan vitamin A dan nutrisi lainnya yang bermanfaat untuk kesehatan mata, kulit, dan sistem kekebalan tubuh.",
+  };
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1); // Tambah kuantitas
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1); // Kurangi kuantitas, minimal 1
+    }
   };
 
   return (
@@ -21,15 +31,24 @@ export default function DetailProduk() {
       <p className="product-price">{product.price}</p>
       <p className="product-unit">{product.unit}</p>
       <p className="product-description">{product.description}</p>
+
+      {/* Tombol Kuantitas */}
+      <div className="quantity-container">
+        <button onClick={handleDecrease} className="quantity-button">
+          -
+        </button>
+        <span className="quantity-display">{quantity}</span>
+        <button onClick={handleIncrease} className="quantity-button">
+          +
+        </button>
+      </div>
+
+      <Link to="/checkout" className="contact-button2">
+        Beli Sekarang
+      </Link>
       <Link to="/keranjang" className="contact-button2">
         Masukkan Keranjang
       </Link>
     </div>
   );
-}
-
-{
-  /* <Link to="/product" className="cta">
-  Beli Sekarang
-</Link>; */
 }

@@ -1,7 +1,7 @@
 import logo from "../../assets/logo siafarm.png";
 import "./Navbar.css";
 import { CiMenuBurger } from "react-icons/ci";
-import { CgShoppingCart } from "react-icons/cg";
+import { IoBagAdd } from "react-icons/io5";
 import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
@@ -13,7 +13,7 @@ export default function Navbar() {
         <Link to="/">Beranda</Link>
         <Link to="/">Tentang Kami</Link>
         <Link to="/product">Produk</Link>
-        <Link to="/presale">Presale</Link>
+        <Link to="/InputPresale">Presale</Link>
       </div>
       <div className="navbar-button1">
         <Link to="/login">Masuk</Link>
@@ -21,9 +21,9 @@ export default function Navbar() {
           Daftar
         </Link>
       </div>
-      <div className="navbar-button2">
-        <Link to="/keranjang" id="shopping-cart-button">
-          <CgShoppingCart />
+      <div className="navbar-button1">
+        <Link to="/Input" id="AddProduct">
+          <IoBagAdd />
         </Link>
         <a href="#" id="hamburger-menu">
           <CiMenuBurger />

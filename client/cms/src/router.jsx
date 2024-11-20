@@ -3,11 +3,11 @@ import Index from "./pages/Index";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Home from "./pages/home/Home";
-import Produk from "./pages/produk/Produk";
-import Presale from "./pages/presale/Presale";
-import Keranjang from "./pages/keranjang/Keranjang";
-import Detail from "./pages/detailProduk/Detail";
-import Checkout from "./pages/checkout/Checkout";
+import InputProduk from "./pages/inputProduk/InputProduk";
+import InputPresale from "./pages/inputPresale/InputPresale";
+// import Produk from "./pages/produk/Produk";
+
+// import Keranjang from "./pages/keranjang/Keranjang";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,11 +20,11 @@ const router = createBrowserRouter([
     // },
     children: [
       { path: "/", element: <Home /> },
-      { path: "/product", element: <Produk /> },
-      { path: "/presale", element: <Presale /> },
-      { path: "/keranjang", element: <Keranjang /> },
-      { path: "/detail", element: <Detail /> },
-      { path: "/checkout", element: <Checkout /> },
+      { path: "/Input", element: <InputProduk /> },
+      { path: "/InputPresale", element: <InputPresale /> },
+      // { path: "/product", element: <Produk /> },
+      // { path: "/presale", element: <Presale /> },
+      // { path: "/keranjang", element: <Keranjang /> },
     ],
   },
 

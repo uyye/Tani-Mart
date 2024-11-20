@@ -4,6 +4,8 @@ import Card from "../../components/card/Card";
 import logo from "../../assets/lgg.png";
 import { Link } from "react-router-dom";
 export default function Home() {
+  console.log("hallo");
+
   // // Toggle class active untuk hamburger menu
   // const navbar = document.querySelector(".navbar-nav");
   // // ketika hamburger menu di klik

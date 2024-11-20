@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import "./Produk.css";
-import tomatImage  from "../../assets/lg.png";
-
+import { Link } from "react-router-dom";
 const products = [
   {
     id: 1,
     name: "Tomat Segar",
     price: 10000,
     discount: 20,
-    sold: 150,
-    image: { tomatImage },
+    stok: 150,
+    image: "https://via.placeholder.com/200",
   },
   {
     id: 2,
     name: "Kentang Organik",
     price: 15000,
     discount: 10,
-    sold: 200,
+    stok: 200,
     image: "https://via.placeholder.com/200",
   },
   {
@@ -24,7 +23,7 @@ const products = [
     name: "Wortel Premium",
     price: 12000,
     discount: 15,
-    sold: 50,
+    stok: 50,
     image: "https://via.placeholder.com/200",
   },
   {
@@ -32,63 +31,71 @@ const products = [
     name: "Bayam Fresh",
     price: 8000,
     discount: 5,
-    sold: 300,
+    stok: 300,
     image: "https://via.placeholder.com/200",
   },
   {
     id: 5,
-    name: "Bayam Fresh",
+    name: "kangkung",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 6,
-    name: "Bayam Fresh",
+    name: "lombok",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 7,
-    name: "Bayam Fresh",
+    name: "jagung",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 8,
-    name: "Bayam Fresh",
+    name: "cengkeh",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 9,
-    name: "Bayam Fresh",
+    name: "jagung manis",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 10,
-    name: "Bayam Fresh",
+    name: "bawang merah",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 11,
-    name: "Bayam Fresh",
+    name: "terong",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
   {
     id: 12,
-    name: "Bayam Fresh",
+    name: "sawi",
     price: 8000,
     discount: 5,
+    stok: 300,
     image: "https://via.placeholder.com/150",
   },
 ];
@@ -98,26 +105,32 @@ const ProductCard = ({ product }) => {
     product.price - (product.price * product.discount) / 100;
 
   return (
-    <div className="product-card">
-      <img src={product.image} alt={product.name} className="product-image" />
-      <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-        <div className="product-price">
-          <span className="price-discounted">
-            Rp {discountedPrice.toLocaleString()}
-          </span>
-          {product.discount > 0 && (
-            <span className="price-original">
-              Rp {product.price.toLocaleString()}
+    <Link to="/detail" className="product-link">
+      <div className="product-card">
+        <img src={product.image} alt={product.name} className="product-image" />
+        <div className="product-info">
+          <h3 className="product-name">{product.name}</h3>
+          <div className="product-price">
+            <span className="price-discounted">
+              Rp {discountedPrice.toLocaleString()}
             </span>
+            {product.discount > 0 && (
+              <span className="price-original">
+                Rp {product.price.toLocaleString()}
+              </span>
+            )}
+          </div>
+          {product.discount > 0 && (
+            <span className="product-badge">{product.discount}% OFF</span>
           )}
+          {/* <h2>{product.name}</h2> */}
+          {/* <p>Price: Rp {product.price}</p> */}
+          <p className={product.stok > 0 ? "in-stock" : "out-of-stock"}>
+            {product.stok > 0 ? `Stok: ${product.stok}` : "Out of Stock"}
+          </p>
         </div>
-        {product.discount > 0 && (
-          <span className="product-badge">{product.discount}% OFF</span>
-        )}
-        <button className="product-button">Beli</button>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -135,7 +148,7 @@ const Produk = () => {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>Produk SIAFARM</h1>
+        <h1>Produk Siafarm</h1>
         <div className="search-bar">
           <input
             type="text"

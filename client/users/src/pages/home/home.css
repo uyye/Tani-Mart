@@ -203,9 +203,15 @@ body {
   display: block;
   position: absolute;
   width: 100%;
-  height: 30%;
+  height: 100px;
   bottom: 0;
-  background: linear-gradient(black);
+  left: 0;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.731),
+    rgba(255, 255, 255, 0)
+  );
+  pointer-events: none;
 }
 .hero .content {
   padding: 1.9rem 7%;
@@ -253,7 +259,14 @@ body {
 }
 
 .about {
-  padding: 4rem 10% 5rem;
+  padding: 50px;
+  position: relative;
+  background: linear-gradient(
+    to top,
+    rgba(185, 236, 211, 0.107),
+    rgba(255, 255, 255, 0.8)
+  );
+  backdrop-filter: blur(10px); /* memberikan efek blur */
   /* display: inline-block; */
   /* padding-top: 50px; Sesuaikan dengan tinggi navbar */
   /* margin-top: 20px; Sesuaikan dengan padding-top */

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./InputProduk.css";
-
 export default function AddProduct() {
   const [product, setProduct] = useState({
     name: "",
     price: "",
+    discount: "",
+    stok: "",
     description: "",
     image: null,
   });
@@ -23,7 +24,14 @@ export default function AddProduct() {
     console.log("Produk ditambahkan:", product);
     // Tambahkan logika untuk menyimpan data (API request, dll.)
     alert("Produk berhasil ditambahkan!");
-    setProduct({ name: "", price: "", description: "", image: null });
+    setProduct({
+      name: "",
+      price: "",
+      discount: "",
+      stok: "",
+      description: "",
+      image: null,
+    });
   };
 
   return (
@@ -46,6 +54,26 @@ export default function AddProduct() {
             type="number"
             name="price"
             value={product.price}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Discount:</label>
+          <input
+            type="text"
+            name="discount"
+            value={product.discount}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Stok:</label>
+          <input
+            type="number"
+            name="stok"
+            value={product.stok}
             onChange={handleInputChange}
             required
           />
@@ -74,4 +102,4 @@ export default function AddProduct() {
       </form>
     </div>
   );
-};
+}

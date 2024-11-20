@@ -5,7 +5,7 @@ export default function Keranjang() {
   // Data produk dalam keranjang
   const [items, setItems] = useState([
     { id: 1, name: "Produk A", quantity: 1, price: 10000 },
-    { id: 2, name: "Produk B", quantity: 2, price: 20000 },
+    { id: 2, name: "Produk B", quantity: 3, price: 20000 },
     { id: 3, name: "Produk C", quantity: 1, price: 15000 },
   ]);
 
@@ -19,7 +19,6 @@ export default function Keranjang() {
         : [...prevSelected, id]
     );
   };
-
   // Menghitung subtotal
   const calculateSubtotal = (quantity, price) => quantity * price;
 
@@ -31,7 +30,6 @@ export default function Keranjang() {
         (acc, item) => acc + calculateSubtotal(item.quantity, item.price),
         0
       );
-
   // Menghapus item dari keranjang
   const handleDelete = (id) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
@@ -74,7 +72,6 @@ export default function Keranjang() {
                 />
               </td>
               <td>
-                <button className="btn-order">Pesan</button>
                 <button
                   className="btn-delete"
                   onClick={() => handleDelete(item.id)}
@@ -99,4 +96,3 @@ export default function Keranjang() {
     </div>
   );
 }
-

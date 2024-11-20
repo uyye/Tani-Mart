@@ -7,12 +7,14 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
 }
 
 .add-product-container h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .add-product-form .form-group {
@@ -50,5 +52,6 @@
 }
 
 .submit-btn:hover {
-  background-color: #45a049;
+  background-color: #000000;
+  color: white;
 }
