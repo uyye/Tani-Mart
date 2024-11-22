@@ -36,7 +36,7 @@ export default function AddProduct() {
 
   return (
     <div className="add-product-container">
-      <h2>Tambah Produk</h2>
+      <h1>Tambah Produk</h1>
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="form-group">
           <label>Nama Produk:</label>

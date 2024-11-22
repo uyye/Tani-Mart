@@ -1,35 +1,40 @@
 /* Container */
 .table-container {
   padding: 20px;
+  text-align: center;
+  margin-top: 70px;
+}
+.table-container h1 {
+  color: #000000;
 }
 
 /* Header tabel */
-.product-table {
+.presale-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 90px;
+  margin: 20px 0;
 }
 
-.product-table thead th {
-  background-color: #f7f7f7;
-  color: rgb(0, 0, 0);
+.presale-table thead th {
+  background-color: white;
+  color: black;
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
 }
 
 /* Baris tabel */
-.product-table tbody td {
+.presale-table tbody td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
 }
 
-.product-table tbody tr:nth-child(even) {
+.presale-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.product-table tbody tr:hover {
+.presale-table tbody tr:hover {
   background-color: #f1f1f1;
 }
 
@@ -40,35 +45,6 @@
   object-fit: cover;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Form Input */
-.input-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.input-form input {
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  flex: 1;
-}
-
-.input-form .btn-add {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.input-form .btn-add:hover {
-  background-color: #218838;
 }
 
 /* Tombol */
@@ -84,7 +60,7 @@
 }
 
 .btn-update {
-  background-color: rgb(8, 153, 8);
+  background-color: #1ccb6b;
   margin-right: 5px;
 }
 

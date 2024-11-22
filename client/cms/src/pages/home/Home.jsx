@@ -31,7 +31,7 @@ export default function Home() {
             </h1>
             <p>Platform e-commerce hasil pertanian di Kecamatan Sinoa</p>
             <Link to="/product" className="cta">
-              Beli Sekarang
+              Cek Produk
             </Link>
           </main>
         </div>
