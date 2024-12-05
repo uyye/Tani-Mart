@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Detail.css";
 import gambar from "../../assets/wortel.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
 
 export default function DetailProduk() {
+  const navigate = useNavigate()
+  const {id} = useParams()
   const [quantity, setQuantity] = useState(1); // State untuk kuantitas
+  const [product, setProduct] = useState({});
+  
 
-  const product = {
-    Image: gambar,
-    name: "Wortel",
-    price: "Rp 50.000/kg",
-    description:
-      "Wortel segar dan berkualitas tinggi, langsung dari petani lokal. Kaya akan vitamin A dan nutrisi lainnya yang bermanfaat untuk kesehatan mata, kulit, dan sistem kekebalan tubuh.",
-  };
+  const fetchProduct = async()=>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:`/products/${id}`
+      })
+
+      setProduct(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleIncrease = () => {
+    if(quantity < product.stock)
     setQuantity(quantity + 1); // Tambah kuantitas
   };
 
@@ -24,12 +36,57 @@ export default function DetailProduk() {
     }
   };
 
+  const handleInputCart = async ()=>{
+    try {
+     const {data}= await instance({
+        method:"post",
+        url:`/carts`,
+        data:{
+          productId:id,
+          quantity:quantity
+        },
+        headers:{
+          "Authorization":`bearer ${localStorage.getItem("access_token")}`
+        }
+      })
+
+      Swal.fire({
+        icon:"success",
+        showConfirmButton:false,
+        title:"Success",
+        text:`${product.name} berhasil ditambahkan ke keranjang`,
+        timer:2000
+      })
+    } catch (error) {
+      if(error.status === 401){
+        const result = await Swal.fire({
+          icon:"question",
+          title:"Belum Login?",
+          text:"Silahkan login untuk lakukan pemesanan",
+          showCancelButton:true,
+          confirmButtonText:"Login",
+          cancelButtonText:"Batal"
+        })
+
+        if(result.isConfirmed){
+          navigate("/login")
+        }
+      }
+    }
+  }
+
+  
+
+  useEffect(()=>{
+    fetchProduct()
+  }, [id])
+
   return (
     <div className="detail-product-container">
-      <img src={product.Image} alt={product.name} className="product-image" />
+      <img src={product.image} alt={product.name} className="product-image" />
       <h2 className="product-name">{product.name}</h2>
-      <p className="product-price">{product.price}</p>
-      <p className="product-unit">{product.unit}</p>
+      <p className="product-price">Rp.{Number(product.price).toLocaleString()} / Kg</p>
+      <p className="product-unit">{product.stock} Kg</p>
       <p className="product-description">{product.description}</p>
 
       {/* Tombol Kuantitas */}
@@ -46,7 +103,7 @@ export default function DetailProduk() {
       <Link to="/checkout" className="contact-button2">
         Beli Sekarang
       </Link>
-      <Link to="/keranjang" className="contact-button2">
+      <Link onClick={handleInputCart} className="contact-button2">
         Masukkan Keranjang
       </Link>
     </div>

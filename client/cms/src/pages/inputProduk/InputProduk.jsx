@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./InputProduk.css";
-export default function AddProduct() {
+import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
+import { useNavigate, useParams } from "react-router-dom";
+
+export default function AddProduct({page}) {
+
+  const {id} = useParams()
+  const navigate = useNavigate()
+  const token = localStorage.getItem("access_token")
+
   const [product, setProduct] = useState({
     name: "",
-    price: "",
-    discount: "",
-    stok: "",
+    image: "",
     description: "",
-    image: null,
+    price: "",
+    stock: "",
   });
 
   const handleInputChange = (e) => {
@@ -15,28 +23,70 @@ export default function AddProduct() {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = (e) => {
-    setProduct({ ...product, image: e.target.files[0] });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(page === "add"){
+      try {
+        const {data} = await instance({
+          method:"post",
+          url:"/products/",
+          data: product,
+          headers:{
+            "Authorization":`bearer ${token}`,
+            "Content-Type":"application/json"
+          }
+        })
+  
+        await Swal.fire({
+          title: data.message,
+          icon:"success",
+          showConfirmButton:false,
+          timer:2000
+        })
+        navigate("/product")
+      } catch (error) {
+        console.log(error);
+      }
+    }else if(page === "edit"){
+      try {
+        await instance({
+          method:"put",
+          url:`/products/${id}`,
+          data:product,
+          headers:{
+            "Authorization":`Bearer ${token}`,
+            "Content-Type":"application/json"
+          }
+        })
+        navigate("/product")
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Produk ditambahkan:", product);
-    // Tambahkan logika untuk menyimpan data (API request, dll.)
-    alert("Produk berhasil ditambahkan!");
-    setProduct({
-      name: "",
-      price: "",
-      discount: "",
-      stok: "",
-      description: "",
-      image: null,
-    });
-  };
+  const fetchProductById = async ()=>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:`/products/${id}`
+      })
+      setProduct(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    if(id){
+      fetchProductById()
+    }
+  }, [id])
 
   return (
     <div className="add-product-container">
-      <h1>Tambah Produk</h1>
+      {page === "edit"?<h1>Edit Produk</h1>:<h1>Tambah Produk</h1>}
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="form-group">
           <label>Nama Produk:</label>
@@ -59,21 +109,11 @@ export default function AddProduct() {
           />
         </div>
         <div className="form-group">
-          <label>Discount:</label>
-          <input
-            type="text"
-            name="discount"
-            value={product.discount}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="form-group">
           <label>Stok:</label>
           <input
             type="number"
-            name="stok"
-            value={product.stok}
+            name="stock"
+            value={product.stock}
             onChange={handleInputChange}
             required
           />
@@ -90,14 +130,19 @@ export default function AddProduct() {
         <div className="form-group">
           <label>Gambar Produk:</label>
           <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
+            type="text"
+            name="image"
+            value={product.image}
+            onChange={handleInputChange}
             required
           />
         </div>
         <button type="submit" className="submit-btn">
-          Tambah Produk
+          {
+            page === "edit"?
+            <p>Update</p>:
+            <p>Tambah Produk</p>
+          }
         </button>
       </form>
     </div>
