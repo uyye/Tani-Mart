@@ -2,19 +2,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
 
 function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [telepon, setTelepon] = useState("");
   const navigate = useNavigate();
+  const [dataRegister, setDataRegister] = useState({
+    name:"",
+    password:"",
+    address:"",
+    phoneNumber:"",
+    role:"users"
+  })
 
-  const handleRegister = (e) => {
+  const handleInputChange = (e)=>{
+    const {name, value} = e.target
+    setDataRegister({
+      ...dataRegister, [name]:value
+    })
+  }
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Tambahkan logika pendaftaran di sini
-    console.log("User terdaftar:", username, password, alamat, telepon);
-    navigate("/"); // Redirect ke halaman login setelah pendaftaran
+    try {
+      const {data} = await instance({
+        method:"post",
+        url:"/users/register",
+        data:dataRegister
+      })
+      Swal.fire({
+        title: "Success",
+        text: data.message,
+        icon:"success",
+        showConfirmButton:false,
+        timer:2000
+      });
+
+      navigate("/login")
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   return (
@@ -25,8 +53,8 @@ function Register() {
           <label>Nama </label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="name"
+            onChange={handleInputChange}
             placeholder="Masukkan Username"
             required
           />
@@ -35,8 +63,8 @@ function Register() {
           <label>Password</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            onChange={handleInputChange}
             placeholder="Masukkan Password"
             required
           />
@@ -45,8 +73,8 @@ function Register() {
           <label>Alamat </label>
           <input
             type="text"
-            value={alamat}
-            onChange={(e) => setAlamat(e.target.value)}
+            name="address"
+            onChange={handleInputChange}
             placeholder="Masukkan Alamat"
             required
           />
@@ -55,8 +83,8 @@ function Register() {
           <label>Nomor Telepon </label>
           <input
             type="phone"
-            value={telepon}
-            onChange={(e) => setTelepon(e.target.value)}
+            name="phoneNumber"
+            onChange={handleInputChange}
             placeholder="Masukkan Nomor Telepon"
             required
           />

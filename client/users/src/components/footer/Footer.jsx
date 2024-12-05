@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer>
-      <div class="socials">
+      <div className="socials">
         <a href="#">
           <FaFacebook />
         </a>
@@ -18,13 +18,13 @@ export default function Footer() {
           <FaInstagram />
         </a>
       </div>
-      <div class="links">
+      <div className="links">
         <Link to="/">Beranda</Link>
         <Link to="/">Tentang Kami</Link>
         <Link to="/product">Produk</Link>
         <Link to="/presale">Presale</Link>
       </div>
-      <div class="credit">
+      <div className="credit">
         <p>
           Created by <a href="">Azharwalikram</a>. | &copy; 2024
         </p>

@@ -1,42 +1,58 @@
 import React, { useState } from "react";
 import "./keranjang.css";
+import useCart from "../../hooks/useCart";
+import instance from "../../api/axiosInstance";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Keranjang() {
-  // Data produk dalam keranjang
-  const [items, setItems] = useState([
-    { id: 1, name: "Produk A", quantity: 1, price: 10000 },
-    { id: 2, name: "Produk B", quantity: 3, price: 20000 },
-    { id: 3, name: "Produk C", quantity: 1, price: 15000 },
-  ]);
-
+  const navigate = useNavigate()
+  const {cart, loading, error} = useCart()
   const [selectedItems, setSelectedItems] = useState([]);
 
-  // Menangani perubahan checkbox
   const handleCheckboxChange = (id) => {
     setSelectedItems((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((itemId) => itemId !== id)
-        : [...prevSelected, id]
+      prevSelected.includes(id)?
+      prevSelected.filter((itemId) => itemId !== id):
+      [...prevSelected, id]
     );
   };
-  // Menghitung subtotal
-  const calculateSubtotal = (quantity, price) => quantity * price;
 
-  // Menghitung total pembayaran
   const calculateTotal = () =>
-    items
-      .filter((item) => selectedItems.includes(item.id))
+    cart.CartItems?.filter((item) => selectedItems.includes(item.id))
       .reduce(
-        (acc, item) => acc + calculateSubtotal(item.quantity, item.price),
+        (acc, item) => acc + (item.quantity * item.Product.price),
         0
       );
-  // Menghapus item dari keranjang
-  const handleDelete = (id) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    setSelectedItems((prevSelected) =>
-      prevSelected.filter((itemId) => itemId !== id)
-    );
-  };
+
+  const handleOrder = async()=>{
+    const selectedProducts = cart.CartItems?.filter((item)=>selectedItems.includes(item.id))
+
+    if(!selectedProducts?.length){
+      alert("productmu mana manis")
+      return;
+    }
+
+      navigate(`/checkout`, {state:{selectedProducts}})
+
+   
+    // try {
+    //   const {data} = await instance({
+    //     method:"post",
+    //     url:"/orders",
+    //     data:{products:selectedProducts},
+    //     headers:{
+    //       "Authorization":`bearer ${localStorage.getItem("access_token")}`
+    //     }
+    //   })      
+
+    //   navigate(`/checkout/${data.newOrder.id}`)
+    // } catch (error) {
+    //   console.log(error);
+      
+    // }
+  }
+
 
   return (
     <div className="cart">
@@ -46,7 +62,7 @@ export default function Keranjang() {
           <tr>
             <th>No</th>
             <th>Nama Produk</th>
-            <th>Quantity</th>
+            <th>Jumlah</th>
             <th>Harga Satuan</th>
             <th>Subtotal</th>
             <th>Pilih</th>
@@ -54,43 +70,36 @@ export default function Keranjang() {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => (
-            <tr key={item.id}>
-              <td>{index + 1}</td>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>Rp {item.price.toLocaleString()}</td>
-              <td>
-                Rp{" "}
-                {calculateSubtotal(item.quantity, item.price).toLocaleString()}
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedItems.includes(item.id)}
-                  onChange={() => handleCheckboxChange(item.id)}
-                />
-              </td>
-              <td>
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Hapus
-                </button>
-              </td>
-            </tr>
-          ))}
+          {
+            cart.CartItems?.length > 0 ?
+            cart.CartItems.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>{item.Product.name}</td>
+                <td>{item.quantity}</td>
+                <td>Rp {Number(item.Product.price).toLocaleString()}</td>
+                <td>Rp {(item.quantity * item.Product?.price).toLocaleString()} </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(item.id)}
+                    onChange={() => handleCheckboxChange(item.id)}
+                  />
+                </td>
+                <td>
+                  <button className="btn-delete">
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            )):
+            <p>Tidak ada data</p>
+          }
         </tbody>
       </table>
       <div className="cart-footer">
-        <button
-          className="btn-submit"
-          onClick={() =>
-            alert(`Total Pembayaran: Rp ${calculateTotal().toLocaleString()}`)
-          }
-        >
-          Checkout Total: Rp {calculateTotal().toLocaleString()}
+        <button className="btn-submit" onClick={handleOrder}>
+          Checkout Total: Rp {Number(calculateTotal()).toLocaleString()}
         </button>
       </div>
     </div>
