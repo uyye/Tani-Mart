@@ -12,24 +12,29 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
-    // loader: () => {
-    //   if (!localStorage.getItem("accessToken")) {
-    //     return redirect("/login");
-    //   }
-    //   return null;
-    // },
     children: [
       { path: "/", element: <Home /> },
       { path: "/product", element: <Produk /> },
       { path: "/presale", element: <Presale /> },
       { path: "/keranjang", element: <Keranjang /> },
-      { path: "/detail", element: <Detail /> },
       { path: "/checkout", element: <Checkout /> },
+      { path: "/detail/:id", element: <Detail /> },
     ],
   },
 
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-]);
+],
+{
+  future: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_skipActionErrorRevalidation: true,
+  },
+}
+);
 
 export default router;
