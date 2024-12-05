@@ -1,61 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Produk.css"; // Import file CSS terpisah
+import instance from "../../api/axiosInstance";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProductTable = () => {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Tomat",
-      price: 10000,
-      stock: 50,
-      image: "https://via.placeholder.com/50",
-    },
-    {
-      id: 2,
-      name: "Cabai",
-      price: 15000,
-      stock: 20,
-      image: "https://via.placeholder.com/50",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    stock: "",
-    image: "",
-  });
-
-  // Mengupdate produk
-  const handleUpdate = (id) => {
-    const productName = prompt("Masukkan nama produk baru:");
-    const productPrice = prompt("Masukkan harga produk baru:");
-    const productStock = prompt("Masukkan stok produk baru:");
-    const productImage = prompt("Masukkan URL gambar produk baru:");
-
-    if (productName && productPrice && productStock && productImage) {
-      setProducts(
-        products.map((product) =>
-          product.id === id
-            ? {
-                ...product,
-                name: productName,
-                price: parseFloat(productPrice),
-                stock: parseInt(productStock, 10),
-                image: productImage,
-              }
-            : product
-        )
-      );
+  const fetchProduct = async()=>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:"/products/admin",
+        headers:{
+          "Authorization":`Bearer ${localStorage.getItem("access_token")}`
+        }
+      })
+      setProducts(data)
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
 
-  // Menghapus produk
-  const handleDelete = (id) => {
-    if (window.confirm("Yakin ingin menghapus produk ini?")) {
-      setProducts(products.filter((product) => product.id !== id));
+  const handleDeleteProduct = async(id)=>{
+    const result =  await Swal.fire({
+      position:"center",
+      icon:"warning",
+      title:"Serius!",
+      text:"Kamu ingin menghapus produk ini?",
+      showCancelButton:true,
+      confirmButtonText:"Lanjutkan",
+      cancelButtonText:"Batal"
+    })
+    if(result.isConfirmed){
+      try {
+        await instance({
+          method:"delete",
+          url:`/products/${id}`,
+          headers:{
+            "Authorization":`bearer ${localStorage.getItem("access_token")}`
+          }
+        })
+        Swal.fire({
+          position:"center",
+          icon:"success",
+          title:"delete successfully",
+          showConfirmButton:false,
+          timer:2000
+      })
+      fetchProduct()
+      } catch (error) {
+        Swal.fire({
+          position:"center",
+          icon:"info",
+          title:"Gagal!",
+          text:"Gagal Menghapus Produk",
+          showConfirmButton:false,
+          timer:2000
+      })
+        console.log(error);
+      }
     }
-  };
+    
+  }
+
+  useEffect(()=>{
+    fetchProduct()
+  }, [])
 
   return (
     <div className="table-container">
@@ -88,18 +99,8 @@ const ProductTable = () => {
                 <td>Rp {product.price.toLocaleString()}</td>
                 <td>{product.stock}</td>
                 <td>
-                  <button
-                    className="btn-update"
-                    onClick={() => handleUpdate(product.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn-delete"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    Hapus
-                  </button>
+                  <button className="btn-update"><Link to={`/Input/${product.id}`}>Update</Link></button>
+                  <button className="btn-delete" onClick={()=>handleDeleteProduct(product.id)}> Hapus</button>
                 </td>
               </tr>
             ))

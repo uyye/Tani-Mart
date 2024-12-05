@@ -2,6 +2,7 @@ import React from "react";
 import "./Detail.css";
 import gambar from "../../assets/wortel.jpg";
 import { Link } from "react-router-dom";
+
 function DetailProduk() {
   const product = {
     Image: gambar,

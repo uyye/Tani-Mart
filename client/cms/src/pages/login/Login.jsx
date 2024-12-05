@@ -1,18 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginData, setLoginData]= useState({
+    name:"",
+    password:""
+  })
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleInputChange = (e)=>{
+    const {name, value} = e.target
+    setLoginData({...loginData,[name]:value})
+  }
+
+  const handleLogin = async(e) => {
     e.preventDefault();
-    if (username === "user" && password === "password") {
-      navigate("/home");
-    } else {
-      alert("Username atau password salah");
+    try {
+      const {data} = await instance({
+        method:"post",
+        url:"/users/login",
+        data:loginData
+      })
+
+      await Swal.fire({
+        title: data.message,
+        icon:"success",
+        showConfirmButton:false,
+        timer:2000
+      })
+      console.log(data);
+      
+      localStorage.setItem("access_token", data.token )
+      navigate("/")
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid Username or Password!",
+      });
+      console.log(error);
     }
   };
   return (
@@ -23,8 +52,8 @@ function Login() {
           <label>Username</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="name"
+            onChange={handleInputChange}
             placeholder="Masukkan Username"
             required
           />
@@ -33,8 +62,8 @@ function Login() {
           <label>Password</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            onChange={handleInputChange}
             placeholder="Masukkan Password"
             required
           />

@@ -2,8 +2,14 @@ import logo from "../../assets/logo siafarm.png";
 import "./Navbar.css";
 import { CiMenuBurger } from "react-icons/ci";
 import { CgShoppingCart } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Navbar() {
+  const navigate = useNavigate()
+
+  const handleLogoutButton = ()=>{
+    localStorage.removeItem("access_token")
+    navigate("/")
+  }
   return (
     <nav className="navbar">
       <a href="#">
@@ -16,19 +22,18 @@ export default function Navbar() {
         <Link to="/presale">Presale</Link>
       </div>
       <div className="navbar-button1">
-        <Link to="/login">Masuk</Link>
-        <Link to="/register" className="Daftar" type="button">
-          Daftar
-        </Link>
+        {
+          localStorage.getItem("access_token")?
+          <Link to="/keranjang" id="shopping-cart-button"><CgShoppingCart /></Link>:
+          ""
+        }
+        {
+          localStorage.getItem("access_token")?
+          <Link onClick={handleLogoutButton}>Logout</Link>:
+          <Link to="/login">Masuk</Link>
+        }
       </div>
-      <div className="navbar-button2">
-        <Link to="/keranjang" id="shopping-cart-button">
-          <CgShoppingCart />
-        </Link>
-        <a href="#" id="hamburger-menu">
-          <CiMenuBurger />
-        </a>
-      </div>
+        <a href="#" id="hamburger-menu"><CiMenuBurger /></a>
     </nav>
   );
 }

@@ -1,20 +1,41 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import instance from "../../api/axiosInstance";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [dataLogin, setDataLogin] = useState({
+    name:"",
+    password:""
+  })
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (username === "user" && password === "password") {
-      navigate("/home");
-    } else {
-      alert("Username atau password salah");
+  const handleInputChange = (e)=>{
+    const {name, value} = e.target
+    setDataLogin({
+      ...dataLogin, [name]:value
+    })
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const {data} = await instance({
+        method:"post",
+        url:"/users/login",
+        data:dataLogin
+      })
+      console.log(data);
+      localStorage.setItem("access_token", data.token)
+      navigate("/")
+    } catch (error) {
+      console.log(error);
+      
     }
   };
+
+  console.log(dataLogin);
+  
   return (
     <div className="login-container">
       <h2>Login SIAFARM</h2>
@@ -23,8 +44,8 @@ function Login() {
           <label>Username</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="name"
+            onChange={handleInputChange}
             placeholder="Masukkan Username"
             required
           />
@@ -33,8 +54,8 @@ function Login() {
           <label>Password</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            onChange={handleInputChange}
             placeholder="Masukkan Password"
             required
           />

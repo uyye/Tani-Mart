@@ -8,32 +8,31 @@ import InputPresale from "./pages/inputPresale/InputPresale";
 import CekPresale from "./pages/cekPresale/CekPresale";
 import Produk from "./pages/produk/Produk";
 import Order from "./pages/order/Order";
+// import DetailProduk from "./pages/detailProduk/Detail";
 // import Keranjang from "./pages/keranjang/Keranjang";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
-    // loader: () => {
-    //   if (!localStorage.getItem("accessToken")) {
-    //     return redirect("/login");
-    //   }
-    //   return null;
-    // },
+    loader: () => {
+      if (!localStorage.getItem("access_token")) {
+        return redirect("/login");
+      }
+      return null;
+    },
     children: [
       { path: "/", element: <Home /> },
-      { path: "/Input", element: <InputProduk /> },
+      { path: "/Input", element: <InputProduk page="add"/> },
+      { path: "/Input/:id", element: <InputProduk page="edit"/> },
       { path: "/InputPresale", element: <InputPresale /> },
       { path: "/CekPresale", element: <CekPresale /> },
-      { path: "/product", element: <Produk /> },
+      { path: "/product", element: <Produk  /> },
       { path: "/order", element: <Order /> },
-      // { path: "/presale", element: <Presale /> },
-      // { path: "/keranjang", element: <Keranjang /> },
     ],
   },
 
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  // { path: "/Produk", element: <Produk /> },
 ]);
 
 export default router;
