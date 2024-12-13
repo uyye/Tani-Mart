@@ -20,9 +20,9 @@ export default function Footer() {
       </div>
       <div className="links">
         <Link to="/">Beranda</Link>
-        <Link to="/">Tentang Kami</Link>
-        <Link to="/product">Produk</Link>
-        <Link to="/presale">Presale</Link>
+        {/* <Link to="/">Tentang Kami</Link> */}
+        <Link to="/product">Cek Produk/Presale</Link>
+        <Link to="/presale">Cek Order</Link>
       </div>
       <div className="credit">
         <p>

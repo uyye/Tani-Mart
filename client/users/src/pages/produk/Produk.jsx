@@ -3,16 +3,32 @@ import "./Produk.css";
 import { Link } from "react-router-dom";
 import instance from "../../api/axiosInstance";
 
+const categories = [
+  "Semua",
+  "Sayur-sayuran",
+  "Buah-buahan",
+  "Umbi-umbian",
+  "Rempah-rempah",
+  "Produk Organik",
+  "Presale",
+];
 
 const ProductCard = ({ product }) => {
   return (
     <Link to={`/detail/${product.id}`} className="product-link">
       <div className="product-card">
-        <img src={product.image} alt={product.name} className="product-image" />
+        <div className="image-container">
+          {product.isPresale && <span className="presale-badge">Presale</span>}
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-image"
+          />
+        </div>
         <div className="product-info">
           <h3 className="product-name">{product.name}</h3>
           <p>Price: Rp {product.price.toLocaleString()} / Kg</p>
-          <p className={(product.stock) > 0 ? "in-stock" : "out-of-stock"}>
+          <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
             {product.stock > 0 ? `Stok: ${product.stock} Kg` : "Out of Stock"}
           </p>
         </div>
@@ -22,26 +38,31 @@ const ProductCard = ({ product }) => {
 };
 
 const Produk = () => {
-  const [products , setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Semua");
 
-  const fetchProducts = async()=>{
+  const fetchProducts = async () => {
     try {
-      const {data} = await instance({
-        method:"get",
-        url:"/products"
-      })
-      setProducts(data)
+      const { data } = await instance({
+        method: "get",
+        url: "/products",
+      });
+      setProducts(data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchProducts()
-  }, [])
+  const filterProductsByCategory = () => {
+    if (selectedCategory === "Semua") {
+      return products;
+    }
+    return products.filter((product) => product.category === selectedCategory);
+  };
 
-  console.log(products);
-  
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="App">
@@ -53,20 +74,27 @@ const Produk = () => {
             placeholder="Cari produk..."
             className="search-input"
           />
-          <button  className="search-button">
-            Cari
-          </button>
+          <button className="search-button">Cari</button>
         </div>
       </header>
+      <section className="categories">
+        {categories.map((category, index) => (
+          <button
+            key={index}
+            className={`category-button ${
+              selectedCategory === category ? "active" : ""
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </section>
       <main>
         <div className="product-list">
-         {
-          products.map((x, y)=>{
-            return(
-              <ProductCard key={y + 1} product={x}/>
-            )
-          })
-         }
+          {filterProductsByCategory().map((x, y) => {
+            return <ProductCard key={y + 1} product={x} />;
+          })}
         </div>
       </main>
     </div>

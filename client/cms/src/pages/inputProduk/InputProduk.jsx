@@ -4,11 +4,10 @@ import instance from "../../api/axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function AddProduct({page}) {
-
-  const {id} = useParams()
-  const navigate = useNavigate()
-  const token = localStorage.getItem("access_token")
+export default function AddProduct({ page }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("access_token");
 
   const [product, setProduct] = useState({
     name: "",
@@ -16,6 +15,8 @@ export default function AddProduct({page}) {
     description: "",
     price: "",
     stock: "",
+    orderDate: "",
+    presale: "",
   });
 
   const handleInputChange = (e) => {
@@ -25,68 +26,67 @@ export default function AddProduct({page}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(page === "add"){
+    if (page === "add") {
       try {
-        const {data} = await instance({
-          method:"post",
-          url:"/products/",
+        const { data } = await instance({
+          method: "post",
+          url: "/products/",
           data: product,
-          headers:{
-            "Authorization":`bearer ${token}`,
-            "Content-Type":"application/json"
-          }
-        })
-  
+          headers: {
+            Authorization: `bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
         await Swal.fire({
           title: data.message,
-          icon:"success",
-          showConfirmButton:false,
-          timer:2000
-        })
-        navigate("/product")
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        navigate("/product");
       } catch (error) {
         console.log(error);
       }
-    }else if(page === "edit"){
+    } else if (page === "edit") {
       try {
         await instance({
-          method:"put",
-          url:`/products/${id}`,
-          data:product,
-          headers:{
-            "Authorization":`Bearer ${token}`,
-            "Content-Type":"application/json"
-          }
-        })
-        navigate("/product")
+          method: "put",
+          url: `/products/${id}`,
+          data: product,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        navigate("/product");
       } catch (error) {
         console.log(error);
-        
       }
     }
   };
 
-  const fetchProductById = async ()=>{
+  const fetchProductById = async () => {
     try {
-      const {data} = await instance({
-        method:"get",
-        url:`/products/${id}`
-      })
-      setProduct(data)
+      const { data } = await instance({
+        method: "get",
+        url: `/products/${id}`,
+      });
+      setProduct(data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(id){
-      fetchProductById()
+  useEffect(() => {
+    if (id) {
+      fetchProductById();
     }
-  }, [id])
+  }, [id]);
 
   return (
     <div className="add-product-container">
-      {page === "edit"?<h1>Edit Produk</h1>:<h1>Tambah Produk</h1>}
+      {page === "edit" ? <h1>Edit Produk</h1> : <h1>Tambah Produk/Presale</h1>}
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="form-group">
           <label>Nama Produk:</label>
@@ -137,12 +137,32 @@ export default function AddProduct({page}) {
             required
           />
         </div>
+        <div className="form-group">
+          <label>
+            {" "}
+            <p>Produk Presale?</p>
+            <input
+              className="presale"
+              type="radio"
+              name="presale"
+              value={product.presale}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+        <div className="form-group">
+          <label> Tanggal Order (Presale)</label>
+          <input
+            type="datetime-local"
+            name="orderDate"
+            value={product.orderDate}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
         <button type="submit" className="submit-btn">
-          {
-            page === "edit"?
-            <p>Update</p>:
-            <p>Tambah Produk</p>
-          }
+          {page === "edit" ? <p>Update</p> : <p>Tambah Produk</p>}
         </button>
       </form>
     </div>

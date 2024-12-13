@@ -117,6 +117,7 @@ body {
 
   #hamburger-menu {
     display: inline-block;
+    color: black;
   }
 
   .navbar .navbar-nav {
@@ -183,4 +184,102 @@ body {
 
 #hamburger-menu {
   display: none;
+}
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar-nav.visible {
+  display: block;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fff;
+  width: 250px;
+  height: 100vh;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  animation: slide-in 0.3s ease;
+}
+
+.navbar-nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 0;
+}
+
+#hamburger-menu {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar-nav.visible {
+  display: block;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fff;
+  width: 250px;
+  height: 100vh;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  animation: slide-in 0.3s ease;
+}
+
+.navbar-nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 0;
+}
+
+#hamburger-menu {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Animasi Sidebar */
+@keyframes slide-in {
+  from {
+    right: -300px;
+  }
+  to {
+    right: 0;
+  }
+}
+.navbar .navbar-nav a::after {
+  transform-origin: 0 0;
+}
+
+.navbar .navbar-nav a:hover::after {
+  transform: scaleX(0.2);
 }
