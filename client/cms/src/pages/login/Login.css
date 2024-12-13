@@ -36,10 +36,9 @@ h2 {
   border-radius: 4px;
   box-sizing: border-box;
 }
-
 .login-button {
   width: 30%;
-  padding: 10px;
+  padding: 10px 10px;
   background-color: #4caf50;
   color: #ffffff;
   border: none;
@@ -47,10 +46,11 @@ h2 {
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
+  margin: 5px;
 }
 
 .login-button:hover {
-  background-color: #45a049;
+  background-color: #000000;
 }
 /* Login.css */
 .register-link {

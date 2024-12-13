@@ -178,7 +178,8 @@ body {
 }
 
 .navbar .navbar-button1 a:hover {
-  color: var(--primary);
+  color: black;
+  background-color: white;
 }
 
 #hamburger-menu {

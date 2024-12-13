@@ -1,114 +1,165 @@
-/* Container */
+/* Produk.css & CekPresale.css */
+
+/* Kontainer tabel */
 .table-container {
+  margin: 20px auto;
   padding: 20px;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
+  margin-bottom: 70px;
+  padding-top: -90px;
+}
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-/* Header tabel */
-.product-table {
+.category-button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s ease-in-out;
+}
+
+.category-button:hover {
+  background-color: #e0e0e0;
+}
+
+.category-button.active {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+/* Judul tabel */
+.table-container h1,
+.table-container h2 {
+  text-align: center;
+  margin-top: 10px;
+  color: #333;
+  font-family: "Arial", sans-serif;
+}
+
+/* Tabel */
+.kategori th {
+  background-color: white;
+  width: 100%;
+}
+.product-table,
+.presale-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 90px;
-}
-
-.product-table thead th {
-  background-color: #f7f7f7;
-  color: rgb(0, 0, 0);
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
-
-/* Baris tabel */
-.product-table tbody td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  margin: 20px 0;
+  font-size: 16px;
   text-align: center;
 }
 
-.product-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+.product-table th,
+.product-table td,
+.presale-table th,
+.presale-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 
-.product-table tbody tr:hover {
-  background-color: #f1f1f1;
+.product-table th,
+.presale-table th {
+  background-color: #00ec8e;
+  color: #000000;
+  text-transform: uppercase;
 }
 
-/* Gambar */
+.product-table tbody tr:nth-child(even),
+.presale-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.product-table tbody tr:hover,
+.presale-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+/* Gambar produk */
 .product-image {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
 }
 
-/* Form Input */
-.input-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.input-form input {
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  flex: 1;
-}
-
-.input-form .btn-add {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.input-form .btn-add:hover {
-  background-color: #218838;
-}
-
-/* Tombol */
+/* Tombol Aksi */
 .btn-update,
 .btn-delete {
-  padding: 8px 12px;
-  font-size: 14px;
-  color: white;
   border: none;
+  padding: 8px 12px;
+  margin: 0 4px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .btn-update {
-  background-color: rgb(8, 153, 8);
-  margin-right: 5px;
+  background-color: #28a745;
+  color: white;
 }
 
 .btn-update:hover {
-  background-color: #000000;
+  background-color: #218838;
 }
 
 .btn-delete {
   background-color: #dc3545;
+  color: white;
 }
 
 .btn-delete:hover {
-  background-color: #000000;
+  background-color: #c82333;
 }
 
-/* Pesan kosong */
+/* Teks Tidak Ada Data */
 .no-data {
   text-align: center;
-  padding: 20px;
-  font-size: 16px;
-  color: #666;
+  color: #999;
+  font-style: italic;
 }
 
-a{
+/* Link Update */
+.btn-update a {
   text-decoration: none;
   color: white;
+}
+
+.btn-update a:hover {
+  text-decoration: underline;
+}
+.presale-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 4px;
+}
+.product-image-container p {
+  background-color: rgb(255, 242, 0);
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  width: 30%;
+  text-align: center;
+  padding: 2px;
+  margin-left: 100px;
+}
+.no-data {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
 }
