@@ -11,10 +11,11 @@ export default function Keranjang() {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleCheckboxChange = (id) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.includes(id)?
-      prevSelected.filter((itemId) => itemId !== id):
-      [...prevSelected, id]
+      setSelectedItems((prevSelected) =>{
+        prevSelected.includes(id)?
+        prevSelected.filter((itemId) => itemId !== id):
+        [...prevSelected, id]
+      }
     );
   };
 
