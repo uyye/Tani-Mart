@@ -16,6 +16,7 @@ export default function AddProduct({page}) {
     description: "",
     price: "",
     stock: "",
+    category:"regular"
   });
 
   const handleInputChange = (e) => {

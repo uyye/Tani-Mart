@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./keranjang.css";
 
 function Cart() {
+  const [selectedItems, setSelectedItems] = useState([]);
   // Data produk dalam keranjang
   const [items, setItems] = useState([
     { id: 1, name: "Produk A", quantity: 1, price: 10000 },
@@ -9,12 +10,12 @@ function Cart() {
     { id: 3, name: "Produk C", quantity: 1, price: 15000 },
   ]);
 
-  const [selectedItems, setSelectedItems] = useState([]);
+  
 
   // Menangani perubahan checkbox
   const handleCheckboxChange = (id) => {
     setSelectedItems((prevSelected) =>
-      prevSelected.includes(id)
+      prevSelected?.includes(id)
         ? prevSelected.filter((itemId) => itemId !== id)
         : [...prevSelected, id]
     );
@@ -69,7 +70,7 @@ function Cart() {
               <td>
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(item.id)}
+                  checked={selectedItems?.includes(item.id)}
                   onChange={() => handleCheckboxChange(item.id)}
                 />
               </td>
