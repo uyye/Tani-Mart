@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.post("/", authentication, OrderController.orderProduct)
 router.post("/payment", authentication, OrderController.payment)
-router.get("/:id", authentication, OrderController.getOrder)
+router.get("/", authentication, OrderController.getOrder)
+router.get("/:id", authentication, OrderController.getOrderDetail)
 
 
 module.exports = router

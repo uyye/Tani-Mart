@@ -10,23 +10,24 @@ export default function Keranjang() {
   const {cart, loading, error} = useCart()
   const [selectedItems, setSelectedItems] = useState([]);
 
+
   const handleCheckboxChange = (id) => {
-      setSelectedItems((prevSelected) =>{
-        prevSelected.includes(id)?
-        prevSelected.filter((itemId) => itemId !== id):
-        [...prevSelected, id]
-      }
-    );
+    setSelectedItems((prevSelected) =>{
+      return prevSelected.includes(id)
+      ?prevSelected.filter((itemId) => itemId !== id)
+      :[...prevSelected, id]
+    }
+  );
+};
+  
+  const calculateTotal = () => {
+    if (!cart.CartItems || !selectedItems.length) return 0;
+    return cart.CartItems.filter((item) => selectedItems.includes(item.id))
+      .reduce((acc, item) => acc + item.quantity * item.Product.price, 0);
   };
 
-  const calculateTotal = () =>
-    cart.CartItems?.filter((item) => selectedItems.includes(item.id))
-      .reduce(
-        (acc, item) => acc + (item.quantity * item.Product.price),
-        0
-      );
-
   const handleOrder = async()=>{
+
     const selectedProducts = cart.CartItems?.filter((item)=>selectedItems.includes(item.id))
 
     if(!selectedProducts?.length){
@@ -47,10 +48,9 @@ export default function Keranjang() {
     //     }
     //   })      
 
-    //   navigate(`/checkout/${data.newOrder.id}`)
+    //   navigate(`/pesananSaya`)
     // } catch (error) {
     //   console.log(error);
-      
     // }
   }
 
@@ -94,7 +94,7 @@ export default function Keranjang() {
                 </td>
               </tr>
             )):
-            <p>Tidak ada data</p>
+            ""
           }
         </tbody>
       </table>

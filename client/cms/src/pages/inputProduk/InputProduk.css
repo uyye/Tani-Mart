@@ -7,9 +7,11 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 100px;
+  margin-top: 80px;
 }
-
+.add-product-container h1 {
+  margin-top: 20px;
+}
 .add-product-container h2 {
   text-align: center;
   color: #333;
@@ -20,7 +22,6 @@
 .add-product-form .form-group {
   margin-bottom: 15px;
 }
-
 .add-product-form .form-group label {
   display: block;
   font-weight: bold;
@@ -28,7 +29,7 @@
 }
 
 .add-product-form .form-group input,
-.add-product-form .form-group textarea {
+.add-product-form .form-group textarea, .select-form{
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -54,4 +55,9 @@
 .submit-btn:hover {
   background-color: #000000;
   color: white;
+}
+.presale {
+  display: inline;
+  margin-top: 10px;
+  margin-left: -200px;
 }

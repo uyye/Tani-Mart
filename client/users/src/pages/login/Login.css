@@ -1,7 +1,7 @@
 /* Mengatur styling dasar untuk halaman login */
 .login-container {
   max-width: 500px;
-  height: 60vh;
+  height: 70vh;
   margin: 100px auto;
   padding: 20 10px;
   border: 1px solid #ddd;

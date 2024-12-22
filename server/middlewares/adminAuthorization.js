@@ -1,9 +1,13 @@
 async function adminAuthorization(req, res, next) {
     try {
-        if(req.user.role !== "admin"){
-            throw{name:"Forbidden", status:403, message:"Access danied. admins only"}
+       
+        if(req.user.role === "user"){
+            throw{name:"Forbidden", status:403, message:"Access danied. admins or saler only"}
+        }else if(req.user.role === "admin"){
+            next()
+        }else if (req.user.role === "saler"){
+            next()
         }
-        next()
     } catch (error) {
         next(error)
         console.log(error);

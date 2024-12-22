@@ -41,6 +41,18 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    category:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"category required"
+        },
+        notNull:{
+          msg:"category required"
+        }
+      }
+    },
     description: {
       type:DataTypes.TEXT,
       allowNull:false,
@@ -101,7 +113,21 @@ module.exports = (sequelize, DataTypes) => {
           msg:"product status required"
         }
       }
-    }
+    },
+    commissionRate:{
+      type:DataTypes.INTEGER,
+      defaultValue:10,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:"commision rate required"
+        },
+        notNull:{
+          msg:"commision rate required"
+        }
+      }
+    },
+    
   }, {
     sequelize,
     modelName: 'Product',

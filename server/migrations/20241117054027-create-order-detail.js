@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       orderId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Orders",
@@ -19,6 +20,7 @@ module.exports = {
         onUpdate:"cascade"
       },
       productId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Products",
@@ -28,13 +30,26 @@ module.exports = {
         onUpdate:"cascade"
       },
       quantity: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       price: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       subTotal: {
+        allowNull:false,
         type: Sequelize.INTEGER
+      },
+      authorId:{
+        allowNull:false,
+        type:Sequelize.INTEGER,
+        references:{
+          model:"Users",
+          key:"id"
+        },
+        onDelete:"cascade",
+        onUpdate:"cascade"
       },
       createdAt: {
         allowNull: false,

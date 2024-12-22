@@ -19,15 +19,19 @@ module.exports = {
         onUpdate:"cascade"
       },
       startDate: {
+        allowNull:false,
         type: Sequelize.DATE
       },
       endDate: {
+        allowNull:false,
         type: Sequelize.DATE
       },
       price: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       discount: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       createdAt: {

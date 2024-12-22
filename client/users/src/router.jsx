@@ -8,33 +8,40 @@ import Presale from "./pages/presale/Presale";
 import Keranjang from "./pages/keranjang/Keranjang";
 import Detail from "./pages/detailProduk/Detail";
 import Checkout from "./pages/checkout/checkout";
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Index />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/product", element: <Produk /> },
-      { path: "/presale", element: <Presale /> },
-      { path: "/keranjang", element: <Keranjang /> },
-      { path: "/checkout", element: <Checkout /> },
-      { path: "/detail/:id", element: <Detail /> },
-    ],
-  },
+import Wishlist from "./pages/wishlist/wishlist";
+import PesananSaya from "./pages/pesananSaya/PesananSaya";
+import DetailOrder from "./pages/detailOrder/DetailOrder";
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Index />,
+      children: [
+        { path: "/", element: <Home /> },
+        { path: "/product", element: <Produk /> },
+        { path: "/presale", element: <Presale /> },
+        { path: "/keranjang", element: <Keranjang /> },
+        { path: "/checkout", element: <Checkout /> },
+        { path: "/detail/:id", element: <Detail /> },
+        { path: "/wishlist", element: <Wishlist /> },
+        { path: "/pesananSaya", element: <PesananSaya /> },
+        { path: "/orders/:id", element: <DetailOrder /> },
+      ],
+    },
 
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-],
-{
-  future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true,
-    v7_fetcherPersist: true,
-    v7_normalizeFormMethod: true,
-    v7_partialHydration: true,
-    v7_skipActionErrorRevalidation: true,
-  },
-}
+    { path: "/login", element: <Login /> },
+    { path: "/register", element: <Register /> },
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
+  }
 );
 
 export default router;

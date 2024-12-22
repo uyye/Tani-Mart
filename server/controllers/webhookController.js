@@ -14,8 +14,6 @@ const handlePaymentNotification = async (req, res, next)=>{
             ]
         })
 
-        console.log(JSON.stringify(orderData, null, 2));``
-
         if(!orderData){
             throw{name:"NotFound", status:404, message:"order not found"}
         }

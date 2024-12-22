@@ -46,7 +46,7 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
+    <div className="register-container" autoComplete="off">
       <h2>Daftar SIAFARM</h2>
       <form onSubmit={handleRegister}>
         <div className="form-group">
@@ -57,6 +57,7 @@ function Register() {
             onChange={handleInputChange}
             placeholder="Masukkan Username"
             required
+            autoFocus
           />
         </div>
         <div className="form-group">
@@ -95,7 +96,10 @@ function Register() {
       </form>
       <p className="login-link">
         Sudah punya akun?{" "}
-        <button onClick={() => navigate("/")} className="login-button-link">
+        <button
+          onClick={() => navigate("/login")}
+          className="login-button-link"
+        >
           Login
         </button>
       </p>

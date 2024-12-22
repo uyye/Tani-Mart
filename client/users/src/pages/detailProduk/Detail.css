@@ -10,9 +10,12 @@
 }
 
 .product-image {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
+  width: 100%;
+  max-width: 350px; /* Maksimal lebar gambar */
+  height: auto;
+  left: 0;
+  top: 0;
+  overflow: hidden;
   border-radius: 8px;
   margin-bottom: 20px;
 }
@@ -80,4 +83,27 @@
 
 .contact-button2:hover {
   background-color: #000000;
+}
+.seller-info {
+  margin-left: 100px;
+  margin-top: 20px;
+  /* background-color: #f9f9f9; */
+  width: 360px;
+  height: auto;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+.store-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contact-number {
+  color: #4caf50;
+  font-weight: bold;
 }
