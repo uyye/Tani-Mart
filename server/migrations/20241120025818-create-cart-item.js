@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       cartId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Carts",
@@ -19,6 +20,7 @@ module.exports = {
         onUpdate:"cascade"
       },
       productId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Products",
@@ -28,6 +30,7 @@ module.exports = {
         onUpdate:"cascade"
       },
       quantity: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       createdAt: {

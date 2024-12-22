@@ -1,5 +1,6 @@
 const { Op } = require("sequelize")
 const {Product, Presale} = require("../models")
+const dayjs = require("dayjs")
 
 class ProductController{
     static async getProduct(req, res, next){
@@ -57,15 +58,16 @@ class ProductController{
 
     static async addProduct(req, res, next){
         try {
-            const {name, image, description, price, stock, productStatus, discount, startDate, endDate}= req.body
-            const discountPrice = price - (discount / 100 * price)
-
-            console.log(discount, discountPrice, ">>>>>>>>>>>>>>>>>>>>>>");
+            let {name, image, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
             
-            let createProduct
+            const discountPrice = price - (discount / 100 * price)        
 
+            let createProduct 
+            
+            
             if(productStatus === "presale"){
-                createProduct = await Product.create({name, image, description, price, stock, productStatus, authorId:req.user.id})
+                endDate = dayjs(startDate).add(1, "day").toISOString()
+                createProduct = await Product.create({name, image, category, description, price, stock, productStatus, authorId:req.user.id})
                 await Presale.create({
                     productId:createProduct.id,
                     startDate:startDate,
@@ -74,7 +76,7 @@ class ProductController{
                     discount:discount
                 })
             }else{
-                createProduct = await Product.create({name, image, description, price, stock, productStatus, authorId:req.user.id})
+                createProduct = await Product.create({name, image, description, category, price, stock, productStatus, authorId:req.user.id})
             }
             
             const result = {
@@ -97,12 +99,12 @@ class ProductController{
             const {id} = req.params
             
             const productData = await Product.findByPk(id)
-            if(productData.userId !== req.user.id){
+            if(productData.authorId !== req.user.id){
                 throw {name:"Forbidden", status:403, message:"Access danied"}
             }
 
-            const { name, image, description, price, stock}= req.body
-            const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, description, price, stock, userId:req.user.id},
+            const { name, image, category, description, price, stock}= req.body
+            const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, category, description, price, stock, authorId:req.user.id},
                 {
                     where:{id:id},
                     returning:true
@@ -118,6 +120,7 @@ class ProductController{
                 product:{
                     name:updatedProduct.name,
                     image:updatedProduct.image,
+                    category:updatedProduct.category,
                     description:updatedProduct.description,
                     price:updatedProduct.price,
                     stock:updatedProduct.stock
@@ -133,8 +136,10 @@ class ProductController{
     static async deleteProduct(req, res, next){
         try {
             const {id} = req.params
+
             const productData = await Product.findByPk(id)
-            if(productData.userId !== req.user.id){
+            
+            if(productData.authorId !== req.user.id){
                 throw {name:"Forbidden", status:403, message:"Access danied"}
             }
             

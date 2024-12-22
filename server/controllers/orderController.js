@@ -1,4 +1,4 @@
-const {Order, Product, OrderDetail, User, sequelize} = require("../models")
+const {Order, Product, OrderDetail, User, Payment, sequelize} = require("../models")
 const midtransClient = require('midtrans-client');
 
 class OrderController{
@@ -15,7 +15,9 @@ class OrderController{
                 status:"pending",
                 phoneNumber:phoneNumber,
                 addressShiping:addressShiping
-            })
+            },
+            {transaction}
+        );
 
             for(const item of products){
                 const product = await Product.findByPk(item.id)
@@ -26,13 +28,30 @@ class OrderController{
                 const itemTotalPrice = product.price * item.quantity
                 totalPrice += itemTotalPrice
 
-                await OrderDetail.create({
+                const commissionRate = product.commissionRate || 10
+                const authorPayment = (itemTotalPrice * (100 - commissionRate)) / 100
+
+                await OrderDetail.create(
+                    {
                     orderId: newOrder.id,
                     productId: product.id,
                     quantity: item.quantity,
                     price: product.price,
-                    subTotal: product.price * item.quantity
-                }, {transaction})
+                    subTotal: product.price * item.quantity,
+                    authorId:product.authorId
+                    },
+                    {transaction}
+                );
+
+                await Payment.create(
+                    {
+                        orderId:newOrder.id,
+                        authorId:product.authorId,
+                        amount:authorPayment,
+                        status:"pending"
+                    },
+                    {transaction}
+                )
             }
 
             newOrder.totalPrice = totalPrice
@@ -50,14 +69,11 @@ class OrderController{
 
     static async getOrder(req, res, next){
         try {
-            const {id} = req.params
-            const data = await User.findOne({
-                where:{id:req.user.id},
-                attributes:{exclude:["password"]},
+            const data = await Order.findAll({
+                where:{userId:req.user.id},
                 include:{
-                    model:Order,
-                    where:{id:id},
-                    include:{model:OrderDetail}
+                    model:User,
+                    attributes:{exclude:["password"]}
                 }
             })
             res.status(200).json(data)
@@ -67,9 +83,29 @@ class OrderController{
         }
     }
 
+    static async getOrderDetail(req, res, next){
+        try {
+            const {id} = req.params
+            const data =await Order.findOne({
+                where:{id},
+                include:{
+                    model:OrderDetail,
+                    include:{model:Product}
+                }
+            })
+
+            console.log(data, ">>>>>>>>");
+            
+
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
     static async payment(req, res, next){
         let snap = new midtransClient.Snap({
-            // Set to true if you want Production Environment (accept real transaction).
             isProduction : false,
             serverKey : process.env.MIDTRANSSERVERKEY
         });
@@ -103,9 +139,7 @@ class OrderController{
                 }
             };
 
-            const token = await snap.createTransaction(parameter)
-            console.log(token, "TOKEN PADA ENDPOINT PAYMENT");
-            
+            const token = await snap.createTransaction(parameter)            
             res.status(200).json(token)
             
         } catch (error) {

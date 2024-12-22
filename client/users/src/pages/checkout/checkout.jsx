@@ -15,7 +15,7 @@ const Checkout = () => {
     try {
       await instance({
         method:"post",
-        url:"/webhooks/notification",
+        url:"/payments/webhooks",
         data:{order_id, transaction_status}
       })
     } catch (error) {
@@ -45,7 +45,7 @@ const Checkout = () => {
       
       const payment = await instance({
         method:"post",
-        url:"/orders/payment",
+        url:"/payments",
         data:{orderId:order.data.newOrder.id},
         headers:{
           "Authorization":`bearer ${localStorage.getItem("access_token")}`
@@ -57,7 +57,7 @@ const Checkout = () => {
       
       
 
-      window.snap.pay(token, {
+      window.snap.pay(token.token, {
         onSuccess: async (result) => {
           alert("Payment Success!");
           console.log(result);

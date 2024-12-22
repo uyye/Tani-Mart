@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Product, {foreignKey:"authorId"})
       User.hasMany(models.Order, {foreignKey:"userId"})
       User.hasMany(models.Cart, {foreignKey:"userId"})
+      User.hasMany(models.Payment, {foreignKey:"authorId"})
+      User.hasMany(models.OrderDetail, {foreignKey:"authorId"})
     }
   }
   User.init({
@@ -76,6 +78,12 @@ module.exports = (sequelize, DataTypes) => {
           msg:"role required"
         }
       }
+    },
+    bankName:{
+      type:DataTypes.STRING
+    },
+    bankAccountNumber:{
+      type:DataTypes.INTEGER
     }
   }, {
     sequelize,

@@ -5,8 +5,15 @@ const {User} = require("../models")
 class UserController{
     static async register(req, res, next){
         try {
-            const {name, password, address, phoneNumber, role} = req.body
-            const create = await User.create({name, password, address, phoneNumber, role})
+            const {name, password, address, phoneNumber, role, bankName, bankAccountNumber} = req.body
+            let create;
+
+            if(role === "saler"){
+                create = await User.create({name, password, address, phoneNumber, role, bankName, bankAccountNumber})
+            }else if(role !== "saler"){
+                create = await User.create({name, password, address, phoneNumber, role})
+            }
+
             
             const result = {
                 message:"User registeres successfully",
@@ -21,7 +28,8 @@ class UserController{
             console.log(error);
             next(error)
         }
-    }   
+    } 
+    
     static async login (req, res, next){
         try {
             const {name, password} = req.body

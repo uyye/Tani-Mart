@@ -46,6 +46,7 @@
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
+  margin: 5px;
 }
 
 .register-button:hover {

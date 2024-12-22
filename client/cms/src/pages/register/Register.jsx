@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
@@ -7,35 +7,36 @@ import instance from "../../api/axiosInstance";
 function Register() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
-    name:"",
-    password:"",
-    address:"",
-    phoneNumber:"",
-    role:"admin"
-  })
+    name: "",
+    password: "",
+    address: "",
+    phoneNumber: "",
+    role: "admin",
+  });
 
-  const handleInputChange = (e)=>{
-    const {name, value} = e.target
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setUserData({
-      ...userData, [name]:value
-    })
-  }
+      ...userData,
+      [name]: value,
+    });
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       await instance({
-        method:"post",
-        url:"/users/register",
-        data:userData
-      })
+        method: "post",
+        url: "/users/register",
+        data: userData,
+      });
 
       Swal.fire({
-        title:"Success",
-        text:"You are register",
-        icon:"success",
-        showConfirmButton:false,
-        timer:2000
+        title: "Success",
+        text: "You are register",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
       });
       navigate("/");
     } catch (error) {
@@ -44,7 +45,6 @@ function Register() {
   };
 
   console.log(userData);
-  
 
   return (
     <div className="register-container">
@@ -91,7 +91,10 @@ function Register() {
           />
         </div>
         <button type="submit" className="register-button">
-          Daftar
+          Daftar Penjual
+        </button>
+        <button type="submit" className="register-button">
+          Daftar Admin
         </button>
       </form>
       <p className="login-link">

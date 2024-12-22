@@ -10,21 +10,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
+      },
+      category:{
+        type:Sequelize.STRING,
+        allowNull:false
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull:false
       },
       stock: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull:false
       },
       price: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       authorId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Users",
@@ -35,7 +45,13 @@ module.exports = {
       },
       productStatus:{
         type:Sequelize.STRING,
-        defaultValue:"regular"
+        defaultValue:"regular",
+        allowNull:false
+      },
+      commissionRate:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        defaultValue:10
       },
       createdAt: {
         allowNull: false,

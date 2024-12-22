@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model:"Users",
@@ -19,9 +20,11 @@ module.exports = {
         onUpdate:"cascade"
       },
       totalPrice: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       status: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       createdAt: {

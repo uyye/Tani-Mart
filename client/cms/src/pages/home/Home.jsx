@@ -30,11 +30,15 @@ export default function Home() {
               Selamat Datang di <span>Siafarm</span>
             </h1>
             <p>Platform e-commerce hasil pertanian di Kecamatan Sinoa</p>
-            {
-              localStorage.getItem("access_token")?
-              <Link to="/product" className="cta">Cek Produk</Link>:
-              <Link to="/login" className="cta">Masuk untuk memulai</Link>
-            }
+            {localStorage.getItem("access_token") ? (
+              <Link to="/product" className="cta">
+                Cek Produk/Presale
+              </Link>
+            ) : (
+              <Link to="/login" className="cta">
+                Masuk untuk memulai
+              </Link>
+            )}
           </main>
         </div>
       </section>
