@@ -1,32 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
 import "./Wishlist.css";
-const Wishlist = () => {
-  const wishlistItems = [
-    {
-      id: 1,
-      name: "Produk 1",
-      price: 50000,
-      stock: 10,
-      stockStatus: "Tersedia",
-    },
-    { id: 2, name: "Produk 2", price: 75000, stock: 0, stockStatus: "Habis" },
-    {
-      id: 3,
-      name: "Produk 3",
-      price: 120000,
-      stock: 5,
-      stockStatus: "Tersedia",
-    },
-    { id: 4, name: "Produk 4", price: 75000, stock: 0, stockStatus: "Habis" },
-    {
-      id: 5,
-      name: "Produk 5",
-      price: 120000,
-      stock: 5,
-      stockStatus: "Tersedia",
-    },
-  ];
+import {useDispatch, useSelector} from "react-redux"
+import { fetchFavorites } from "../../features/favorites/favoriteSlice";
+import DeleteButton from "../../components/button/DeleteButton";
+import DetailButton from "../../components/button/DetailButton";
 
+const Wishlist = () => {
+  const dispatch = useDispatch()
+  const data = useSelector((state)=>state.dataFavorites.favorites)
+  
   const handleDelete = (id) => {
     console.log(`Hapus produk dengan ID: ${id}`);
   };
@@ -35,31 +17,31 @@ const Wishlist = () => {
     console.log(`Tambah produk dengan ID: ${id} ke keranjang`);
   };
 
+  useEffect(()=>{
+    dispatch(fetchFavorites())
+  },[])
+
   return (
     <header className="app">
       <h1>Wishlist</h1>
       <div className="wishlist-container">
-        {wishlistItems.map((item) => (
-          <div className="wishlist-card" key={item.id}>
+        {data?.map((item) => (
+          <div className="wishlist-card" key={item.Product.id}>
             <div className="wishlist-content">
-              <h3 className="product-name">{item.name}</h3>
+              <h3 className="product-name">{item.Product.name}</h3>
               <p className="product-price">
-                Harga: Rp {item.price.toLocaleString()}
+                Harga: Rp {item.Product.price.toLocaleString()}
               </p>
-              <p className="product-stock">Stok: {item.stock}</p>
+              <p className="product-stock">Stok: {item.Product.stock}</p>
               <p
                 className={`stock-status ${
-                  item.stock > 0 ? "available" : "unavailable"
+                  item.Product.stock > 0 ? "available" : "unavailable"
                 }`}
               >
-                {item.stockStatus}
+                {item.Product.productStatus}
               </p>
-              <button
-                className="delete-btn"
-                onClick={() => handleDelete(item.id)}
-              >
-                Hapus
-              </button>
+              <DeleteButton/>
+              <DetailButton/>
             </div>
             <button
               className="add-to-cart-btn"

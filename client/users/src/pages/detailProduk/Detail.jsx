@@ -3,6 +3,9 @@ import "./Detail.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import instance from "../../api/axiosInstance";
 import Swal from "sweetalert2";
+import FavoriteButton from "../../components/button/FavoriteButton";
+import OrderButton from "../../components/button/orderButton";
+
 
 export default function DetailProduk() {
   const navigate = useNavigate();
@@ -84,6 +87,7 @@ export default function DetailProduk() {
       </p>
       <p className="product-unit">Stok: {product.stock} Kg</p>
       <p className="product-description">{product.description}</p>
+      <FavoriteButton productId={id}/>
 
       {/* Informasi Penjual */}
       <div className="seller-info">
@@ -101,9 +105,8 @@ export default function DetailProduk() {
           +
         </button>
       </div>
-
       <Link to="/checkout" className="contact-button2">
-        Beli Sekarang
+        <OrderButton>Beli sekarang</OrderButton>
       </Link>
       <Link onClick={handleInputCart} className="contact-button2">
         Masukkan Keranjang

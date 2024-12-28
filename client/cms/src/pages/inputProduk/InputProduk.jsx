@@ -11,7 +11,6 @@ export default function AddProduct({ page }) {
 
   const [product, setProduct] = useState({
     name: "",
-    image: "",
     category:"",
     description: "",
     price: "",
@@ -21,6 +20,12 @@ export default function AddProduct({ page }) {
     startDate:""
   });
 
+  const [image, setImage] = useState(null)
+
+  const handleImageChange = (e)=>{
+    setImage(e.target.files[0])
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
@@ -28,44 +33,53 @@ export default function AddProduct({ page }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (page === "add") {
+
+    const formData = new FormData()
+    formData.append("name", product.name)
+    formData.append("category", product.category)
+    formData.append("description", product.description)
+    formData.append("price", product.price)
+    formData.append("stock", product.stock)
+    formData.append("productStatus", product.productStatus)
+    formData.append("discount", product.discount)
+    formData.append("startDate", product.startDate)
+    if (image) {
+      formData.append("file", image);
+    }
+
+    let method = "post"
+    let url = "/products/"
+    console.log("Masuk submit");
+    
+
+    if(page === "edit"){
+      method = "put"
+      url = `/products/${id}`
+    }
+
       try {
         const { data } = await instance({
-          method: "post",
-          url: "/products/",
-          data: product,
+          method,
+          url,
+          data: formData,
           headers: {
             Authorization: `bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type":"multipart/form-data",
           },
         });
 
         await Swal.fire({
-          title: data.message,
+          title: "Succes",
           icon: "success",
           showConfirmButton: false,
           timer: 2000,
         });
+
         navigate("/product");
+
       } catch (error) {
         console.log(error);
       }
-    } else if (page === "edit") {
-      try {
-        await instance({
-          method: "put",
-          url: `/products/${id}`,
-          data: product,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        navigate("/product");
-      } catch (error) {
-        console.log(error);
-      }
-    }
   };
 
   const fetchProductById = async () => {
@@ -143,10 +157,10 @@ export default function AddProduct({ page }) {
         <div className="form-group">
           <label>Gambar Produk:</label>
           <input
-            type="text"
+            type="file"
             name="image"
-            value={product.image}
-            onChange={handleInputChange}
+            accept="image/*"
+            onChange={handleImageChange}
             required
           />
         </div>

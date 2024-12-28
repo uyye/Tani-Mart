@@ -16,28 +16,6 @@
   text-align: center;
   margin-top: 120px;
 }
-.cart-table {
-  margin-top: 40px;
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  width: auto;
-  align-items: center;
-  display: inline-table;
-  margin-left: 300px;
-}
-
-.cart-table th,
-.cart-table td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: center;
-}
-
-.cart-table th {
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
 
 .cart-table td input[type="checkbox"] {
   transform: scale(1.2);

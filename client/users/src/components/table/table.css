@@ -1,27 +1,37 @@
-.productTable{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.product-table,
+.presale-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: center;
 }
 
-.productTable th,
-.productTable td{
-    border: 1px solid #ccc;
-    padding: 5px;
-    text-align: left;
+.product-table th,
+.product-table td,
+.presale-table th,
+.presale-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 
-.productTable th{
-    background-color: #eee;
+.product-table th,
+.presale-table th {
+  background-color: #00ec8e;
+  color: #000000;
 }
 
-.detailProduct{
-    display: flex;
-    gap: 5px;
-    align-items: center;
+.product-table tbody tr:nth-child(even),
+.presale-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
-.productTable .productImg{
+.product-table tbody tr:hover,
+.presale-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+.product-table .productImg{
     width: 100px;
     height: 100px;
     border-radius: 5px;
@@ -47,3 +57,7 @@
     background-color: #1aa64c; /* Warna hijau lebih gelap lagi saat tombol ditekan */
     transform: scale(0.98); /* Memberikan efek sedikit mengecil */
 }
+
+.product-table td input[type="checkbox"] {
+    transform: scale(1.2);
+  }

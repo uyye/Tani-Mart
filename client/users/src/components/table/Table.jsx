@@ -1,18 +1,11 @@
+import ContactButton from "../button/ContactButton";
 import "./table.css";
 
 export default function Table({data}){
-
-    console.log(data.OrderDetails," di table");
-    
-    const handleWhatsAppRedirect = () => {
-        const message = `Halo, saya ingin Mengetahui info pesanan saya.`;
-        const whatsappURL = `https://wa.me/6287777635123?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, "_blank");
-    };
     
     return(
         <div>
-            <table className="productTable">
+            <table className="product-table">
                 <thead>
                     <tr>
                         <th>Produk</th>
@@ -35,14 +28,7 @@ export default function Table({data}){
                                     <td>Rp.{Number(x.Product.price).toLocaleString()}</td>
                                     <td>Rp.{Number(x.quantity * x.Product.price).toLocaleString()}</td>
                                     <td>
-                                    <button
-                                        onClick={() =>
-                                            handleWhatsAppRedirect()
-                                        }
-                                        className="whatsappButton"
-                                    >
-                                        Hubungi Penjual
-                                    </button>
+                                    <ContactButton phoneNumber={x.Product.User.phoneNumber}>Hubungi penjual</ContactButton>
                                     </td>
                                 </tr>
                             )

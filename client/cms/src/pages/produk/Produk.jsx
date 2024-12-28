@@ -90,7 +90,7 @@ const ProductTable = () => {
 
   return (
     <div className="table-container">
-      <h1>Daftar Produk & Daftar Presale</h1>
+      <h1>Daftar Produk</h1>
 
       {/* Tombol Filter Kategori */}
       <div className="category-buttons">
@@ -131,7 +131,7 @@ const ProductTable = () => {
                       alt={product.name}
                       className="product-image"
                     />
-                    <p>Presale</p>
+                    <p className={product.productStatus === "regular"?"regular":""}>{product.productStatus}</p>
                   </div>
                 </td>
                 <td>{product.name}</td>
