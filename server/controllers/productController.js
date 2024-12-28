@@ -1,6 +1,13 @@
 const { Op } = require("sequelize")
 const {Product, Presale} = require("../models")
 const dayjs = require("dayjs")
+const cloudinary =  require("cloudinary").v2
+
+cloudinary.config({
+    cloud_name:process.env.CLODINARYCLOUDNAME,
+    api_key:process.env.CLODINARYAPIKEY,
+    api_secret:process.env.CLODINARYAPISECRET
+})
 
 class ProductController{
     static async getProduct(req, res, next){
@@ -58,11 +65,24 @@ class ProductController{
 
     static async addProduct(req, res, next){
         try {
-            let {name, image, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
+            let createProduct
+    
+            let {name, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
             
+            if(!req.file){
+                throw{name:"BadRequest", status:400, message:"image file require"}
+            }
+
+            let base64 = Buffer.from(req.file.buffer).toString("base64")
+
+            let dataUrl = `data:${req.file.mimetype};base64,${base64}`
+
+            const response = await cloudinary.uploader.upload(dataUrl)
+            const image = response.secure_url
+            
+
             const discountPrice = price - (discount / 100 * price)        
 
-            let createProduct 
             
             
             if(productStatus === "presale"){

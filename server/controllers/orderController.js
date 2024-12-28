@@ -88,16 +88,67 @@ class OrderController{
             const {id} = req.params
             const data =await Order.findOne({
                 where:{id},
-                include:{
-                    model:OrderDetail,
-                    include:{model:Product}
-                }
+                include:[
+                    {
+                        model:OrderDetail,
+                        include:{
+                            model:Product,
+                            include:{
+                                model:User,
+                                attributes:{exclude:["password"]}
+                            }
+                        }
+                    },
+                    {
+                        model:User,
+                        attributes:{exclude:["password"]}
+                    }
+                ]
             })
 
-            console.log(data, ">>>>>>>>");
-            
-
             res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async getOrderAdmin(req, res, next){
+        try {
+
+            const data = await Order.findAll({
+                include:[
+                    {
+                        model:OrderDetail,
+                        where:{authorId:req.user.id},
+                    },
+                    {
+                        model:User
+                    }
+                    
+                ]
+            })
+
+            res.status(200).json(data)            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async getOrderDetailAdmin(req, res, next){
+        console.log("Masuk detail ADMIN");
+        try {
+            
+            const {id} = req.params
+            const data = await OrderDetail.findAll({
+                where:{orderId:id, authorId:req.user.id},
+                include:[{model:Product},{model:Order,include:User}]
+            })
+            console.log(data, ">>>>>>>>>>");
+            
+            res.status(200).json(data)
+            
         } catch (error) {
             console.log(error);
             next(error)

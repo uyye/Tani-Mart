@@ -5,12 +5,11 @@ import { useParams } from "react-router-dom"
 import Table from "../../components/table/Table"
 
 
+
 export default function DetailOrder() {
     const {id} = useParams()
     const [detailOrder, setDetailOrder] = useState([])  
-    
-    console.log(detailOrder, "SSSSSSSSSSSSSSSSSSS");
-    
+        
 
     const fetchDetailOrder =  async()=>{
         try {
@@ -43,7 +42,7 @@ export default function DetailOrder() {
                 :<p>Anda belum melakukan pemesanan</p>
             }
             <div>
-                <table className="productTable">
+                <table className="product-table">
                     <thead>
                         <tr>
                             <th>Nama penerima</th>
@@ -54,10 +53,10 @@ export default function DetailOrder() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
+                            <td>{detailOrder.User?.name}</td>
                             <td>{detailOrder.addressShiping}</td>
                             <td>{detailOrder.phoneNumber}</td>
-                            <td>{detailOrder.status}</td>
+                            <td>{detailOrder.status === "paid"?"Lunas, Sedang di proses...":""}</td>
                         </tr>
                     </tbody>
                 </table>

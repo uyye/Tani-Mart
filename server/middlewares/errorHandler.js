@@ -2,7 +2,7 @@ const errorHandler = (err, req, res, next)=>{
     let status = 500
     let message = "internal server error"
 
-    console.log(err.name, ">>>>>>>>>>");
+    console.log(err, ">>>>>>>>>>");
     
 
     switch (err.name) {

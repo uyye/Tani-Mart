@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./PesananSaya.css";
 import instance from "../../api/axiosInstance";
 import { Link } from "react-router-dom";
+import DetailButton from "../../components/button/DetailButton";
 
 const PesananSaya = () => {
   const [orders, setOrders] = useState([]);
@@ -20,10 +21,7 @@ const PesananSaya = () => {
       console.error("Error fetching orders:", error);
     }
   };
-
-  console.log(orders, ".........");
   
-
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -39,7 +37,7 @@ const PesananSaya = () => {
             <div className="order-header">
               <p className="order-id">No Pesanan: {order.id}</p>
               <p className={`order-status ${order.status.toLowerCase()}`}>
-                {order.status}
+                {order.status === "paid"?"Lunas":""}
               </p>
             </div>
             {/* <div className="order-products">
@@ -67,8 +65,8 @@ const PesananSaya = () => {
                 Total: Rp {Number(order.totalPrice).toLocaleString()}
               </p>
               <div className="order-actions">
-                <Link to={`/orders/${order.id}`} className="order-button">
-                  Lihat Detail
+                <Link to={`/orders/${order.id}`}>
+                  <DetailButton/>
                 </Link>
                 {order.status === "Selesai" && (
                   <button className="order-button">Konfirmasi Terima</button>

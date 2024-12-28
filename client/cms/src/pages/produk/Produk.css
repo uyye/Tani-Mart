@@ -149,8 +149,8 @@
   font-weight: bold;
   border-radius: 4px;
 }
-.product-image-container p {
-  background-color: rgb(255, 242, 0);
+.product-image-container .regular {
+  background-color: #28a745;
   color: rgb(0, 0, 0);
   border-radius: 5px;
   width: 30%;
@@ -158,6 +158,18 @@
   padding: 2px;
   margin-left: 100px;
 }
+
+.product-image-container p{
+  background-color: rgb(255, 242, 0);
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  width: 30%;
+  text-align: center;
+  padding: 2px;
+  margin-left: 100px;
+
+}
+
 .no-data {
   text-align: center;
   font-size: 16px;

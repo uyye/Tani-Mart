@@ -1,57 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Order.css";
+import instance from "../../api/axiosInstance";
+import DetailButton from "../../components/detailButton/DetailButton";
+import UpdateButton from "../../components/updateButton/UpdateButton";
+import DeleteButton from "../../components/deleteButton/DeleteButton";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDataOrder } from "../../features/orders/orderSlice";
 
-const initialOrders = [
-  {
-    id: 1,
-    buyerName: "Andi",
-    productName: "Tomat Organik",
-    type: "Tersedia",
-    quantity: 3,
-    total: 30000,
-    status: "Selesai",
-  },
-  {
-    id: 2,
-    buyerName: "Budi",
-    productName: "Kentang Presale",
-    type: "presale",
-    quantity: 5,
-    total: 40000,
-    status: "Menunggu",
-  },
-  {
-    id: 3,
-    buyerName: "Citra",
-    productName: "Bayam Organik",
-    type: "Tersedia",
-    quantity: 10,
-    total: 50000,
-    status: "Menunggu",
-  },
-];
+export default function Order() {
+  const dispatch = useDispatch()
+  const data = useSelector((state)=>state.orders.orders)
 
-function orderTable() {
-  const [orders, setOrders] = useState(initialOrders);
-
-  // Function untuk mengupdate status pesanan
-  const handleUpdate = (id) => {
-    const updatedOrders = orders.map((order) =>
-      order.id === id
-        ? {
-            ...order,
-            status: order.status === "Menunggu" ? "Selesai" : "Menunggu",
-          }
-        : order
-    );
-    setOrders(updatedOrders);
-  };
-
-  // Function untuk menghapus pesanan
-  const handleDelete = (id) => {
-    const filteredOrders = orders.filter((order) => order.id !== id);
-    setOrders(filteredOrders);
-  };
+   
+  useEffect(()=>{
+    dispatch(fetchDataOrder())
+  },[dispatch])
 
   return (
     <div className="app">
@@ -62,52 +26,34 @@ function orderTable() {
             <tr>
               <th>No</th>
               <th>Nama Pembeli</th>
-              <th>Nama Produk</th>
-              <th>Tipe</th>
-              <th>Jumlah</th>
-              <th>Total</th>
+              <th>Order ID</th>
               <th>Status</th>
               <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {data?.map((order, index) => (
               <tr key={order.id}>
                 <td>{index + 1}</td>
-                <td>{order.buyerName}</td>
-                <td>{order.productName}</td>
-                <td
-                  className={order.type === "Presale" ? "presale" : "available"}
-                >
-                  {order.type}
-                </td>
-                <td>{order.quantity}</td>
-                <td>
-                  {order.total.toLocaleString("id-ID", {
+                <td>{order.User.name}</td>
+                <td>{order.id}</td>
+                {/* <td>
+                  {order.totalPrice.toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   })}
-                </td>
+                </td> */}
                 <td
                   className={
-                    order.status === "Selesai" ? "completed" : "pending"
+                    order.status === "paid" ? "completed" : "pending"
                   }
                 >
-                  {order.status}
+                  {order.status === "paid"?"Lunas":"pending"}
                 </td>
                 <td>
-                  <button
-                    className="update-button"
-                    onClick={() => handleUpdate(order.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(order.id)}
-                  >
-                    Hapus
-                  </button>
+                  <Link to={`/order/${order.id}`}><DetailButton/> </Link>
+                  {/* <UpdateButton/>
+                  <DeleteButton/> */}
                 </td>
               </tr>
             ))}
@@ -117,5 +63,3 @@ function orderTable() {
     </div>
   );
 }
-
-export default orderTable;
