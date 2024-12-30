@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import "./Wishlist.css";
 import {useDispatch, useSelector} from "react-redux"
-import { fetchFavorites } from "../../features/favorites/favoriteSlice";
+import { fetchFavorites, fetchRemoveFavorite } from "../../features/favorites/favoriteSlice";
 import DeleteButton from "../../components/button/DeleteButton";
 import DetailButton from "../../components/button/DetailButton";
+import {Link} from "react-router-dom"
 
 const Wishlist = () => {
   const dispatch = useDispatch()
   const data = useSelector((state)=>state.dataFavorites.favorites)
   
   const handleDelete = (id) => {
-    console.log(`Hapus produk dengan ID: ${id}`);
+    dispatch(fetchRemoveFavorite(id))
   };
 
   const handleAddToCart = (id) => {
@@ -23,16 +24,12 @@ const Wishlist = () => {
 
   return (
     <header className="app">
-      <h1>Wishlist</h1>
+      <h1>Produk Favorit</h1>
       <div className="wishlist-container">
         {data?.map((item) => (
           <div className="wishlist-card" key={item.Product.id}>
             <div className="wishlist-content">
               <h3 className="product-name">{item.Product.name}</h3>
-              <p className="product-price">
-                Harga: Rp {item.Product.price.toLocaleString()}
-              </p>
-              <p className="product-stock">Stok: {item.Product.stock}</p>
               <p
                 className={`stock-status ${
                   item.Product.stock > 0 ? "available" : "unavailable"
@@ -40,16 +37,17 @@ const Wishlist = () => {
               >
                 {item.Product.productStatus}
               </p>
-              <DeleteButton/>
-              <DetailButton/>
+              <DeleteButton handleDelete={()=>handleDelete(item.id)}/>
+              <Link to={`/detail/${item.Product.id}`}><DetailButton/></Link>
+              
             </div>
-            <button
+            {/* <button
               className="add-to-cart-btn"
               onClick={() => handleAddToCart(item.id)}
               disabled={item.stock === 0}
             >
               Add to Keranjang
-            </button>
+            </button> */}
           </div>
         ))}
       </div>

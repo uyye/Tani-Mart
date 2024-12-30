@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import DeleteButton from "../button/DeleteButton";
 import DetailButton from "../button/DetailButton";
+import { useDispatch } from "react-redux";
+import { fetchRemoveCart } from "../../features/carts/cartSlice";
 
 export default function TableCart({cart, selectedItems, handleCheckboxChange}) {
+
+  const dispatch = useDispatch()
+  
+  const handleRemoveCart = (itemId)=>{
+    dispatch(fetchRemoveCart(itemId))
+  }
     
     return(
         <table className="product-table">
@@ -23,9 +31,9 @@ export default function TableCart({cart, selectedItems, handleCheckboxChange}) {
             cart.CartItems.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{item.Product.name}</td>
+                <td>{item?.Product?.name}</td>
                 <td>{item.quantity}</td>
-                <td>Rp {Number(item.Product.price).toLocaleString()}</td>
+                <td>Rp {Number(item?.Product?.price).toLocaleString()}</td>
                 <td>Rp {(item.quantity * item.Product?.price).toLocaleString()} </td>
                 <td>
                   <input
@@ -35,8 +43,8 @@ export default function TableCart({cart, selectedItems, handleCheckboxChange}) {
                   />
                 </td>
                 <td>
-                  <DeleteButton/>
-                  <Link to={`/detail/${item.Product.id}`}><DetailButton/></Link>
+                  <DeleteButton handleDelete={()=>handleRemoveCart(item.id)}/>
+                  <Link to={`/detail/${item?.Product?.id}`}><DetailButton/></Link>
                 </td>
               </tr>
             )):

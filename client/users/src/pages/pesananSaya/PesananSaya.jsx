@@ -1,43 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "./PesananSaya.css";
-import instance from "../../api/axiosInstance";
 import { Link } from "react-router-dom";
 import DetailButton from "../../components/button/DetailButton";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrder } from "../../features/orders/orderSlice";
 
 const PesananSaya = () => {
-  const [orders, setOrders] = useState([]);
+  const dispatch = useDispatch()
 
-  const fetchOrders = async () => {
-    try {
-      const { data } = await instance({
-        method: "get",
-        url: "/orders", // Pastikan endpoint ini sesuai
-        headers: {
-          Authorization: `bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      setOrders(data);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
+  const data = useSelector((state)=>state.dataOrder.orders)
+  console.log(data);
+  
   
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    dispatch(fetchOrder())
+  }, [dispatch]);
 
   return (
     <div className="orders-container">
       <h1 className="orders-title">Pesanan Saya</h1>
-      {orders?.length === 0 ? (
+      {data?.length === 0 ? (
         <p className="no-orders">Belum ada pesanan.</p>
       ) : (
-        orders?.map((order) => (
+        data?.map((order) => (
           <div className="order-card" key={order.id}>
             <div className="order-header">
               <p className="order-id">No Pesanan: {order.id}</p>
               <p className={`order-status ${order.status.toLowerCase()}`}>
-                {order.status === "paid"?"Lunas":""}
+                {order.status === "paid"?"Lunas":"Pending"}
               </p>
             </div>
             {/* <div className="order-products">

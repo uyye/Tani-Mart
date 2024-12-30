@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
 
 const cartSlice = createSlice({
     name:"cart",
@@ -11,12 +12,19 @@ const cartSlice = createSlice({
             state.carts = action.payload
         },
         addCartItem:(state, action)=>{
-            state.carts.push(action.payload)
+            state.carts.CartItems.push(action.payload)
+        },
+        removeCart:(state, action)=>{
+            
+            state.carts = {...state.carts,
+                CartItems: state.carts.CartItems.filter(
+                    (item) => item.id !== action.payload
+                ),}
         }
     }
 })
 
-export const {setCart, addCartItem} = cartSlice.actions;
+export const {setCart, addCartItem, removeCart} = cartSlice.actions;
 
 export const fetchCart = ()=>{
     return async (dispatch)=>{
@@ -38,23 +46,67 @@ export const fetchCart = ()=>{
     }
 }
 
-export const PostCart = (productId, cartId)=>{
+export const PostCart = (productId, quantity)=>{
     return async (dispatch)=>{
         try {
-            await instance({
+           const {data} = await instance({
                 method:"post",
                 url:"/carts/",
                 data:{
                     productId:productId,
-                    quantity:cartId
+                    quantity:quantity
                 },
                 headers:{
                     "Authorization":`beare ${localStorage.getItem("access_token")}`
                 }
             })
 
-            dispatch(addCartItem(""))
+            dispatch(addCartItem(data))
+            console.log(data,"DDDDDDDDDD");
             
+
+            Swal.fire({
+                icon: "success",
+                showConfirmButton: false,
+                title: "Success",
+                text: `berhasil ditambahkan ke keranjang`,
+                timer: 2000,
+            })
+            
+        } catch (error) {
+            console.log(error);
+            
+            if (error.status === 401) {
+                const result = await Swal.fire({
+                    icon: "question",
+                    title: "Belum Login?",
+                    text: "Silahkan login untuk lakukan pemesanan",
+                    showCancelButton: true,
+                    confirmButtonText: "Login",
+                    cancelButtonText: "Batal",
+                });
+            
+                if (result.isConfirmed) {
+                    navigate("/login");
+                }
+            }
+        }
+    }
+}
+
+export const fetchRemoveCart =(itemId)=>{
+    return async(dispatch)=>{
+        try {
+            await instance({
+                method:"delete",
+                url:"/carts/",
+                data:{itemId:itemId},
+                headers:{
+                    "Authorization":`bearer ${localStorage.getItem("access_token")}`
+                }
+            })
+
+            dispatch(removeCart(itemId))
         } catch (error) {
             console.log(error);
             

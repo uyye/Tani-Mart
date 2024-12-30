@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./checkout.css";
 import instance from "../../api/axiosInstance";
 import { useLocation } from "react-router-dom";
 
+
 const Checkout = () => {
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("")
+
+
   const location = useLocation()
-  const selectedProducts = location.state?.selectedProducts
+  const selectedProducts = location.state?.selectedProducts || []  
+  
+  console.log(location, selectedProducts);
+  
   const totalPrice = selectedProducts.reduce((acc, product)=> acc + product.Product.price * product.quantity, 0)  
 
 
@@ -28,6 +34,11 @@ const Checkout = () => {
       id:product.Product.id,
       quantity:product.quantity
     }))
+
+    console.log(formattedProduct, "AAAAAAAAS");
+    
+    
+    
 
     try {
       const order = await instance({
@@ -82,6 +93,7 @@ const Checkout = () => {
       console.log(error);
     }
   }
+
   return (
     <div className="checkout-container">
       <h1>Checkout</h1>
