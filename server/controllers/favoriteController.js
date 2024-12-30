@@ -25,8 +25,9 @@ class FavoriteController{
 
     static async deleteFavorite(req, res, next){
         try {
-            const {productId} = req.body
-            await Favorite.destroy({where:{productId:productId}})
+
+            const {id} = req.body
+            await Favorite.destroy({where:{id:id}})
             res.status(200).json("success delete favoriteProduct")
             
         } catch (error) {

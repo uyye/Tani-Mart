@@ -9,11 +9,18 @@ const favoriteSlice = createSlice({
     reducers:{
         setFavorites:(state, action)=>{
             state.favorites = action.payload
+        },
+        removeFavorite:(state, action)=>{
+            state.favorites = state.favorites.filter(
+                (favorite)=> favorite.id !== action.payload
+            )
         }
+        
     }
 })
 
-export const {setFavorites} = favoriteSlice.actions
+export const {setFavorites, removeFavorite} = favoriteSlice.actions
+
 export const fetchFavorites = ()=>{
     return async (dispatch)=>{
         try {
@@ -26,6 +33,26 @@ export const fetchFavorites = ()=>{
             })
             
             dispatch(setFavorites(data))
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchRemoveFavorite = (id)=>{
+    return async (dispatch)=>{
+        try {
+            await instance({
+                method:"delete",
+                url:"/favorites",
+                data:{id:id},
+                headers:{
+                    "Authorization":`bearer ${localStorage.getItem("access_token")}`
+                }
+            })
+
+            dispatch(removeFavorite(id))
         } catch (error) {
             console.log(error);
             

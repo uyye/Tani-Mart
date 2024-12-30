@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./Detail.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, replace, useNavigate, useParams } from "react-router-dom";
 import instance from "../../api/axiosInstance";
-import Swal from "sweetalert2";
 import FavoriteButton from "../../components/button/FavoriteButton";
 import OrderButton from "../../components/button/orderButton";
-
+import {useDispatch} from "react-redux"
+import { PostCart } from "../../features/carts/cartSlice";
 
 export default function DetailProduk() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const { id } = useParams();
-  const [quantity, setQuantity] = useState(1); // State untuk kuantitas
+
+  const [quantity, setQuantity] = useState(1); 
   const [product, setProduct] = useState({});
+  const dispatch = useDispatch()
 
   const fetchProduct = async () => {
     try {
@@ -26,53 +28,26 @@ export default function DetailProduk() {
   };
 
   const handleIncrease = () => {
-    if (quantity < product.stock) setQuantity(quantity + 1); // Tambah kuantitas
+    if (quantity < product.stock) setQuantity(quantity + 1); 
   };
 
   const handleDecrease = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1); // Kurangi kuantitas, minimal 1
+      setQuantity(quantity - 1); 
     }
   };
 
   const handleInputCart = async () => {
-    try {
-      const { data } = await instance({
-        method: "post",
-        url: `/carts`,
-        data: {
-          productId: id,
-          quantity: quantity,
-        },
-        headers: {
-          Authorization: `bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-
-      Swal.fire({
-        icon: "success",
-        showConfirmButton: false,
-        title: "Success",
-        text: `${product.name} berhasil ditambahkan ke keranjang`,
-        timer: 2000,
-      });
-    } catch (error) {
-      if (error.status === 401) {
-        const result = await Swal.fire({
-          icon: "question",
-          title: "Belum Login?",
-          text: "Silahkan login untuk lakukan pemesanan",
-          showCancelButton: true,
-          confirmButtonText: "Login",
-          cancelButtonText: "Batal",
-        });
-
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      }
-    }
+    dispatch(PostCart(id, quantity ))
   };
+
+  const handleCheckout = ()=>{
+    const selectedProducts = [{ Product: product, quantity: quantity }]
+
+    console.log(selectedProducts, "Data yang dikirimkan ke checkout");
+    
+    navigate("/checkout", { state: {selectedProducts}});
+  }
 
   useEffect(() => {
     fetchProduct();
@@ -105,9 +80,7 @@ export default function DetailProduk() {
           +
         </button>
       </div>
-      <Link to="/checkout" className="contact-button2">
-        <OrderButton>Beli sekarang</OrderButton>
-      </Link>
+      <OrderButton handleOrder={handleCheckout}>Beli sekarang</OrderButton>
       <Link onClick={handleInputCart} className="contact-button2">
         Masukkan Keranjang
       </Link>

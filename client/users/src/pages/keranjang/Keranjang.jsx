@@ -3,7 +3,7 @@ import "./keranjang.css";
 import { useNavigate } from "react-router-dom";
 import TableCart from "../../components/table/TableCart";
 import {useDispatch, useSelector} from "react-redux"
-import { fetchCart } from "../../features/carts/cartSlice";
+import { fetchCart, fetchRemoveCart } from "../../features/carts/cartSlice";
 
 
 export default function Keranjang() {
@@ -32,7 +32,8 @@ export default function Keranjang() {
   const handleOrder = async()=>{
 
     const selectedProducts = data.CartItems?.filter((item)=>selectedItems.includes(item.id))
-
+    console.log(selectedProducts, "INI DICARI");
+    
     if(!selectedProducts?.length){
       alert("productmu mana manis")
       return;
@@ -41,6 +42,8 @@ export default function Keranjang() {
       navigate(`/checkout`, {state:{selectedProducts}})
 
   }
+
+  
 
   useEffect(()=>{
     dispatch(fetchCart())
