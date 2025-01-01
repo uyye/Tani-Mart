@@ -10,7 +10,6 @@ const categories = [
   "Umbi-umbian",
   "Rempah-rempah",
   "Produk Organik",
-  "Presale",
 ];
 
 const ProductCard = ({ product }) => {

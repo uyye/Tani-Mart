@@ -10,8 +10,9 @@ import Produk from "./pages/produk/Produk";
 import AdminDashboard from "./admin/Admin";
 import Order from "./pages/order/Order";
 import OrderDetail from "./pages/orderDetail/OrderDetail";
-// import DetailProduk from "./pages/detailProduk/Detail";
-// import Keranjang from "./pages/keranjang/Keranjang";
+import KelolaPengguna from "././admin/KelolaPengguna";
+import KelolaProduk from "././admin/KelolaProduk";
+import KelolaTranksaksi from "./admin/KelolaTranksaksi";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,9 +31,12 @@ const router = createBrowserRouter([
       { path: "/InputPresale", element: <InputPresale /> },
       { path: "/CekPresale", element: <CekPresale /> },
       { path: "/product", element: <Produk /> },
-      {path:"/order", element:<Order/>},
-      {path:"/order/:id", element:<OrderDetail/>},
+      { path: "/order", element: <Order /> },
+      { path: "/order/:id", element: <OrderDetail /> },
       { path: "/admin", element: <AdminDashboard /> },
+      { path: "/KelolaPengguna", element: <KelolaPengguna /> },
+      { path: "/KelolaProduk", element: <KelolaProduk /> },
+      { path: "/KelolaTranksaksi", element: <KelolaTranksaksi /> },
     ],
   },
 
