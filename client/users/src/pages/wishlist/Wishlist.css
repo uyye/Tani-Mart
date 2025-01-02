@@ -91,3 +91,10 @@
 .add-to-cart-btn:hover:not(:disabled) {
   background: #45a049;
 }
+/* Teks Tidak Ada Data */
+.no-data {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding-left: 530px;
+}

@@ -6,14 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrder } from "../../features/orders/orderSlice";
 
 const PesananSaya = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const data = useSelector((state)=>state.dataOrder.orders)
+  const data = useSelector((state) => state.dataOrder.orders);
   console.log(data);
-  
-  
+
   useEffect(() => {
-    dispatch(fetchOrder())
+    dispatch(fetchOrder());
   }, [dispatch]);
 
   return (
@@ -27,7 +26,7 @@ const PesananSaya = () => {
             <div className="order-header">
               <p className="order-id">No Pesanan: {order.id}</p>
               <p className={`order-status ${order.status.toLowerCase()}`}>
-                {order.status === "paid"?"Lunas":"Pending"}
+                {order.status === "paid" ? "Lunas" : "Pending"}
               </p>
             </div>
             {/* <div className="order-products">
@@ -56,7 +55,7 @@ const PesananSaya = () => {
               </p>
               <div className="order-actions">
                 <Link to={`/orders/${order.id}`}>
-                  <DetailButton/>
+                  <DetailButton />
                 </Link>
                 {order.status === "Selesai" && (
                   <button className="order-button">Konfirmasi Terima</button>

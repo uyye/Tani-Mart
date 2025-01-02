@@ -10,7 +10,6 @@ const categories = [
   "Umbi-umbian",
   "Rempah-rempah",
   "Produk Organik",
-  "Presale",
 ];
 
 const ProductCard = ({ product }) => {
@@ -27,7 +26,7 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="product-info">
           <h3 className="product-name">{product.name}</h3>
-          <p>Price: Rp {product.price.toLocaleString()} / Kg</p>
+          <p>Harga: Rp {product.price.toLocaleString()} / Kg</p>
           <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
             {product.stock > 0 ? `Stok: ${product.stock} Kg` : "Out of Stock"}
           </p>
