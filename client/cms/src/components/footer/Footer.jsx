@@ -8,21 +8,21 @@ export default function Footer() {
   return (
     <footer>
       <div className="socials">
-        <a href="#">
+        <a href="https://web.facebook.com/profile.php?id=61571119247195">
           <FaFacebook />
         </a>
-        <a href="#">
+        <a href="https://x.com/Siafarmbantaeng">
           <FaXTwitter />
         </a>
-        <a href="#">
+        <a href="https://www.instagram.com/siafarmbantaeng/">
           <FaInstagram />
         </a>
       </div>
       <div className="links">
         <Link to="/">Beranda</Link>
         {/* <Link to="/">Tentang Kami</Link> */}
-        <Link to="/product">Cek Produk/Presale</Link>
-        <Link to="/presale">Cek Order</Link>
+        <Link to="/product">Produk Saya</Link>
+        <Link to="/order">Cek Order</Link>
       </div>
       <div className="credit">
         <p>
