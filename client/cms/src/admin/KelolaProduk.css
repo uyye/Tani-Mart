@@ -1,0 +1,63 @@
+/* ManageProducts.css */
+
+.manage-products {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.manage-products h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.products-table {
+  margin-left: -0px;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.products-table th,
+.products-table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.products-table th {
+  background-color: #28a745;
+  color: white;
+  text-align: center;
+}
+
+.products-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.products-table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.products-table button:first-child {
+  background-color: #3da916;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.products-table button:first-child:hover {
+  background-color: #000000;
+}
+
+.products-table button:last-child {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.products-table button:last-child:hover {
+  background-color: #c82333;
+}

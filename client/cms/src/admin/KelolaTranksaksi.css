@@ -1,0 +1,62 @@
+/* ManageTransactions.css */
+
+.manage-transactions {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.manage-transactions h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.transactions-table {
+  width: 70%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 150px;
+}
+
+.transactions-table th,
+.transactions-table td {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+.transactions-table th {
+  background-color: #15cd30;
+  color: white;
+}
+
+.transactions-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.transactions-table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.transactions-table button:first-child {
+  background-color: #15b10f;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.transactions-table button:first-child:hover {
+  background-color: #000000;
+}
+
+.transactions-table button:last-child {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.transactions-table button:last-child:hover {
+  background-color: #c82333;
+}

@@ -10,7 +10,6 @@ const categories = [
   "Umbi-umbian",
   "Rempah-rempah",
   "Produk Organik",
-  "Presale",
 ];
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
@@ -131,7 +130,13 @@ const ProductTable = () => {
                       alt={product.name}
                       className="product-image"
                     />
-                    <p className={product.productStatus === "regular"?"regular":""}>{product.productStatus}</p>
+                    <p
+                      className={
+                        product.productStatus === "regular" ? "regular" : ""
+                      }
+                    >
+                      {product.productStatus}
+                    </p>
                   </div>
                 </td>
                 <td>{product.name}</td>
