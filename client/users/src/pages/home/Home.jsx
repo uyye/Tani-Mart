@@ -3,6 +3,9 @@ import "./home.css";
 import Card from "../../components/card/Card";
 import logo from "../../assets/lgg.png";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+
+
 export default function Home() {
   useEffect(() => {
     const navbar = document.querySelector(".navbar-nav");
