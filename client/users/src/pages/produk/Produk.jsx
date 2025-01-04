@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
     <Link to={`/detail/${product.id}`} className="product-link">
       <div className="product-card">
         <div className="image-container">
-          {product.isPresale && <span className="presale-badge">Presale</span>}
+          {product.productStatus === "presale" && <span className="presale-badge">Presale</span>}
           <img
             src={product.image}
             alt={product.name}
