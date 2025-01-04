@@ -41,7 +41,7 @@ const Wishlist = () => {
                 >
                   {item.Product.productStatus}
                 </p>
-                <DeleteButton handleDelete={() => handleDelete(item.id)} />
+                <DeleteButton handleDelete={() => handleDelete(item.Product.id)} />
                 <Link to={`/detail/${item.Product.id}`}>
                   <DetailButton />
                 </Link>

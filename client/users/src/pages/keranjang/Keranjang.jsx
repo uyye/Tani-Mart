@@ -10,9 +10,14 @@ export default function Keranjang() {
   const navigate = useNavigate()
 
   const [selectedItems, setSelectedItems] = useState([]);
-
+  
+  
+  
   const dispatch = useDispatch()
   const data = useSelector((state)=>state.dataCart.carts)
+  
+  console.log(selectedItems);
+  console.log(data);
 
   const handleCheckboxChange = (id) => {
     setSelectedItems((prevSelected) =>{
@@ -32,7 +37,8 @@ export default function Keranjang() {
   const handleOrder = async()=>{
 
     const selectedProducts = data.CartItems?.filter((item)=>selectedItems.includes(item.id))
-    console.log(selectedProducts, "INI DICARI");
+    console.log(selectedItems);
+    
     
     if(!selectedProducts?.length){
       alert("productmu mana manis")

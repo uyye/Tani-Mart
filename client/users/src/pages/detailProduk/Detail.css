@@ -107,3 +107,22 @@
   color: #4caf50;
   font-weight: bold;
 }
+
+.presale{
+  background-color: #ff6f61;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 5px;
+  
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
