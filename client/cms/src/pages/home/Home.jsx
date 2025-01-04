@@ -1,26 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./home.css";
 import Card from "../../components/card/Card";
 import logo from "../../assets/lgg.png";
 import { Link } from "react-router-dom";
+
 export default function Home() {
   console.log("hallo");
 
-  // // Toggle class active untuk hamburger menu
-  // const navbar = document.querySelector(".navbar-nav");
-  // // ketika hamburger menu di klik
-  // document.querySelector("#hamburger-menu").onclick = () => {
-  //   navbar.classList.toggle("active");
-  // };
+  useEffect(() => {
+    const navbar = document.querySelector(".navbar-nav");
+    const hamburger = document.querySelector("#hamburger-menu");
+    const navLinks = document.querySelectorAll(".navbar-nav a"); // Select all links inside navbar
 
-  // // klik diluar sidebar
-  // const hamburger = document.querySelector("#hamburger-menu");
+    // Toggle class active for hamburger menu
+    if (hamburger) {
+      hamburger.onclick = () => {
+        navbar.classList.toggle("active");
+      };
+    }
 
-  // document.addEventListener("click", function (e) {
-  //   if (!hamburger.contains(e.target) && !navbar.contains(e.target)) {
-  //     navbar.classList.remove("active");
-  //   }
-  // });
+    // Close the menu when clicking a link inside the navbar
+    const handleLinkClick = () => {
+      if (navbar && navbar.classList.contains("active")) {
+        navbar.classList.remove("active");
+      }
+    };
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", handleLinkClick);
+    });
+
+    // Click outside sidebar to close it
+    const handleClickOutside = (e) => {
+      if (
+        hamburger &&
+        !hamburger.contains(e.target) &&
+        navbar &&
+        !navbar.contains(e.target)
+      ) {
+        navbar.classList.remove("active");
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      navLinks.forEach((link) => {
+        link.removeEventListener("click", handleLinkClick);
+      });
+    };
+  }, []);
+
   return (
     <div>
       <section className="hero" id="home">
@@ -48,7 +80,7 @@ export default function Home() {
           tentang <span>kami</span>
         </h2>
         <a href="#">
-          <img src={logo} />
+          <img src={logo} alt="Logo" />
         </a>
         <p>
           <br />

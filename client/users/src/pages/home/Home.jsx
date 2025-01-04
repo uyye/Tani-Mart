@@ -4,9 +4,6 @@ import Card from "../../components/card/Card";
 import logo from "../../assets/lgg.png";
 import { Link } from "react-router-dom";
 export default function Home() {
-  
-  console.log("hallo");
-  
   // // Toggle class active untuk hamburger menu
   // const navbar = document.querySelector(".navbar-nav");
   // // ketika hamburger menu di klik
@@ -31,12 +28,15 @@ export default function Home() {
               Selamat Datang di <span>Siafarm</span>
             </h1>
             <p>Platform e-commerce hasil pertanian di Kecamatan Sinoa</p>
-            {
-              localStorage.getItem("access_token")?
-              <Link to="/product" className="cta">Beli Sekarang </Link>:
-              <Link to="/login" className="cta">Masuk untuk mulai berbelanja.. </Link>
-
-            }
+            {localStorage.getItem("access_token") ? (
+              <Link to="/product" className="cta">
+                Beli Sekarang{" "}
+              </Link>
+            ) : (
+              <Link to="/login" className="cta">
+                Masuk untuk mulai berbelanja..{" "}
+              </Link>
+            )}
           </main>
         </div>
       </section>
