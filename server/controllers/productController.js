@@ -38,7 +38,7 @@ class ProductController{
         }
     }
 
-    static async getAdminProduct(req, res, next){
+    static async getSellerProduct(req, res, next){
         try {
             const data = await Product.findAll({where:{authorId:req.user.id}})
             res.status(200).json(data)
@@ -119,11 +119,6 @@ class ProductController{
     static async updateProduct(req, res, next){
         try {
             const {id} = req.params
-            
-            const productData = await Product.findByPk(id)
-            if(productData.authorId !== req.user.id){
-                throw {name:"Forbidden", status:403, message:"Access danied"}
-            }
 
             const { name, image, category, description, price, stock}= req.body
             const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, category, description, price, stock, authorId:req.user.id},
@@ -158,13 +153,7 @@ class ProductController{
     static async deleteProduct(req, res, next){
         try {
             const {id} = req.params
-
-            const productData = await Product.findByPk(id)
-            
-            if(productData.authorId !== req.user.id){
-                throw {name:"Forbidden", status:403, message:"Access danied"}
-            }
-            
+                        
             const deleteProduct = await Product.destroy({
                 where:{
                     id:id

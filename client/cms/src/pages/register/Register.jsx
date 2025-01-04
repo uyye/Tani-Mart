@@ -11,7 +11,7 @@ function Register() {
     password: "",
     address: "",
     phoneNumber: "",
-    role: "admin",
+    role: "seller",
   });
 
   const handleInputChange = (e) => {
