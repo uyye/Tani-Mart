@@ -55,7 +55,9 @@ class ProductController{
                 throw{name:"NotFound", status:404, message:`Product not found`}
             }
 
-            const data = await Product.findByPk(id)
+            const data = await Product.findByPk(id,{
+                include:Presale
+            })
             res.status(200).json(data)
         } catch (error) {
             console.log(error);

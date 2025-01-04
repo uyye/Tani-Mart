@@ -12,7 +12,7 @@ const favoriteSlice = createSlice({
         },
         removeFavorite:(state, action)=>{
             state.favorites = state.favorites.filter(
-                (favorite)=> favorite.id !== action.payload
+                (favorite)=> favorite.Product.id !== action.payload
             )
         }
         
@@ -40,19 +40,19 @@ export const fetchFavorites = ()=>{
     }
 }
 
-export const fetchRemoveFavorite = (id)=>{
+export const fetchRemoveFavorite = (productId)=>{
     return async (dispatch)=>{
         try {
             await instance({
                 method:"delete",
                 url:"/favorites",
-                data:{id:id},
+                data:{productId:productId},
                 headers:{
                     "Authorization":`bearer ${localStorage.getItem("access_token")}`
                 }
             })
 
-            dispatch(removeFavorite(id))
+            dispatch(removeFavorite(productId))
         } catch (error) {
             console.log(error);
             
