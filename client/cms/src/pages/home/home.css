@@ -111,7 +111,7 @@ body {
 }
 
 /* Tablet */
-@media (max-width: 758px) {
+@media (max-width: 1024px) {
   html {
     font-size: 70%;
   }
@@ -125,7 +125,7 @@ body {
     top: 100%;
     right: -100%;
     background-color: #34d780;
-    width: 30rem;
+    width: 20rem;
     height: 100vh;
     transition: 0.3s;
   }
