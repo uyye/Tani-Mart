@@ -24,17 +24,27 @@ function Login() {
         url: "/users/login",
         data: loginData,
       });
-
-      await Swal.fire({
-        title: data.message,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      console.log(data);
-
+      
       localStorage.setItem("access_token", data.token);
-      navigate("/");
+      console.log(data);
+      
+      if(data?.user.role === "admin"){
+        navigate("/admin")
+        await Swal.fire({
+          title: data.message,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }else if(data.user.role ==="seller"){
+        navigate("/")
+        await Swal.fire({
+          title: data.message,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -45,34 +55,6 @@ function Login() {
     }
   };
 
-  const handleAdminLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await instance({
-        method: "post",
-        url: "/admin/login",
-        data: loginData,
-      });
-
-      await Swal.fire({
-        title: data.message,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      console.log(data);
-
-      localStorage.setItem("admin_access_token", data.token);
-      navigate("/admin");
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Invalid Admin Username or Password!",
-      });
-      console.log(error);
-    }
-  };
 
   return (
     <div className="login-container">
@@ -100,13 +82,7 @@ function Login() {
         </div>
         <div className="button-group">
           <button type="submit" className="login-button">
-            Login Penjual
-          </button>
-          <button
-            onClick={handleAdminLogin}
-            className="login-button admin-button"
-          >
-            Login Admin
+            Login
           </button>
         </div>
       </form>
