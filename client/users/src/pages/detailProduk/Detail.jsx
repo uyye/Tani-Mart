@@ -11,10 +11,14 @@ export default function DetailProduk() {
   const navigate = useNavigate()
   const { id } = useParams();
 
+  const [isPresaleActive, setIsPresaleActive] = useState(false);
   const [quantity, setQuantity] = useState(1); 
   const [product, setProduct] = useState({});
   const dispatch = useDispatch()
 
+
+  console.log(product);
+  
   const fetchProduct = async () => {
     try {
       const { data } = await instance({
@@ -22,6 +26,16 @@ export default function DetailProduk() {
         url: `/products/${id}`,
       });
       setProduct(data);
+
+      if(data.productStatus === "presale"){
+        const currentDate = new Date();
+        const presaleStartDate = new Date(data.Presales[0].startDate);
+
+        setIsPresaleActive(currentDate >= presaleStartDate)
+      }else{
+        setIsPresaleActive(true)
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -57,6 +71,9 @@ export default function DetailProduk() {
     <div className="detail-product-container">
       <img src={product.image} alt={product.name} className="product-image" />
       <h2 className="product-name">{product.name}</h2>
+      {product.productStatus === "presale" && 
+        <p className="presale">Presale, Siap jual di tanggal: {product.Presales[0].startDate.split("T")[0]}</p>
+      }
       <p className="product-price">
         Rp.{Number(product.price).toLocaleString()} / Kg
       </p>
@@ -80,8 +97,10 @@ export default function DetailProduk() {
           +
         </button>
       </div>
-      <OrderButton handleOrder={handleCheckout}>Beli sekarang</OrderButton>
-      <Link onClick={handleInputCart} className="contact-button2">
+      <OrderButton isPresale={isPresaleActive} handleOrder={handleCheckout}>Beli sekarang</OrderButton>
+      <Link onClick={isPresaleActive?handleInputCart:undefined}
+        className={`contact-button2 ${!isPresaleActive?"disabled":""}`}
+      >
         Masukkan Keranjang
       </Link>
     </div>
