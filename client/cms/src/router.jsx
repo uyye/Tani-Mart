@@ -13,6 +13,9 @@ import OrderDetail from "./pages/orderDetail/OrderDetail";
 import KelolaPengguna from "././admin/KelolaPengguna";
 import KelolaProduk from "././admin/KelolaProduk";
 import KelolaTranksaksi from "./admin/KelolaTranksaksi";
+import DetailPengguna from "./admin/DetailPengguna";
+import DetailProduk from "./admin/DetailProduk";
+import DetailTranksaksi from "./admin/DetailTranksaksi";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +40,9 @@ const router = createBrowserRouter([
       { path: "/KelolaPengguna", element: <KelolaPengguna /> },
       { path: "/KelolaProduk", element: <KelolaProduk /> },
       { path: "/KelolaTranksaksi", element: <KelolaTranksaksi /> },
+      { path: "/DetailPengguna", element: <DetailPengguna /> },
+      { path: "/DetailProduk", element: <DetailProduk /> },
+      { path: "/DetailTranksaksi", element: <DetailTranksaksi /> },
     ],
   },
 
