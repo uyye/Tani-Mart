@@ -1,8 +1,29 @@
 // ReactJS Code
-import React from "react";
+import React, { useEffect } from "react";
 import "./DetailPengguna.css";
+import { useNavigate, useParams } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchDeleteUser, fetchDetailUser } from "../features/users/userSlice";
+import DeleteButton from "../components/deleteButton/DeleteButton";
+import UpdateButton from "../components/updateButton/UpdateButton";
 
-const UserDetail = ({ user }) => {
+const UserDetail = () => {
+  const {id} = useParams()
+  const navigate = useNavigate()
+  
+  const dispatch = useDispatch()
+  const user = useSelector((state)=>state.users.detailUser)
+
+  const handleDelete = ()=>{
+    dispatch(fetchDeleteUser(id))
+    navigate("/KelolaPengguna")
+  }
+
+  useEffect(()=>{
+    dispatch(fetchDetailUser(id))
+  },[])
+  
+
   return (
     <div className="user-detail">
       <h1>Detail Pengguna</h1>
@@ -21,11 +42,15 @@ const UserDetail = ({ user }) => {
         </div>
         <div className="detail-item">
           <label>No Hp:</label>
-          <p>{user.phone}</p>
+          <p>{user.phoneNumber}</p>
         </div>
         <div className="detail-item">
           <label>Alamat:</label>
           <p>{user.address}</p>
+        </div>
+        <div className="control-button">
+          <DeleteButton handleFunction={()=>handleDelete()}/>
+          <UpdateButton/>
         </div>
       </div>
     </div>

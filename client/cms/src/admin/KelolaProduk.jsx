@@ -4,8 +4,7 @@ import "./KelolaProduk.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDataProduct } from "../features/products/productSlice";
 import DetailButton from "../components/detailButton/DetailButton";
-import UpdateButton from "../components/updateButton/UpdateButton";
-import DeleteButton from "../components/deleteButton/DeleteButton";
+import {Link} from "react-router-dom"
 
 const ManageProducts = () => {
   const dispatch = useDispatch()
@@ -78,9 +77,7 @@ const ManageProducts = () => {
               <td>{product.stock}</td>
               <td>{product.productStatus}</td>
               <td>
-                <DetailButton/>
-                <UpdateButton/>
-                <DeleteButton/>
+                <Link to={`/DetailProduk/${product.id}`}><DetailButton/></Link>
               </td>
             </tr>
           ))}

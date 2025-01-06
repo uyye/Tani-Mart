@@ -1,8 +1,28 @@
 // ReactJS Code for Product Detail Page
-import React from "react";
+import React, { useEffect } from "react";
 import "./DetailProduk.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeleteProduct, fetchDetailProduct } from "../features/products/productSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import DeleteButton from "../components/deleteButton/DeleteButton";
+import UpdateButton from "../components/updateButton/UpdateButton";
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = () => {
+const navigate = useNavigate()
+const {id} = useParams()
+const dispatch = useDispatch()
+const product = useSelector((state)=>state.products.product)
+
+const handleDeleteProduct = ()=>{
+  dispatch(fetchDeleteProduct(id))
+  navigate("/KelolaProduk")
+}
+
+
+useEffect(()=>{
+  dispatch(fetchDetailProduct(id))
+},[])
+
   return (
     <div className="product-detail">
       <h1>Detail Produk</h1>
@@ -31,21 +51,13 @@ const ProductDetail = ({ product }) => {
           <label>Deskripsi:</label>
           <p>{product.description}</p>
         </div>
+        <div className="control-button">
+        <DeleteButton handleFunction={handleDeleteProduct}/>
+        <UpdateButton/>
+        </div>
       </div>
     </div>
   );
 };
 
-// Example usage
-const exampleProduct = {
-  id: 101,
-  name: "Fresh Tomatoes",
-  category: "Vegetables",
-  price: "20.00 USD",
-  stock: 100,
-  description: "Organic and freshly harvested tomatoes.",
-};
-
-export default function App() {
-  return <ProductDetail product={exampleProduct} />;
-}
+export default ProductDetail

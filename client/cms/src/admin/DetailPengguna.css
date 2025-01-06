@@ -27,6 +27,12 @@
   padding-bottom: 8px;
 }
 
+.control-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .detail-item label {
   font-weight: bold;
   color: #333;

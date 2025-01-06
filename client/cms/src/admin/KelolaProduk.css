@@ -35,29 +35,3 @@
   background-color: #f2f2f2;
 }
 
-.products-table button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.products-table button:first-child {
-  background-color: #3da916;
-  color: #ffffff;
-  margin-right: 5px;
-}
-
-.products-table button:first-child:hover {
-  background-color: #000000;
-}
-
-.products-table button:last-child {
-  background-color: #dc3545;
-  color: #ffffff;
-}
-
-.products-table button:last-child:hover {
-  background-color: #c82333;
-}
