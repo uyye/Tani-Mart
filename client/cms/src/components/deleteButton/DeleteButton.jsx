@@ -1,8 +1,8 @@
 import "./deleteButton.css"
 
-export default function DeleteButton() {
+export default function DeleteButton({handleFunction}) {
     return(
-        <button className="delete-button">
+        <button className="delete-button" onClick={handleFunction}>
             Delete
         </button>
     )

@@ -10,7 +10,13 @@
   margin-bottom: 30px;
 }
 
-.stats-overview {
+.card-box{
+  display: flex;
+  /* border: solid pink; */
+  justify-content: space-around;
+}
+
+/* .stats-overview {
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
@@ -78,4 +84,4 @@
 
 .management button:hover {
   background-color: #0056b3;
-}
+} */

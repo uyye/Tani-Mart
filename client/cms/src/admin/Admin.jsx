@@ -6,17 +6,20 @@ import { fetchDataUser } from "../features/users/userSlice";
 import { fetchDataProduct } from "../features/products/productSlice";
 import { fetchAdminOrder } from "../features/orders/orderSlice";
 import {Link} from "react-router-dom"
+import AdminCart from "../components/adminCart/AdminCart";
+import { CiUser } from "react-icons/ci";
+import { AiOutlineProduct } from "react-icons/ai";
+import { LiaDollyFlatbedSolid } from "react-icons/lia";
 
 const AdminDashboard = () => {
 
   const dispatch = useDispatch()
+
+  const data = ["Pengguna", "Produk", "Transaction"]
+
   const users = useSelector((state)=>state.users.users)
   const products = useSelector((state)=>state.products.products)
   const transactions = useSelector((state)=>state.orders.orders)
-
-  // const [transactions, setTransactions] = useState([
-  //   /* Example data */
-  // ]);
 
   useEffect(()=>{
     dispatch(fetchDataUser())
@@ -30,7 +33,13 @@ const AdminDashboard = () => {
         <h1> Admin Dashboard</h1>
       </header>
 
-      <section className="stats-overview">
+      <section className="card-box">
+            <AdminCart icon={<CiUser/>} length={users.length} goTo={"/KelolaPengguna"}>Pengguna</AdminCart>
+            <AdminCart icon={<AiOutlineProduct/>} length={products.length} goTo={"/KelolaProduk"}>Produk</AdminCart>
+            <AdminCart icon={<LiaDollyFlatbedSolid/>} length={transactions.length} goTo={"/KelolaTranksaksi"}>Transaksi</AdminCart>
+      </section>
+
+      {/* <section className="stats-overview">
         <div className="stat-card">
           <h2>Total Pengguna</h2>
           <p>{users.length}</p>
@@ -58,34 +67,9 @@ const AdminDashboard = () => {
         <div className="management">
           <Link to={"/KelolaTranksaksi"}><h2>Kelola Tranksaksi</h2></Link>
         </div>
-      </section>
+      </section> */}
     </div>
   );
-
-  function handleUpdateUser(id) {
-    console.log(`Update user ${id}`);
-    // Add logic here
-  }
-
-  function handleDeleteUser(id) {
-    console.log(`Delete user ${id}`);
-    // Add logic here
-  }
-
-  function handleUpdateProduct(id) {
-    console.log(`Update product ${id}`);
-    // Add logic here
-  }
-
-  function handleDeleteProduct(id) {
-    console.log(`Delete product ${id}`);
-    // Add logic here
-  }
-
-  function handleUpdateTransaction(id) {
-    console.log(`Update transaction ${id}`);
-    // Add logic here
-  }
 };
 
 export default AdminDashboard;

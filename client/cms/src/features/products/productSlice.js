@@ -5,6 +5,7 @@ const productSlice = createSlice({
     name:"products",
     initialState:{
         products:[],
+        product:{},
         sort:"ASC",
         filter:"",
         search:""
@@ -22,10 +23,17 @@ const productSlice = createSlice({
         setSearch: (state, action)=>{
             state.search = action.payload
         },
+        setDetailProduct:(state, action)=>{
+            state.product = action.payload
+        },
+        removeProduct:(state, action)=>{
+            state.products = state.products.filter(item =>item.id !== action.payload)
+        }
     }
 })
 
-export const {setProduct} = productSlice.actions
+export const {setProduct, setDetailProduct, removeProduct} = productSlice.actions
+
 export const fetchDataProduct = ()=>{
     return async(dispatch, getState)=>{
         const {sort, filter, search} = getState().products
@@ -42,5 +50,39 @@ export const fetchDataProduct = ()=>{
         dispatch(setProduct(data))
     }
 } 
+
+export const fetchDetailProduct = (id)=>{
+    return async (dispatch)=>{
+        try {
+            const {data} = await instance({
+                method:"get",
+                url:`/products/${id}`
+            })
+            dispatch(setDetailProduct(data))
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchDeleteProduct = (id)=>{
+    return async (dispatch)=>{
+        try {
+            await instance({
+                method:"delete",
+                url:`/products/${id}`,
+                headers:{
+                    "Authorization":`bearer ${localStorage.getItem("access_token")}`
+                }
+            })
+
+            dispatch(removeProduct(id)) 
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
 
 export default productSlice.reducer
