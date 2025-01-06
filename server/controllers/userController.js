@@ -3,7 +3,7 @@ const { signToken } = require("../helpers/jwt")
 const {User} = require("../models")
 
 class UserController{
-    static async findAllUser(req, res, next){
+    static async getDataUsers(req, res, next){
         try {
 
             const data = await User.findAll({
@@ -89,6 +89,58 @@ class UserController{
             console.log(error);
             next(error)
             
+        }
+    }
+
+    static async getUser(req, res, next){
+        try {
+            const data = await User.findOne({where:{id:req.user.id}})
+            if(!data){
+                throw{name:"NotFound", status:404, message:"user not found"}
+            }
+            res.status(200).json(data)            
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getDetailUser(req, res, next){
+        
+        try {
+            const {id} = req.params
+            
+            const data = await User.findByPk(id)
+            if(!data){
+                throw{name:"NotFound", status:404, message:"user not found"}
+            }
+
+            console.log(data);
+            
+            res.status(200).json(data)
+        } catch (error) {
+            next(error)
+            console.log(error);
+            
+        }
+    }
+
+    static async deleteUser(req, res, next){
+        try {
+            const {id} = req.params
+            if (!id) {
+                throw{name:"BadRequest", status:400, message:"request id required"}
+            }
+
+            const data = await User.findByPk(id)
+            if(!data){
+                throw{name:"NotFound", status:404, message:"User not found"}
+            }
+
+            await data.destroy()
+            res.status(200).json({message:"User deleted successfully"})
+        } catch (error) {
+            console.log(error);
+            next(error)
         }
     }
 }
