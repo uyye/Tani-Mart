@@ -26,10 +26,9 @@ function Login() {
       });
       
       localStorage.setItem("access_token", data.token);
-      console.log(data);
       
       if(data?.user.role === "admin"){
-        navigate("/admin")
+        navigate("/admin/dashboard")
         await Swal.fire({
           title: data.message,
           icon: "success",

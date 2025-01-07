@@ -85,4 +85,23 @@ export const fetchDeleteProduct = (id)=>{
     }
 }
 
+export const fetchUpdateProduct = (id, newData)=>{
+    return async (dispatch)=>{
+        try {
+            const {data} = await instance({
+                method:"put",
+                url:`/products/${id}`,
+                data: newData,
+                headers:{
+                    "Authorization":`bearer ${localStorage.getItem("access_token")}`
+                }
+            })
+            console.log(data);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 export default productSlice.reducer

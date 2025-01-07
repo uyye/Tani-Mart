@@ -1,16 +1,21 @@
 /* ManageUsers.css */
 
-.manage-users {
+.manage-table {
   padding: 20px;
   font-family: Arial, sans-serif;
+  margin-left: 70px;
+  /* border: solid rebeccapurple; */
+  width: 100%;
+  max-height: 100vh;
+  overflow-y: auto; 
 }
 
-.manage-users h1 {
+.manage-table h1 {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.users-table {
+.data-table {
   width: 70%;
   border-collapse: collapse;
   background-color: #ffffff;
@@ -18,20 +23,20 @@
   margin-left: 150px;
 }
 
-.users-table th,
-.users-table td {
+.data-table th,
+.data-table td {
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
 }
 
-.users-table th {
+.data-table th {
   background-color: #00c97c;
   color: white;
   text-align: center;
 }
 
-.users-table tr:nth-child(even) {
+.data-table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 

@@ -1,12 +1,11 @@
 // ReactJS Code
 import React, { useEffect, useState } from "react";
-import "./KelolaPengguna.css";
+import "./dataManage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDataUser } from "../features/users/userSlice";
 import DetailButton from "../components/detailButton/DetailButton";
-import UpdateButton from "../components/updateButton/UpdateButton";
-import DeleteButton from "../components/deleteButton/DeleteButton";
 import {Link} from "react-router-dom"
+import ContactButton from "../components/contactButton/ContactButton";
 
 const ManageUsers = () => {
   const dispatch = useDispatch()
@@ -17,9 +16,9 @@ const ManageUsers = () => {
   },[])
 
   return (
-    <div className="manage-users">
+    <div className="manage-table">
       <h1>Kelola Pengguna</h1>
-      <table className="users-table">
+      <table className="data-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -35,7 +34,7 @@ const ManageUsers = () => {
               <td>{user.name}</td>
               <td>{user.role}</td>
               <td>
-                <Link to={`/DetailPengguna/${user.id}`}><DetailButton/></Link>
+                <Link to={`/admin/DetailPengguna/${user.id}`}><DetailButton/></Link>
               </td>
             </tr>
           ))}

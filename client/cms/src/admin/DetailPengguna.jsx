@@ -1,11 +1,13 @@
 // ReactJS Code
 import React, { useEffect } from "react";
-import "./DetailPengguna.css";
+import "./dataDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import { fetchDeleteUser, fetchDetailUser } from "../features/users/userSlice";
 import DeleteButton from "../components/deleteButton/DeleteButton";
 import UpdateButton from "../components/updateButton/UpdateButton";
+import ContactButton from "../components/contactButton/ContactButton";
+import Swal from "sweetalert2";
 
 const UserDetail = () => {
   const {id} = useParams()
@@ -14,9 +16,31 @@ const UserDetail = () => {
   const dispatch = useDispatch()
   const user = useSelector((state)=>state.users.detailUser)
 
-  const handleDelete = ()=>{
-    dispatch(fetchDeleteUser(id))
-    navigate("/KelolaPengguna")
+  const handleDelete = async ()=>{
+    const result = await Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Serius!",
+      text: "Kamu ingin menghapus pengguna ini?",
+      showCancelButton: true,
+      confirmButtonText: "Lanjutkan",
+      cancelButtonText: "Batal",
+    });
+
+    if(result.isConfirmed){
+      dispatch(fetchDeleteUser(id))
+      
+      await Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "delete successfully",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate("/admin/KelolaPengguna")
+    }
+    
   }
 
   useEffect(()=>{
@@ -25,7 +49,7 @@ const UserDetail = () => {
   
 
   return (
-    <div className="user-detail">
+    <div className="data-detail">
       <h1>Detail Pengguna</h1>
       <div className="detail-container">
         <div className="detail-item">
@@ -50,7 +74,7 @@ const UserDetail = () => {
         </div>
         <div className="control-button">
           <DeleteButton handleFunction={()=>handleDelete()}/>
-          <UpdateButton/>
+          <ContactButton phoneNumber={user.phoneNumber}>Whatsapp</ContactButton>
         </div>
       </div>
     </div>

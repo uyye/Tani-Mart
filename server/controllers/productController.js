@@ -116,39 +116,102 @@ class ProductController{
         }
     }
 
-    static async updateProduct(req, res, next){
+    static async updateProduct(req, res, next) {
         try {
-            const {id} = req.params
-
-            const { name, image, category, description, price, stock}= req.body
-            const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, category, description, price, stock, authorId:req.user.id},
-                {
-                    where:{id:id},
-                    returning:true
-                }
-            )
-
-            if (rowsUpdated === 0) {
-                throw {name:"BadRequest", status:400, message:"updated failed"}
+            const { id } = req.params;
+            const { name, category, description, price, stock, productStatus, discount, startDate, endDate } = req.body;
+    
+            const product = await Product.findByPk(id);
+            if (!product) {
+                throw { name: "NotFound", status: 404, message: "Product not found" };
             }
+    
+            let image = product.image;
 
-            res.status(200).json({
-                message:"succes update product",
-                product:{
-                    name:updatedProduct.name,
-                    image:updatedProduct.image,
-                    category:updatedProduct.category,
-                    description:updatedProduct.description,
-                    price:updatedProduct.price,
-                    stock:updatedProduct.stock
-                }
-            })
-            
+            if (req.file) {
+                let base64 = Buffer.from(req.file.buffer).toString("base64");
+                let dataUrl = `data:${req.file.mimetype};base64,${base64}`;
+                const response = await cloudinary.uploader.upload(dataUrl);
+                image = response.secure_url;
+            }
+    
+            const discountPrice = price - (discount / 100 * price);
+    
+            // Jika produk berstatus "presale", perbarui atau buat data presale
+            if (productStatus === "presale") {
+                const updatedStartDate = startDate || dayjs(product.startDate).toISOString();
+                const updatedEndDate = endDate || dayjs(updatedStartDate).add(1, "day").toISOString();
+    
+                await Presale.upsert({
+                    productId: product.id,
+                    startDate: updatedStartDate,
+                    endDate: updatedEndDate,
+                    price: discountPrice,
+                    discount: discount,
+                });
+            } else {
+                await Presale.destroy({ where: { productId: product.id } });
+            }
+    
+            await product.update({
+                name,
+                image,
+                category,
+                description,
+                price,
+                stock,
+                productStatus,
+            });
+    
+            const result = {
+                message: "Product updated successfully",
+                product: {
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                },
+            };
+            res.status(200).json(result);
         } catch (error) {
             console.log(error);
-            next(error)
+            next(error);
         }
     }
+    
+
+    // static async updateProduct(req, res, next){
+    //     try {
+    //         const {id} = req.params
+
+    //         const { name, image, category, description, price, stock}= req.body
+    //         const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, category, description, price, stock, authorId:req.user.id},
+    //             {
+    //                 where:{id:id},
+    //                 returning:true
+    //             }
+    //         )
+
+    //         if (rowsUpdated === 0) {
+    //             throw {name:"BadRequest", status:400, message:"updated failed"}
+    //         }
+
+    //         res.status(200).json({
+    //             message:"succes update product",
+    //             product:{
+    //                 name:updatedProduct.name,
+    //                 image:updatedProduct.image,
+    //                 category:updatedProduct.category,
+    //                 description:updatedProduct.description,
+    //                 price:updatedProduct.price,
+    //                 stock:updatedProduct.stock
+    //             }
+    //         })
+            
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
+    //     }
+    // }
 
     static async deleteProduct(req, res, next){
         try {
