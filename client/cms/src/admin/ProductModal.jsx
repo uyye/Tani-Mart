@@ -1,19 +1,21 @@
 // UpdateModal.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./productModal.css";
 
 const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
+  
+  console.log(product, "INI DATA PRODUCT");
+  
   const [formData, setFormData] = useState({
-    name: product?.name || "",
-    description: product?.description || "",
-    category: product?.category || "",
-    price: product?.price || "",
-    stock: product?.stock || "",
-    productStatus:product?.productStatus || "",
-    discount: product?.discount || "",
-    startDate: product?.startDate || ""
+    name: "",
+    description: "",
+    category: "",
+    price: "",
+    stock: "",
+    productStatus: "",
+    discount: "",
+    startDate: ""
   });
-
   
   const [image, setImage] = useState(null)
 
@@ -33,6 +35,20 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
     onClose();
   };
 
+  useEffect(()=>{
+    if(product){
+      setFormData({
+        name: product.name || "",
+        description: product.description || "",
+        category: product.category || "",
+        price: product.price || "",
+        stock: product.stock || "",
+        productStatus: product.productStatus || "",
+        discount: product.discount || "",
+        startDate: product.startDate || ""
+      })
+    }
+  }, [product])
   if (!isOpen) return null;
 
   return (
