@@ -6,15 +6,15 @@ import { fetchOrderDetail } from "../features/orders/orderSlice";
 import { useParams } from "react-router-dom";
 
 const TransactionDetail = ({ transaction }) => {
-const {id} = useParams()
-const dispatch = useDispatch()
-const data = useSelector((state)=> state.orders.orderDetail)
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.orders.orderDetail);
 
-console.log(data, "INI DATA DETAIL PADA ELEMENT");
+  console.log(data, "INI DATA DETAIL PADA ELEMENT");
 
-useEffect(()=>{
-  dispatch(fetchOrderDetail(id))
-},[])
+  useEffect(() => {
+    dispatch(fetchOrderDetail(id));
+  }, []);
 
   return (
     <div className="data-detail">
@@ -22,30 +22,31 @@ useEffect(()=>{
       <div className="detail-container">
         <div className="detail-item">
           <label>ID Tranksaksi:</label>
-          <p>{transaction.id}</p>
+          <p>{data.id}</p>
         </div>
         <div className="detail-item">
           <label>Nama:</label>
-          <p>{transaction.userName}</p>
+          <p>{data.User.name}</p>
         </div>
         <div className="detail-item">
           <label>Produk:</label>
           <ul>
-            {transaction.products.map((product, index) => (
+            {data.OrderDetails?.map((item, index) => (
               <li key={index}>
-                {product.name} - Quantity: {product.quantity} - Price: $
-                {product.price}
+                {item.Product?.name} - Jumlah: {item.quantity} - Harga Satuan:
+                Rp
+                {item.Product?.price.toLocaleString()}
               </li>
             ))}
           </ul>
         </div>
         <div className="detail-item">
           <label>Jumlah Total:</label>
-          <p>Rp{transaction.totalAmount}</p>
+          <p>Rp {data.totalPrice.toLocaleString()}</p>
         </div>
         <div className="detail-item">
           <label>Tanggal :</label>
-          <p>{transaction.date}</p>
+          <p>{data.createdAt.split("T")[0]}</p>
         </div>
       </div>
     </div>
