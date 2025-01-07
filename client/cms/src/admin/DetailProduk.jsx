@@ -48,13 +48,12 @@ const handleDeleteProduct =async ()=>{
 const handleUpdateProduct = async (newData)=>{
   console.log(newData, "DATA KIRIMAN");
   dispatch(fetchUpdateProduct(id, newData))
-  dispatch(fetchDetailProduct(id))
 }
 
 
 useEffect(()=>{
   dispatch(fetchDetailProduct(id))
-},[])
+},[id])
 
   return (
     <div className="data-detail">

@@ -1,8 +1,21 @@
 // ReactJS Code
-import React from "react";
+import React, { useEffect } from "react";
 import "./dataDetail.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderDetail } from "../features/orders/orderSlice";
+import { useParams } from "react-router-dom";
 
 const TransactionDetail = ({ transaction }) => {
+const {id} = useParams()
+const dispatch = useDispatch()
+const data = useSelector((state)=> state.orders.orderDetail)
+
+console.log(data, "INI DATA DETAIL PADA ELEMENT");
+
+useEffect(()=>{
+  dispatch(fetchOrderDetail(id))
+},[])
+
   return (
     <div className="data-detail">
       <h1>Detail Tranksaksi</h1>
