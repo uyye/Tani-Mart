@@ -57,7 +57,7 @@ const ManageTransactions = () => {
               <td>{transaction.status}</td>
               <td>{transaction.createdAt.split("T")[0]}</td>
               <td>
-                <Link to={"/admin/DetailTranksaksi"}><DetailButton/></Link>
+                <Link to={`/admin/DetailTranksaksi/${transaction.id}`}><DetailButton/></Link>
               </td>
             </tr>
           ))}

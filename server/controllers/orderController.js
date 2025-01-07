@@ -87,7 +87,7 @@ class OrderController{
         try {
             const {id} = req.params
             const data =await Order.findOne({
-                where:{id},
+                where:{id:id},
                 include:[
                     {
                         model:OrderDetail,

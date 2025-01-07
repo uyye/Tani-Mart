@@ -72,7 +72,7 @@ const router = createBrowserRouter([
       { path: "/admin/KelolaTranksaksi", element: <KelolaTranksaksi /> },
       { path: "/admin/DetailPengguna/:id", element: <DetailPengguna /> },
       { path: "/admin/DetailProduk/:id", element: <DetailProduk /> },
-      { path: "/admin/DetailTranksaksi", element: <DetailTranksaksi /> },
+      { path: "/admin/DetailTranksaksi/:id", element: <DetailTranksaksi /> },
     ]
   },
 

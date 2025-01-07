@@ -102,7 +102,8 @@ export const fetchUpdateProduct = (id, newData) => {
           Authorization: `bearer ${localStorage.getItem("access_token")}`,
         },
       });
-      dispatch(fetchDataProduct());
+
+      dispatch(fetchDetailProduct(id));
     } catch (error) {
       console.log(error);
     }
