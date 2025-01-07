@@ -10,21 +10,27 @@ import Produk from "./pages/produk/Produk";
 import AdminDashboard from "./admin/Admin";
 import Order from "./pages/order/Order";
 import OrderDetail from "./pages/orderDetail/OrderDetail";
-import KelolaPengguna from "././admin/KelolaPengguna";
-import KelolaProduk from "././admin/KelolaProduk";
+import KelolaPengguna from "./admin/KelolaPengguna";
+import KelolaProduk from "./admin/KelolaProduk";
 import KelolaTranksaksi from "./admin/KelolaTranksaksi";
 import DetailPengguna from "./admin/DetailPengguna";
 import DetailProduk from "./admin/DetailProduk";
 import DetailTranksaksi from "./admin/DetailTranksaksi";
+import {jwtDecode} from "jwt-decode";
+import AdminMain from "./admin/AdminMain";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
     loader: () => {
-      if (!localStorage.getItem("access_token")) {
+      const token = localStorage.getItem("access_token");
+
+      if (!token) {
         return redirect("/login");
       }
-      return null;
+
+      return null; 
     },
     children: [
       { path: "/", element: <Home /> },
@@ -36,14 +42,38 @@ const router = createBrowserRouter([
       { path: "/product", element: <Produk /> },
       { path: "/order", element: <Order /> },
       { path: "/order/:id", element: <OrderDetail /> },
-      { path: "/admin", element: <AdminDashboard /> },
-      { path: "/KelolaPengguna", element: <KelolaPengguna /> },
-      { path: "/KelolaProduk", element: <KelolaProduk /> },
-      { path: "/KelolaTranksaksi", element: <KelolaTranksaksi /> },
-      { path: "/DetailPengguna/:id", element: <DetailPengguna /> },
-      { path: "/DetailProduk/:id", element: <DetailProduk /> },
-      { path: "/DetailTranksaksi", element: <DetailTranksaksi /> },
+      
     ],
+  },
+
+  {
+    path:"/admin",
+    element:<AdminMain/>,
+    loader: ()=>{
+      const token = localStorage.getItem("access_token")
+
+      if(!token){
+        return redirect("/login")
+      }
+
+      const decode =  jwtDecode(token)
+      console.log(decode, "cek");
+      
+      if (decode.role !== "admin") {
+        return redirect("/")
+      }
+
+      return null
+    },
+    children:[
+      { path: "/admin/dashboard", element: <AdminDashboard /> },
+      { path: "/admin/KelolaPengguna", element: <KelolaPengguna /> },
+      { path: "/admin/KelolaProduk", element: <KelolaProduk /> },
+      { path: "/admin/KelolaTranksaksi", element: <KelolaTranksaksi /> },
+      { path: "/admin/DetailPengguna/:id", element: <DetailPengguna /> },
+      { path: "/admin/DetailProduk/:id", element: <DetailProduk /> },
+      { path: "/admin/DetailTranksaksi", element: <DetailTranksaksi /> },
+    ]
   },
 
   { path: "/login", element: <Login /> },

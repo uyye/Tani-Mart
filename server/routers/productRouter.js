@@ -11,7 +11,7 @@ router.get("/", ProductController.getProduct)
 router.get("/admin", authentication, adminAuthorization, ProductController.getSellerProduct)
 router.post("/", upload.single("file"), authentication, adminAuthorization, ProductController.addProduct)
 router.get("/:id", ProductController.productById)
-router.put("/:id", authentication,  adminAuthorization, ProductController.updateProduct)
+router.put("/:id", upload.single("file"), authentication,  adminAuthorization, ProductController.updateProduct)
 router.delete("/:id",authentication, adminAuthorization, ProductController.deleteProduct)
 
 

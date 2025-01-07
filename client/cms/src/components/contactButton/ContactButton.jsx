@@ -8,9 +8,7 @@ export default function ContactButton({children, phoneNumber, addressShiping, us
             
             const message = `Halo, saya ingin Mengonfirmasi pengiriman untuk pesanan atas nama ${userName} pada alamat ${addressShiping}.`;
             const whatsappURL = `https://wa.me/${formatPhone}?text=${encodeURIComponent(message)}`;
-            console.log(whatsappURL);
             
-    
             window.open(whatsappURL, "_blank");
         };
 

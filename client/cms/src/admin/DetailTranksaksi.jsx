@@ -1,10 +1,10 @@
 // ReactJS Code
 import React from "react";
-import "./DetailTranksaksi.css";
+import "./dataDetail.css";
 
 const TransactionDetail = ({ transaction }) => {
   return (
-    <div className="transaction-detail">
+    <div className="data-detail">
       <h1>Detail Tranksaksi</h1>
       <div className="detail-container">
         <div className="detail-item">

@@ -1,41 +1,43 @@
 // ReactJS Code
-import React, { useState } from "react";
-import "./KelolaTranksaksi.css";
+import React, { useEffect, useState } from "react";
+import "./dataManage.css";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchAdminOrder } from "../features/orders/orderSlice";
+import DetailButton from "../components/detailButton/DetailButton";
+import {Link} from "react-router-dom"
 
 const ManageTransactions = () => {
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      pembeli: "John Doe",
-      total: 50000,
-      status: "Pending",
-      date: "2024-01-01",
-    },
-    {
-      id: 2,
-      pembeli: "Jane Smith",
-      total: 80000,
-      status: "Completed",
-      date: "2024-01-02",
-    },
-  ]);
 
-  const handleUpdateTransaction = (id) => {
-    console.log(`Update transaction with ID: ${id}`);
-    // Add update logic here
-  };
+  const dispatch = useDispatch()
+  const transactions = useSelector((state)=>state.orders.orders)
+  
+  // console.log(data);
+  
+  // const [transactions, setTransactions] = useState([
+  //   {
+  //     id: 1,
+  //     pembeli: "John Doe",
+  //     total: 50000,
+  //     status: "Pending",
+  //     date: "2024-01-01",
+  //   },
+  //   {
+  //     id: 2,
+  //     pembeli: "Jane Smith",
+  //     total: 80000,
+  //     status: "Completed",
+  //     date: "2024-01-02",
+  //   },
+  // ]);
 
-  const handleDeleteTransaction = (id) => {
-    setTransactions(
-      transactions.filter((transaction) => transaction.id !== id)
-    );
-    console.log(`Delete transaction with ID: ${id}`);
-  };
+  useEffect(()=>{
+    dispatch(fetchAdminOrder())
+  }, [])
 
   return (
-    <div className="manage-transactions">
+    <div className="manage-table">
       <h1>Kelola Tranksaksi</h1>
-      <table className="transactions-table">
+      <table className="data-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -50,17 +52,12 @@ const ManageTransactions = () => {
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
               <td>{transaction.id}</td>
-              <td>{transaction.pembeli}</td>
-              <td>Rp{transaction.total.toLocaleString()}</td>
+              <td>{transaction.User.name}</td>
+              <td>Rp{transaction.totalPrice.toLocaleString()}</td>
               <td>{transaction.status}</td>
-              <td>{transaction.date}</td>
+              <td>{transaction.createdAt.split("T")[0]}</td>
               <td>
-                <button onClick={() => handleUpdateTransaction(transaction.id)}>
-                  Update
-                </button>
-                <button onClick={() => handleDeleteTransaction(transaction.id)}>
-                  Hapus
-                </button>
+                <Link to={"/admin/DetailTranksaksi"}><DetailButton/></Link>
               </td>
             </tr>
           ))}

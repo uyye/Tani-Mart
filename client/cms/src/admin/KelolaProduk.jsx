@@ -1,6 +1,6 @@
 // ReactJS Code
 import React, { useEffect, useState } from "react";
-import "./KelolaProduk.css";
+import "./dataManage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDataProduct } from "../features/products/productSlice";
 import DetailButton from "../components/detailButton/DetailButton";
@@ -53,9 +53,9 @@ const ManageProducts = () => {
   // };
 
   return (
-    <div className="manage-products">
+    <div className="manage-table">
       <h1>Kelola Produk</h1>
-      <table className="products-table">
+      <table className="data-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -77,7 +77,7 @@ const ManageProducts = () => {
               <td>{product.stock}</td>
               <td>{product.productStatus}</td>
               <td>
-                <Link to={`/DetailProduk/${product.id}`}><DetailButton/></Link>
+                <Link to={`/admin/DetailProduk/${product.id}`}><DetailButton/></Link>
               </td>
             </tr>
           ))}
