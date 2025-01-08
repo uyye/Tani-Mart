@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import "./productModal.css";
 
 const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
-  
   console.log(product, "INI DATA PRODUCT");
-  
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -14,15 +13,15 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
     stock: "",
     productStatus: "",
     discount: "",
-    startDate: ""
+    startDate: "",
   });
-  
-  const [image, setImage] = useState(null)
 
-  const handleIMageChange = (e)=>{
-    setImage(e.target.files[0])
-  }
-  
+  const [image, setImage] = useState(null);
+
+  const handleIMageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -30,13 +29,38 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newData = {...formData, file:image}
+
+    const validationErrors = { startDate: "", discount: "" };
+
+    if (formData.productStatus === "presale") {
+      if (!formData.startDate) {
+        validationErrors.startDate =
+          "Tanggal order wajib diisi untuk produk presale.";
+      }
+      if (!formData.discount) {
+        validationErrors.discount = "Diskon wajib diisi untuk produk presale.";
+      }
+    }
+
+    setErrors(validationErrors);
+
+    // Hentikan proses jika ada error
+    if (validationErrors.startDate || validationErrors.discount) {
+      return;
+    }
+
+    const newData = { ...formData, file: image };
     onUpdate(newData);
     onClose();
   };
 
-  useEffect(()=>{
-    if(product){
+  const [errors, setErrors] = useState({
+    startDate: "",
+    discount: "",
+  });
+
+  useEffect(() => {
+    if (product) {
       setFormData({
         name: product.name || "",
         description: product.description || "",
@@ -45,10 +69,10 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
         stock: product.stock || "",
         productStatus: product.productStatus || "",
         discount: product.discount || "",
-        startDate: product.startDate || ""
-      })
+        startDate: product.startDate || "",
+      });
     }
-  }, [product])
+  }, [product]);
   if (!isOpen) return null;
 
   return (
@@ -59,18 +83,24 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
           <div className="form-layout">
             <div>
               <label>
-              Nama:
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+                Nama:
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </label>
               <label>
                 Kategori:
-                <select required name="category" value={formData.category} className="select-form" onChange={handleChange}>
+                <select
+                  required
+                  name="category"
+                  value={formData.category}
+                  className="select-form"
+                  onChange={handleChange}
+                >
                   <option value="" disabled></option>
                   <option value="Sayur-sayuran">Sayur</option>
                   <option value="Buah-buahan">Buah</option>
@@ -120,27 +150,36 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
               </label>
               <label>
                 Status:
-                <select name="productStatus" value={formData.productStatus} className="select-form" onChange={handleChange} required>
+                <select
+                  name="productStatus"
+                  value={formData.productStatus}
+                  className="select-form"
+                  onChange={handleChange}
+                  required
+                >
                   <option value="" disabled></option>
                   <option value="regular">Reguler</option>
                   <option value="presale">Presale</option>
                 </select>
               </label>
               <label>
-               Tanggal Order (kosongkan jika reguler):
-               <input
+                Tanggal Order (kosongkan jika reguler):
+                <input
                   type="date"
                   name="startDate"
-                  value={formData.orderDate}
+                  value={formData.startDate || ""}
                   onChange={handleChange}
                 />
+                {errors.startDate && (
+                  <p className="error-text">{errors.startDate}</p>
+                )}
               </label>
               <label>
                 Diskon (kosongkan jika reguler):
                 <select
-                  className="select-form" 
+                  className="select-form"
                   name="discount"
-                  value={formData.discount}
+                  value={formData.discount || ""}
                   onChange={handleChange}
                 >
                   <option value="">Pilih Diskon</option>
@@ -149,7 +188,10 @@ const ProductModal = ({ product, isOpen, onClose, onUpdate }) => {
                       {value}%
                     </option>
                   ))}
-              </select>
+                </select>
+                {errors.discount && (
+                  <p className="error-text">{errors.discount}</p>
+                )}
               </label>
             </div>
           </div>

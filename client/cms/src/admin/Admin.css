@@ -13,7 +13,7 @@
   margin-bottom: 30px;
 }
 
-.card-box{
+.card-box {
   display: flex;
   /* border: solid pink; */
   justify-content: space-around;
@@ -88,3 +88,17 @@
 .management button:hover {
   background-color: #0056b3;
 } */
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 1190px;
+}
+
+.logout-button:hover {
+  background-color: #e60000;
+}

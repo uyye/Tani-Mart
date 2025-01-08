@@ -29,7 +29,8 @@
 }
 
 .add-product-form .form-group input,
-.add-product-form .form-group textarea, .select-form{
+.add-product-form .form-group textarea,
+.select-form {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -50,6 +51,11 @@
   color: white;
   font-size: 16px;
   cursor: pointer;
+}
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 .submit-btn:hover {
