@@ -11,20 +11,20 @@ export default function AddProduct({ page }) {
 
   const [product, setProduct] = useState({
     name: "",
-    category:"",
+    category: "",
     description: "",
     price: "",
     stock: "",
-    productStatus:"",
-    discount:"",
-    startDate:""
+    productStatus: "",
+    discount: "",
+    startDate: "",
   });
 
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(null);
 
-  const handleImageChange = (e)=>{
-    setImage(e.target.files[0])
-  }
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,52 +34,68 @@ export default function AddProduct({ page }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData()
-    formData.append("name", product.name)
-    formData.append("category", product.category)
-    formData.append("description", product.description)
-    formData.append("price", product.price)
-    formData.append("stock", product.stock)
-    formData.append("productStatus", product.productStatus)
-    formData.append("discount", product.discount)
-    formData.append("startDate", product.startDate)
+    let validationErrors = { startDate: "", discount: "" };
+
+    if (product.productStatus === "presale") {
+      if (!product.startDate) {
+        validationErrors.startDate =
+          "Tanggal order wajib diisi untuk produk presale.";
+      }
+      if (!product.discount) {
+        validationErrors.discount = "Diskon wajib diisi untuk produk presale.";
+      }
+    }
+
+    setErrors(validationErrors);
+
+    // Cek jika ada error, hentikan proses submit
+    if (validationErrors.startDate || validationErrors.discount) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("category", product.category);
+    formData.append("description", product.description);
+    formData.append("price", product.price);
+    formData.append("stock", product.stock);
+    formData.append("productStatus", product.productStatus);
+    formData.append("discount", product.discount);
+    formData.append("startDate", product.startDate);
     if (image) {
       formData.append("file", image);
     }
 
-    let method = "post"
-    let url = "/products/"
-    console.log("Masuk submit");
-    
+    let method = "post";
+    let url = "/products/";
 
-    if(page === "edit"){
-      method = "put"
-      url = `/products/${id}`
+    if (page === "edit") {
+      method = "put";
+      url = `/products/${id}`;
     }
 
-      try {
-        const { data } = await instance({
-          method,
-          url,
-          data: formData,
-          headers: {
-            Authorization: `bearer ${token}`,
-            "Content-Type":"multipart/form-data",
-          },
-        });
+    try {
+      const { data } = await instance({
+        method,
+        url,
+        data: formData,
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-        await Swal.fire({
-          title: "Succes",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+      await Swal.fire({
+        title: "Succes",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
 
-        navigate("/product");
-
-      } catch (error) {
-        console.log(error);
-      }
+      navigate("/product");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchProductById = async () => {
@@ -99,6 +115,10 @@ export default function AddProduct({ page }) {
       fetchProductById();
     }
   }, [id]);
+  const [errors, setErrors] = useState({
+    startDate: "",
+    discount: "",
+  });
 
   return (
     <div className="add-product-container">
@@ -116,7 +136,12 @@ export default function AddProduct({ page }) {
         </div>
         <div className="form-group">
           <label htmlFor="">Kategory:</label>
-          <select name="category" value={product.category} className="select-form" onChange={handleInputChange}>
+          <select
+            name="category"
+            value={product.category}
+            className="select-form"
+            onChange={handleInputChange}
+          >
             <option value="" disabled></option>
             <option value="Sayur-sayuran">Sayur</option>
             <option value="Buah-buahan">Buah</option>
@@ -165,8 +190,14 @@ export default function AddProduct({ page }) {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="">Status product</label>
-        <select name="productStatus" value={product.productStatus} className="select-form" onChange={handleInputChange} required>
+          <label htmlFor="">Status produk</label>
+          <select
+            name="productStatus"
+            value={product.productStatus}
+            className="select-form"
+            onChange={handleInputChange}
+            required
+          >
             <option value="" disabled></option>
             <option value="regular">Reguler</option>
             <option value="presale">Presale</option>
@@ -177,9 +208,10 @@ export default function AddProduct({ page }) {
           <input
             type="date"
             name="startDate"
-            value={product.orderDate}
+            value={product.startDate}
             onChange={handleInputChange}
           />
+          {errors.startDate && <p className="error-text">{errors.startDate}</p>}
         </div>
         <div className="form-group">
           <label>Diskon (kosongkan jika reguler):</label>
@@ -189,6 +221,7 @@ export default function AddProduct({ page }) {
             value={product.discount}
             onChange={handleInputChange}
           />
+          {errors.discount && <p className="error-text">{errors.discount}</p>}
         </div>
         <button type="submit" className="submit-btn">
           {page === "edit" ? <p>Update</p> : <p>Tambah Produk</p>}

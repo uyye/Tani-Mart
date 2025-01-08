@@ -2,58 +2,59 @@
 import React, { useEffect, useState } from "react";
 import "./dataDetail.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDeleteProduct, fetchDetailProduct, fetchUpdateProduct } from "../features/products/productSlice";
+import {
+  fetchDeleteProduct,
+  fetchDetailProduct,
+  fetchUpdateProduct,
+} from "../features/products/productSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteButton from "../components/deleteButton/DeleteButton";
 import UpdateButton from "../components/updateButton/UpdateButton";
 import ProductModal from "./ProductModal";
 import Swal from "sweetalert2";
 
-
 const ProductDetail = () => {
-const navigate = useNavigate()
-const {id} = useParams()
-const dispatch = useDispatch()
-const product = useSelector((state)=>state.products.product)
-const [isModal, setIsmodal]= useState(false)
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.products.product);
+  const [isModal, setIsmodal] = useState(false);
 
+  const handleDeleteProduct = async () => {
+    const result = await Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Serius!",
+      text: "Kamu ingin menghapus produk ini?",
+      showCancelButton: true,
+      confirmButtonText: "Lanjutkan",
+      cancelButtonText: "Batal",
+    });
 
-const handleDeleteProduct =async ()=>{
-  const result = await Swal.fire({
+    if (result.isConfirmed) {
+      dispatch(fetchDeleteProduct(id));
+
+      await Swal.fire({
         position: "center",
-        icon: "warning",
-        title: "Serius!",
-        text: "Kamu ingin menghapus produk ini?",
-        showCancelButton: true,
-        confirmButtonText: "Lanjutkan",
-        cancelButtonText: "Batal",
+        icon: "success",
+        title: "delete successfully",
+        showConfirmButton: false,
+        timer: 2000,
       });
 
-      if(result.isConfirmed){
-        dispatch(fetchDeleteProduct(id))
+      navigate("/admin/KelolaProduk");
+    }
+  };
 
-        await Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "delete successfully",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+  const handleUpdateProduct = async (newData) => {
+    console.log(newData, "DATA KIRIMAN");
+    await dispatch(fetchUpdateProduct(id, newData));
+    dispatch(fetchDetailProduct(id)); // Memuat ulang detail produk
+  };
 
-        navigate("/admin/KelolaProduk")
-      }
-  
-}
-
-const handleUpdateProduct = async (newData)=>{
-  console.log(newData, "DATA KIRIMAN");
-  dispatch(fetchUpdateProduct(id, newData))
-}
-
-
-useEffect(()=>{
-  dispatch(fetchDetailProduct(id))
-},[id])
+  useEffect(() => {
+    dispatch(fetchDetailProduct(id));
+  }, [id]);
 
   return (
     <div className="data-detail">
@@ -88,13 +89,13 @@ useEffect(()=>{
           <p>{product.description}</p>
         </div>
         <div className="control-button">
-        <DeleteButton handleFunction={handleDeleteProduct}/>
-        <UpdateButton handleFunction={()=>setIsmodal(true)} />
+          <DeleteButton handleFunction={handleDeleteProduct} />
+          <UpdateButton handleFunction={() => setIsmodal(true)} />
         </div>
         <ProductModal
           product={product}
           isOpen={isModal}
-          onClose={()=>setIsmodal(false)}
+          onClose={() => setIsmodal(false)}
           onUpdate={handleUpdateProduct}
         />
       </div>
@@ -102,4 +103,4 @@ useEffect(()=>{
   );
 };
 
-export default ProductDetail
+export default ProductDetail;
