@@ -1,5 +1,5 @@
 const { Op } = require("sequelize")
-const {Product, Presale} = require("../models")
+const {Product, Presale, User} = require("../models")
 const dayjs = require("dayjs")
 const cloudinary =  require("cloudinary").v2
 
@@ -56,7 +56,10 @@ class ProductController{
             }
 
             const data = await Product.findByPk(id,{
-                include:Presale
+                include:[
+                            {model:Presale},
+                            {model:User, attributes:{exclude:["password"]}}
+                        ]
             })
             res.status(200).json(data)
         } catch (error) {

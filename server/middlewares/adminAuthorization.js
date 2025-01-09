@@ -3,9 +3,7 @@ const {Product} = require("../models/")
 async function adminAuthorization(req, res, next) {
     try {
        
-        const {id} = req.params
-
-        const product = await Product.findByPk(id)
+        const product = await Product.findOne({where:{authorId:req.user.id}})
 
         if(req.user.role === "admin"){
             next()

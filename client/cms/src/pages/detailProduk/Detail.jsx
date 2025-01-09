@@ -29,8 +29,3 @@ function DetailProduk() {
 }
 
 export default DetailProduk;
-{
-  /* <Link to="/product" className="cta">
-  Beli Sekarang
-</Link>; */
-}
