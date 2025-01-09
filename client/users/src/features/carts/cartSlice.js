@@ -61,9 +61,6 @@ export const PostCart = (productId, quantity)=>{
                 }
             })
 
-            dispatch(addCartItem(data))
-            console.log(data,"DDDDDDDDDD");
-            
 
             Swal.fire({
                 icon: "success",
@@ -73,6 +70,7 @@ export const PostCart = (productId, quantity)=>{
                 timer: 2000,
             })
             
+            dispatch(addCartItem(data))
         } catch (error) {
             console.log(error);
             

@@ -83,8 +83,8 @@ export default function DetailProduk() {
 
       {/* Informasi Penjual */}
       <div className="seller-info">
-        <p className="store-name">Toko: {product.storeName}</p>
-        <p className="contact-number">Kontak: {product.contact}</p>
+        <p className="store-name">Toko: {product.User?.name}</p>
+        <p className="contact-number">Kontak: {product.User?.phoneNumber}</p>
       </div>
 
       {/* Tombol Kuantitas */}
