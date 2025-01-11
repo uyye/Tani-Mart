@@ -42,20 +42,24 @@
 .product-list {
   margin-top: 60px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
-  gap: 5px;
-  padding: 17px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 4fr));
+  gap: 6px;
 }
-
+.product-list p {
+  font-size: 15px;
+}
 .product-card {
   background: white;
+  width: 200px;
+  height: 370px;
+  margin: 10px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
   text-align: center;
   transition: transform 0.2s;
-  width: 200px;
 }
 
 .product-card:hover {
@@ -63,8 +67,8 @@
 }
 
 .product-image {
-  max-width: 80px;
-  height: auto;
+  max-width: 100%; /* Gambar tidak lebih besar dari container */
+  height: 200px; /* Tinggi menyesuaikan secara proporsional */
   object-fit: cover;
   position: relative;
 }
@@ -82,17 +86,20 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .product-info {
-  padding: 15px;
+  padding: 20px;
+  line-height: 18px;
+  word-spacing: 2px;
 }
 
 .product-name {
-  font-size: 16px;
-  margin: 10px 0;
+  margin-top: 20px;
+  font-size: 20px;
+  margin: 40px 0;
   color: rgb(0, 0, 0);
+  padding-bottom: -10px;
 }
 
 .product-price {
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -174,4 +181,25 @@
 .product-card .out-of-stock {
   color: red;
   font-weight: bold;
+}
+/* Mobile Phone */
+@media (max-width: 428px) {
+  html {
+    font-size: 35%;
+  }
+  .categories {
+    display: inline-block;
+    margin-left: 30px;
+    padding-top: -60px;
+    margin-top: 60px;
+  }
+  .category-button {
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 12px;
+  }
+
+  .search-bar {
+    margin-top: 70px;
+  }
 }

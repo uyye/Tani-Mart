@@ -98,3 +98,27 @@
   font-style: italic;
   padding-left: 530px;
 }
+/* Tablet */
+@media (max-width: 1024px) {
+  html {
+    font-size: 80%;
+  }
+  .no-data {
+    margin-left: -210px;
+  }
+}
+/* Mobile Phone */
+@media (max-width: 428px) {
+  html {
+    font-size: 80%;
+  }
+  .no-data {
+    text-align: center;
+    font-size: large;
+    margin-inline: -425px;
+    align-items: center;
+  }
+  .wishlist-card {
+    margin-left: 55px;
+  }
+}

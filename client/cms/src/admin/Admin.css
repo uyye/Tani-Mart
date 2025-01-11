@@ -96,9 +96,50 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 1190px;
+  margin-left: 1050px;
 }
 
 .logout-button:hover {
   background-color: #e60000;
+}
+/* Media Queries */
+/* Laptop */
+@media (max-width: 1366px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  html {
+    font-size: 80%;
+  }
+  .admin-dashboard {
+    margin-left: 20px;
+    margin-top: 90px;
+  }
+  .card-box {
+    padding: 30px;
+    margin: 5px;
+  }
+  .logout-button {
+    margin-left: 670px;
+  }
+}
+
+/* Mobile Phone */
+@media (max-width: 428px) {
+  .html {
+    font-size: 30%;
+  }
+  .admin-dashboard {
+    margin-top: 10px;
+  }
+  .card-box {
+    padding: 10px;
+  }
+  .logout-button {
+    margin-left: 295px;
+  }
 }

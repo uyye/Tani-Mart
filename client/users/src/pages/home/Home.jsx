@@ -5,8 +5,9 @@ import logo from "../../assets/lgg.png";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-
 export default function Home() {
+  console.log("hallo");
+
   useEffect(() => {
     const navbar = document.querySelector(".navbar-nav");
     const hamburger = document.querySelector("#hamburger-menu");
@@ -52,7 +53,6 @@ export default function Home() {
       });
     };
   }, []);
-
   return (
     <div>
       <section className="hero" id="home">
@@ -64,11 +64,11 @@ export default function Home() {
             <p>Platform e-commerce hasil pertanian di Kecamatan Sinoa</p>
             {localStorage.getItem("access_token") ? (
               <Link to="/product" className="cta">
-                Beli Sekarang{" "}
+                Beli Sekarang
               </Link>
             ) : (
               <Link to="/login" className="cta">
-                Masuk untuk mulai berbelanja..{" "}
+                Masuk untuk mulai berbelanja..
               </Link>
             )}
           </main>
