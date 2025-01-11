@@ -8,18 +8,34 @@ import { IoLogoBuffer } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineDashboard } from "react-icons/md";
 import { LuUsers } from "react-icons/lu";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const menuItems = [
-  { icons: <IoHomeOutline size={30} />, label: "Home", toGo:"/admin/dashboard" },
-  { icons: <FaProductHunt size={30} />, label: "Products", toGo:"/admin/KelolaProduk" },
-  { icons: <LuUsers size={30} />, label: "Pengguna", toGo:"/admin/KelolaPengguna" },
-{ icons: <IoLogoBuffer size={30} />, label: "Transaksi", toGo:"/admin/KelolaTranksaksi" },
-//   { icons: <CiSettings size={30} />, label: "Setting" },
-//   { icons: <TbReportSearch size={30} />, label: "Report" },
+  {
+    icons: <IoHomeOutline size={30} />,
+    label: "Home",
+    toGo: "/admin/dashboard",
+  },
+  {
+    icons: <FaProductHunt size={30} />,
+    label: "Products",
+    toGo: "/admin/KelolaProduk",
+  },
+  {
+    icons: <LuUsers size={30} />,
+    label: "Pengguna",
+    toGo: "/admin/KelolaPengguna",
+  },
+  {
+    icons: <IoLogoBuffer size={30} />,
+    label: "Transaksi",
+    toGo: "/admin/KelolaTranksaksi",
+  },
+  //   { icons: <CiSettings size={30} />, label: "Setting" },
+  //   { icons: <TbReportSearch size={30} />, label: "Report" },
 ];
 
 export default function SideNavbar() {
@@ -29,7 +45,11 @@ export default function SideNavbar() {
     <nav className={`sidebar ${open ? "open" : "closed"}`}>
       {/* Header */}
       <div className="header">
-        <img src={logo} alt="Logo" className={`${open ? "logoOpen" : "logoClosed"}`} />
+        <img
+          src={logo}
+          alt="Logo"
+          className={`${open ? "logoOpen" : "logoClosed"}`}
+        />
         <MdMenuOpen
           size={34}
           className={`menuIcon ${!open && "menuIconClosed"}`}
@@ -41,8 +61,10 @@ export default function SideNavbar() {
       <ul className="menuList">
         {menuItems.map((item, index) => (
           <li key={index} className="menuItem">
-            <div><Link to={item.toGo}>{item.icons}</Link></div>
-            {open && <p className="menuLabel">{item.label}</p>}
+            <Link to={item.toGo} className="menuLink">
+              {item.icons}
+              {open && <p className="menuLabel">{item.label}</p>}
+            </Link>
             {!open && <span className="tooltip">{item.label}</span>}
           </li>
         ))}

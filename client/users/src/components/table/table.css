@@ -31,33 +31,43 @@
   background-color: #e6f7ff;
 }
 
-.product-table .productImg{
-    width: 100px;
-    height: 100px;
-    border-radius: 5px;
+.product-table .productImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
 }
 
 .whatsappButton {
-    background-color: #25d366; /* Warna hijau khas WhatsApp */
-    color: white; /* Warna teks putih */
-    border: none; /* Menghilangkan border */
-    border-radius: 5px; /* Membuat sudut tombol melengkung */
-    padding: 8px 12px; /* Memberi ruang di dalam tombol */
-    font-size: 14px; /* Ukuran teks */
-    font-weight: bold; /* Teks tebal */
-    cursor: pointer; /* Menjadikan kursor pointer saat hover */
-    transition: background-color 0.3s ease; /* Animasi saat hover */
+  background-color: #25d366; /* Warna hijau khas WhatsApp */
+  color: white; /* Warna teks putih */
+  border: none; /* Menghilangkan border */
+  border-radius: 5px; /* Membuat sudut tombol melengkung */
+  padding: 8px 12px; /* Memberi ruang di dalam tombol */
+  font-size: 14px; /* Ukuran teks */
+  font-weight: bold; /* Teks tebal */
+  cursor: pointer; /* Menjadikan kursor pointer saat hover */
+  transition: background-color 0.3s ease; /* Animasi saat hover */
 }
 
 .whatsappButton:hover {
-    background-color: #1ebe57; /* Warna hijau lebih gelap saat di-hover */
+  background-color: #1ebe57; /* Warna hijau lebih gelap saat di-hover */
 }
 
 .whatsappButton:active {
-    background-color: #1aa64c; /* Warna hijau lebih gelap lagi saat tombol ditekan */
-    transform: scale(0.98); /* Memberikan efek sedikit mengecil */
+  background-color: #1aa64c; /* Warna hijau lebih gelap lagi saat tombol ditekan */
+  transform: scale(0.98); /* Memberikan efek sedikit mengecil */
 }
 
 .product-table td input[type="checkbox"] {
-    transform: scale(1.2);
+  transform: scale(1.2);
+}
+/* Mobile Phone */
+@media (max-width: 428px) {
+  html {
+    font-size: 80%;
   }
+  .product-table {
+    margin-left: -37px;
+    font-size: 13px;
+  }
+}

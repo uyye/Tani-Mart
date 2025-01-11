@@ -60,3 +60,17 @@
 .btn-submit:hover {
   background-color: #45a049;
 }
+/* Mobile Phone */
+@media (max-width: 428px) {
+  html {
+    font-size: 80%;
+  }
+  .cart-footer {
+    padding-left: 10px;
+    padding-right: 130px;
+  }
+  .btn-submit {
+    padding: 15px;
+    margin: 5px;
+  }
+}

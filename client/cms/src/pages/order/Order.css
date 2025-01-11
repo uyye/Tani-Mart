@@ -55,3 +55,11 @@ tr:hover {
   color: #999;
   font-style: italic;
 }
+/* Mobile Phone */
+@media (max-width: 428px) {
+  .app {
+    font-size: 12px;
+    margin-left: -30px;
+    margin-top: 120px;
+  }
+}

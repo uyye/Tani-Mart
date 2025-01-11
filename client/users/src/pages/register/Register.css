@@ -45,7 +45,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .register-button:hover {
@@ -54,7 +54,7 @@
 
 /* Styling link untuk kembali ke halaman login */
 .login-link {
-  margin-top: 15px;
+  margin-top: 5px;
   font-size: 14px;
 }
 

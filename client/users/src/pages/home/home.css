@@ -110,9 +110,9 @@ body {
 }
 
 /* Tablet */
-@media (max-width: 758px) {
+@media (max-width: 1024px) {
   html {
-    font-size: 70%;
+    font-size: 80%;
   }
 
   #hamburger-menu {
@@ -124,7 +124,7 @@ body {
     top: 100%;
     right: -100%;
     background-color: #34d780;
-    width: 30rem;
+    width: 20rem;
     height: 100vh;
     transition: 0.3s;
   }
@@ -157,23 +157,37 @@ body {
     display: inline;
   }
   .about p {
-    font-size: 13px;
+    font-size: 20px;
   }
   .footer {
     display: inline-block;
   }
+  .untung {
+    margin-top: -300px;
+  }
 }
 
 /* Mobile Phone */
-@media (max-width: 450px) {
-  html {
-    font-size: 55%;
+@media (max-width: 428px) {
+  .navbar {
+    width: 428px;
+    margin: auto;
+    padding: 10px;
   }
-  .hero .content h1 .span {
-    font-size: 50%;
+  .hero {
+    font-size: 30px;
+  }
+  .about h2 {
+    font-size: 400px;
+  }
+  .untung {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  .keuntungan-item {
+    font-size: 20px;
   }
 }
-
 /* hero section */
 .hero {
   height: 100vh;
@@ -195,7 +209,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -1; /* Menempatkan blur di bawah teks */
+  z-index: -1; /*Menempatkan blur di bawah teks */
   opacity: 0.3; /* Opsional: atur transparansi */
 }
 .hero::after {
@@ -266,7 +280,7 @@ body {
     rgba(185, 236, 211, 0.107),
     rgba(255, 255, 255, 0.8)
   );
-  backdrop-filter: blur(10px); /* memberikan efek blur */
+  /* backdrop-filter: blur(10px); memberikan efek blur */
   /* display: inline-block; */
   /* padding-top: 50px; Sesuaikan dengan tinggi navbar */
   /* margin-top: 20px; Sesuaikan dengan padding-top */

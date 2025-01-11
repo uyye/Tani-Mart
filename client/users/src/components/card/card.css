@@ -3,10 +3,6 @@
   /* margin: 30px auto;
   padding: 10px; */
   text-align: center;
-  position: relative;
-  padding: 50px;
-  /* background-color: #ddffe898; */
-  backdrop-filter: blur(30px);
 }
 .untung h2 {
   text-align: center;
@@ -65,4 +61,17 @@
   color: #666;
   font-size: 0.95em;
   line-height: 1.7rem;
+}
+/* Mobile Phone */
+@media (max-width: 428px) {
+  html {
+    font-size: 35%;
+  }
+  .keuntungan-item {
+    margin: 10px 5px 60px 60px;
+    margin-bottom: 60px;
+  }
+  .keuntungan-item p {
+    line-height: 18px;
+  }
 }

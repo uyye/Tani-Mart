@@ -55,7 +55,7 @@
 
 /* Styling link untuk kembali ke halaman login */
 .login-link {
-  margin-top: 15px;
+  margin-top: 3px;
   font-size: 14px;
 }
 
@@ -70,4 +70,16 @@
 
 .login-link button:hover {
   color: #45a049;
+}
+/* Mobile Phone */
+@media (max-width: 428px) {
+  .register-container {
+    font-size: 15px;
+    margin: 40px;
+    margin-top: 100px;
+  }
+  .register-button,
+  .login-link {
+    padding: 10px;
+  }
 }

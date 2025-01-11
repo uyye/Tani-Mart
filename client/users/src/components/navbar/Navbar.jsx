@@ -7,51 +7,57 @@ import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  const handleLogoutButton = () => {
+  const handleLogout = () => {
     localStorage.removeItem("access_token");
     navigate("/");
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarVisible(!isSidebarVisible);
-  };
-
-  const closeSidebar = () => {
-    setIsSidebarVisible(false);
-  };
-
   return (
-    <div className="navbar-container" onClick={closeSidebar}>
-      <nav className="navbar" onClick={(e) => e.stopPropagation()}>
-        <a href="#">
-          <img src={logo} alt="Siafarm Logo" />
-        </a>
-        <div className={`navbar-nav ${isSidebarVisible ? "visible" : ""}`}>
-          <Link to="/">Beranda</Link>
-          <Link to="/wishlist">Wishlist</Link>
-          <Link to="/product">Produk</Link>
-          <Link to="/pesananSaya">Pesanan Saya</Link>
-        </div>
-        <div className="navbar-button1">
-          {localStorage.getItem("access_token") ? (
+    <nav className="navbar">
+      <a href="#">
+        <img src={logo} alt="Siafarm Logo" />
+      </a>
+      <div className="navbar-nav">
+        {localStorage.getItem("access_token") ? (
+          <>
+            <Link to="/">Beranda</Link>
+            <Link to="/wishlist">Wishlist</Link>
+            <Link to="/product">Produk</Link>
+            <Link to="/pesananSaya">Pesanan Saya</Link>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+      <div className="navbar-button1">
+        {localStorage.getItem("access_token") ? (
+          <>
             <Link to="/keranjang" id="shopping-cart-button">
               <CgShoppingCart />
             </Link>
-          ) : (
-            ""
-          )}
-          {localStorage.getItem("access_token") ? (
-            <Link onClick={handleLogoutButton}>Logout</Link>
-          ) : (
-            <Link to="/login">Masuk</Link>
-          )}
-        </div>
-        <a href="#navbar-nav" id="hamburger-menu" onClick={toggleSidebar}>
+
+            <Link
+              to="/login"
+              onClick={handleLogout}
+              style={{
+                backgroundColor: "#dc3545",
+                color: "#ffff",
+                border: "none",
+              }}
+            >
+              Logout
+            </Link>
+          </>
+        ) : (
+          <Link to="/login">Masuk</Link>
+        )}
+
+        <a href="#" id="hamburger-menu">
+          {" "}
           <CiMenuBurger />
         </a>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
