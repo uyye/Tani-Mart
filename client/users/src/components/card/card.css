@@ -1,3 +1,10 @@
+.keuntungan {
+  padding: 2rem 1rem;
+  background-color: rgba(255, 255, 255, 0.383);
+  margin: 20px 17px 30px 17px;
+  border-radius: 20px;
+  /* border: solid rgb(8, 193, 113) 1px; */
+}
 .untung {
   max-width: 2000px;
   /* margin: 30px auto;
@@ -36,6 +43,7 @@
   margin-left: 90px;
   display: inline-table;
   justify-content: center;
+  border: solid rgb(8, 193, 113) 1px;
 }
 
 .keuntungan-item:hover {

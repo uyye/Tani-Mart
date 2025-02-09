@@ -1,159 +1,195 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./checkout.css";
 import instance from "../../api/axiosInstance";
 import { useLocation } from "react-router-dom";
+import { MapPin, Truck, CreditCard, Shield } from "lucide-react";
 
-
-const Checkout = () => {
+function Checkout() {
   const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedShipping, setSelectedShipping] = useState("regular");
+  const [note, setNote] = useState("");
 
+  // Data produk palsu, ganti dengan data asli jika tersedia
+  const products = [
+    {
+      id: 1,
+      name: "iPhone 13 Pro Max",
+      price: 15999000,
+      quantity: 1,
+      seller: "Apple Official Store",
+      image:
+        "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&q=80&w=150&h=150",
+    },
+    {
+      id: 2,
+      name: "AirPods Pro",
+      price: 3999000,
+      quantity: 2,
+      seller: "Apple Official Store",
+      image:
+        "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?auto=format&fit=crop&q=80&w=150&h=150",
+    },
+  ];
 
-  const location = useLocation()
-  const selectedProducts = location.state?.selectedProducts || []  
-  
-  console.log(location, selectedProducts);
-  
-  const totalPrice = selectedProducts.reduce((acc, product)=> acc + product.Product.price * product.quantity, 0)  
+  const subtotal = products.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0
+  );
+  const shippingCost = selectedShipping === "regular" ? 20000 : 45000;
+  const total = subtotal + shippingCost;
 
-
-  const handleNotificationPayment = async(order_id, transaction_status)=>{
-    try {
-      await instance({
-        method:"post",
-        url:"/payments/webhooks",
-        data:{order_id, transaction_status}
-      })
-    } catch (error) {
-      console.log(error);
+  const handleCheckout = () => {
+    if (!address || !phoneNumber) {
+      alert("Please fill in all required fields");
+      return;
     }
-  }
-
-  const handleOrder = async()=>{
-    const formattedProduct = selectedProducts.map(product =>({
-      id:product.Product.id,
-      quantity:product.quantity
-    }))
-
-    console.log(formattedProduct, "AAAAAAAAS");
-    
-    
-    
-
-    try {
-      const order = await instance({
-        method:"post",
-        url:"/orders",
-        data:{
-          addressShiping:address,
-          phoneNumber:phoneNumber,
-          products:formattedProduct
-        },
-        headers:{
-          "Authorization":`bearer ${localStorage.getItem("access_token")}`
-        }
-      })
-      
-      const payment = await instance({
-        method:"post",
-        url:"/payments",
-        data:{orderId:order.data.newOrder.id},
-        headers:{
-          "Authorization":`bearer ${localStorage.getItem("access_token")}`
-        }
-      })
-
-      const token = payment.data?.token
-      console.log(token, "TOKEN DARI PAYMENT");
-      
-      
-
-      window.snap.pay(token.token, {
-        onSuccess: async (result) => {
-          alert("Payment Success!");
-          console.log(result);
-          await handleNotificationPayment(Number(result.order_id.split("-")[1]), result.transaction_status)
-        },
-        onPending: async (result) => {
-          alert("Waiting for your payment!");
-          console.log(result);
-          await handleNotificationPayment(Number(result.order_id.split("-")[1]), result.transaction_status)
-
-        },
-        onError: async(result) => {
-          alert("Payment Failed!");
-          await handleNotificationPayment(Number(result.order_id.split("-")[1]), result.transaction_status)
-        },
-        onClose: () => {
-          alert("You closed the popup without finishing the payment");
-        },
-      });
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    // Implementasikan integrasi payment gateway di sini
+    console.log("Processing checkout...", {
+      address,
+      phoneNumber,
+      products,
+      shipping: selectedShipping,
+      note,
+      total,
+    });
+  };
 
   return (
     <div className="checkout-container">
-      <h1>Checkout</h1>
+      <div className="checkout-wrapper">
+        <h1 className="checkout-title">Checkout</h1>
+        <div className="checkout-grid">
+          {/* Kolom Kiri - Detail Pesanan */}
+          <div className="order-details">
+            {/* Delivery Address */}
+            <div className="card delivery-address">
+              <div className="card-header">
+                <MapPin className="icon" />
+                <h2 className="card-title">Alamat Pengiriman</h2>
+              </div>
+              <textarea
+                className="input-textarea"
+                rows="3"
+                placeholder="Masukkan alamat lengkap Anda"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <input
+                type="tel"
+                className="input-field"
+                placeholder="Masukkan Nomor Telepon"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
 
-      {/* Alamat Pengiriman */}
-      <div className="section">
-        <h2>Alamat Pengiriman</h2>
-        <textarea
-          className="address-input"
-          placeholder="Masukkan alamat pengiriman lengkap"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        ></textarea>
-      </div>
-      <div className="section">
-        <h2>Nomor Handphone</h2>
-        <input
-          className="address-input"
-          type="phone"
-          value={phoneNumber}
-          placeholder="Masukkan nomor hp yang dapat dihubungi"
-          onChange={(e)=> setPhoneNumber(e.target.value)}
-        ></input>
-      </div>
+            {/* Products */}
+            <div className="card products-list">
+              {products.map((product) => (
+                <div key={product.id} className="product-item">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-image"
+                  />
+                  <div className="product-info">
+                    <p className="seller-name">{product.seller}</p>
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-quantity">
+                      Quantity: {product.quantity}
+                    </p>
+                    <p className="product-price">
+                      Rp {product.price.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-      {/* Detail Produk */}
-      <div className="section">
-        <h2>Detail Produk</h2>
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Nama Produk</th>
-              <th>Quantity</th>
-              <th>Harga Satuan</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              selectedProducts.map((x,y)=>{
-                return(
-                  <tr key={y}>
-                    <td>{x.Product.name}</td>
-                    <td>{x.quantity}</td>
-                    <td>Rp {(x.Product.price).toLocaleString()}</td>
-                    <td>Rp {(x.Product.price * x.quantity).toLocaleString()}</td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
-        <p className="total">Total: Rp {totalPrice.toLocaleString()}</p>
-      </div>
-      {/* Konfirmasi dan Submit */}
-      <div className="section">
-        <button className="checkout-button" onClick={handleOrder}>Lakukan Pembayaran</button>
+            {/* Shipping Method
+            <div className="card shipping-method">
+              <div className="card-header">
+                <Truck className="icon" />
+                <h2 className="card-title">Shipping Method</h2>
+              </div>
+              <div className="shipping-options">
+                <label className="shipping-option">
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="regular"
+                    checked={selectedShipping === "regular"}
+                    onChange={(e) => setSelectedShipping(e.target.value)}
+                  />
+                  <div className="shipping-info">
+                    <p className="shipping-name">Regular Delivery (2-3 days)</p>
+                    <p className="shipping-price">Rp 20.000</p>
+                  </div>
+                </label>
+                <label className="shipping-option">
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="express"
+                    checked={selectedShipping === "express"}
+                    onChange={(e) => setSelectedShipping(e.target.value)}
+                  />
+                  <div className="shipping-info">
+                    <p className="shipping-name">Express Delivery (1 day)</p>
+                    <p className="shipping-price">Rp 45.000</p>
+                  </div>
+                </label>
+              </div>
+            </div> */}
+
+            {/* Order Note */}
+            <div className="card order-note">
+              <h2 className="card-title">Catatan Pemesanan (Opsional)</h2>
+              <textarea
+                className="input-textarea"
+                rows="2"
+                placeholder="Tambahkan catatan untuk penjual
+"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Kolom Kanan - Ringkasan Pesanan */}
+          <div className="order-summary">
+            <div className="card summary-card">
+              <h2 className="card-title">Ringkasan Pemesanan</h2>
+              <div className="summary-details">
+                <div className="summary-item">
+                  <span>Subtotal</span>
+                  <span>Rp {subtotal.toLocaleString()}</span>
+                </div>
+                {/* <div className="summary-item">
+                  <span>Shipping</span>
+                  <span>Rp {shippingCost.toLocaleString()}</span>
+                </div> */}
+                <div className="summary-divider"></div>
+                <div className="summary-total">
+                  <span>Total</span>
+                  <span>Rp {total.toLocaleString()}</span>
+                </div>
+              </div>
+              <button onClick={handleCheckout} className="checkout-button">
+                <CreditCard className="button-icon" size={20} />
+                Bayar Sekarang
+              </button>
+              <div className="security-note">
+                <Shield className="icon" size={16} />
+                <span>Secure payment guaranteed</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Checkout;

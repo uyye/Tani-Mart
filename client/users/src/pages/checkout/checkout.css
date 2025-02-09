@@ -1,131 +1,226 @@
-.checkout-container {
-  max-width: 800px;
-  margin: 0 auto;
-  margin-top: 100px;
-  padding: 20px;
+/* Variabel Tema */
+:root {
+  --primary-color: #03ac0e;
+  --primary-hover: #038d0b;
+  --text-color: #333333;
+  --background-color: #f5f5f5;
+  --white: #ffffff;
+  --border-color: #dddddd;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Global Reset Sederhana */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
   font-family: Arial, sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f9f9f9;
 }
 
-h1 {
-  margin-top: 40px;
+/* Container Utama Halaman Checkout */
+.checkout-container {
+  background-color: var(--background-color);
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Wrapper untuk mengatur lebar maksimum dan margin */
+.checkout-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Judul Halaman */
+.checkout-title {
+  font-size: 2rem;
   text-align: center;
-}
-h2 {
-  color: #333;
+  margin-bottom: 50px;
+  color: var(--text-color);
   margin-top: 50px;
 }
 
-.section {
-  margin-top: 50px;
-  margin-bottom: 30px;
-}
-.section1 h2 {
-  margin-bottom: 30px;
-  margin-top: 40px;
+/* Grid Layout */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-.address-input {
-  width: 100%;
-  height: 80px;
-  margin-top: -50px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+@media (min-width: 1024px) {
+  .checkout-grid {
+    grid-template-columns: 2fr 1fr;
+  }
 }
 
-.product-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: -50px;
-}
-
-.product-table th,
-.product-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
-
-.product-table th {
-  background: #eee;
-}
-
-.total {
-  text-align: right;
-  font-size: 1.2em;
-  font-weight: bold;
-  padding-top: 5px;
-}
-
-.shipping-select {
-  width: 100%;
-  padding: 10px;
-  margin-top: -300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-.payment-options {
-  margin-top: -60px;
-}
-.payment-options label {
-  display: block;
+/* Card Umum */
+.card {
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
   margin-bottom: 20px;
 }
 
-.checkout-button {
-  display: inline-block;
-  padding: 12px 20px;
-  color: #fff;
-  background: #1ab72a;
-  border: none;
+/* Header Card */
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.card-header .icon {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+.card-title {
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+/* Input Fields */
+.input-textarea,
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.input-textarea:focus,
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Produk */
+.products-list .product-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.products-list .product-item:last-child {
+  border-bottom: none;
+}
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+.product-info {
+  flex: 1;
+}
+.seller-name {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+.product-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 5px 0;
+  color: var(--text-color);
+}
+.product-quantity,
+.product-price {
+  font-size: 0.9rem;
+  margin: 3px 0;
+  color: var(--text-color);
+}
+
+/* Shipping Options */
+.shipping-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.shipping-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 300px;
-  font-weight: bold;
+  transition: background 0.2s;
+}
+.shipping-option:hover {
+  background-color: #f9f9f9;
+}
+.shipping-option input[type="radio"] {
+  margin-right: 10px;
+}
+.shipping-info {
+  display: flex;
+  flex-direction: column;
+}
+.shipping-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.shipping-price {
+  font-size: 0.9rem;
+  color: var(--text-color);
 }
 
-.checkout-button:hover {
-  background: #000000;
+/* Ringkasan Pesanan */
+.summary-details {
+  margin-bottom: 20px;
 }
-.section1 p {
+.summary-item {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 1.6;
+  color: var(--text-color);
+}
+.summary-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 10px 0;
+}
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-color);
 }
 
-.section1 a {
-  color: #007bff;
-  margin-top: 10px;
-  text-decoration: none;
+/* Tombol Checkout */
+.checkout-button {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkout-button:hover {
+  background-color: var(--primary-hover);
+}
+.button-icon {
+  margin-right: 8px;
 }
 
-.section1 a:hover {
-  text-decoration: underline;
+/* Security Note */
+.security-note {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--text-color);
 }
-.section1 {
-  margin-top: 40px;
-}
-/* Mobile Phone */
-@media (max-width: 428px) {
-  html {
-    font-size: 80%;
-  }
-  .checkout-container {
-    margin: 10px;
-    margin-top: 90px;
-  }
-  .section .product-table {
-    margin-left: -10px;
-    margin-top: 30px;
-  }
-  .total {
-    margin-right: 10px;
-  }
-  .checkout-button {
-    margin-left: 80px;
-  }
+.security-note .icon {
+  margin-right: 5px;
+  color: var(--primary-color);
 }

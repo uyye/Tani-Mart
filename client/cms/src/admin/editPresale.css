@@ -1,0 +1,92 @@
+.containerEdit {
+  width: 50%;
+  height: 97vh;
+  margin: 40px auto;
+  margin-top: 10px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.font-medium {
+  /* margin: 3px 5px; */
+  padding-top: 5px;
+}
+.isi {
+  margin-top: -35px;
+}
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  margin-top: -10px;
+  color: #333;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  margin-top: -20px;
+}
+
+/* Label */
+label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  padding-top: -5px;
+  display: table;
+  color: #444;
+}
+
+/* Input field */
+input,
+select {
+  width: 100%;
+  padding: 1px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+/* Fokus pada input */
+input:focus,
+select:focus {
+  border-color: #00ffa6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Tombol Simpan */
+button[type="submit"] {
+  padding: 10px 5px;
+  margin-top: 10px;
+  margin-left: 160px;
+  background: #05af4c;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background: #000000;
+}
+
+/* Tombol Batal */
+button[type="button"] {
+  background: #ccc;
+  padding: 10px 20px;
+  margin-top: 10px;
+  color: black;
+}
+
+button[type="button"]:hover {
+  background: #999;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+}

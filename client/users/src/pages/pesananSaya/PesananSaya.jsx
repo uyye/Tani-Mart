@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./PesananSaya.css";
 import { Link } from "react-router-dom";
-import DetailButton from "../../components/button/DetailButton";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrder } from "../../features/orders/orderSlice";
 
 const PesananSaya = () => {
   const dispatch = useDispatch();
-
   const data = useSelector((state) => state.dataOrder.orders);
-  console.log(data);
 
   useEffect(() => {
     dispatch(fetchOrder());
@@ -26,10 +23,10 @@ const PesananSaya = () => {
             <div className="order-header">
               <p className="order-id">No Pesanan: {order.id}</p>
               <p className={`order-status ${order.status.toLowerCase()}`}>
-                {order.status === "paid" ? "Lunas" : "Pending"}
+                {order.status}
               </p>
             </div>
-            {/* <div className="order-products">
+            <div className="order-products">
               {order?.products?.map((product) => (
                 <div className="product-item" key={product.id}>
                   <img
@@ -48,17 +45,24 @@ const PesananSaya = () => {
                   </div>
                 </div>
               ))}
-            </div> */}
+            </div>
             <div className="order-footer">
               <p className="order-total">
                 Total: Rp {Number(order.totalPrice).toLocaleString()}
               </p>
               <div className="order-actions">
-                <Link to={`/orders/${order.id}`}>
-                  <DetailButton />
+                <Link to={`/orders/${order.id}`} className="detail-button">
+                  Lihat Detail
                 </Link>
+                {order.status === "Dikirim" && (
+                  <button className="order-button confirm">
+                    Lacak Pesanan
+                  </button>
+                )}
                 {order.status === "Selesai" && (
-                  <button className="order-button">Konfirmasi Terima</button>
+                  <button className="order-button confirm">
+                    Konfirmasi Terima
+                  </button>
                 )}
               </div>
             </div>

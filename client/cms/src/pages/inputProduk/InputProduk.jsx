@@ -21,6 +21,10 @@ export default function AddProduct({ page }) {
   });
 
   const [image, setImage] = useState(null);
+  const [errors, setErrors] = useState({
+    startDate: "",
+    discount: "",
+  });
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -34,8 +38,8 @@ export default function AddProduct({ page }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validasi khusus untuk produk presale
     let validationErrors = { startDate: "", discount: "" };
-
     if (product.productStatus === "presale") {
       if (!product.startDate) {
         validationErrors.startDate =
@@ -45,10 +49,9 @@ export default function AddProduct({ page }) {
         validationErrors.discount = "Diskon wajib diisi untuk produk presale.";
       }
     }
-
     setErrors(validationErrors);
 
-    // Cek jika ada error, hentikan proses submit
+    // Jika ada error validasi, hentikan submit
     if (validationErrors.startDate || validationErrors.discount) {
       return;
     }
@@ -68,7 +71,6 @@ export default function AddProduct({ page }) {
 
     let method = "post";
     let url = "/products/";
-
     if (page === "edit") {
       method = "put";
       url = `/products/${id}`;
@@ -86,15 +88,19 @@ export default function AddProduct({ page }) {
       });
 
       await Swal.fire({
-        title: "Succes",
+        title: "Sukses",
         icon: "success",
         showConfirmButton: false,
         timer: 2000,
       });
-
       navigate("/product");
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: "Error",
+        text: "Terjadi kesalahan saat menyimpan data",
+        icon: "error",
+      });
     }
   };
 
@@ -115,14 +121,12 @@ export default function AddProduct({ page }) {
       fetchProductById();
     }
   }, [id]);
-  const [errors, setErrors] = useState({
-    startDate: "",
-    discount: "",
-  });
 
   return (
     <div className="add-product-container">
-      {page === "edit" ? <h1>Edit Produk</h1> : <h1>Tambah Produk</h1>}
+      <h1 className="form-title">
+        {page === "edit" ? "Edit Produk" : "Tambah Produk"}
+      </h1>
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="form-group">
           <label>Nama Produk:</label>
@@ -131,18 +135,22 @@ export default function AddProduct({ page }) {
             name="name"
             value={product.name}
             onChange={handleInputChange}
+            placeholder="Masukkan nama produk"
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="">Kategory:</label>
+          <label>Kategori:</label>
           <select
             name="category"
             value={product.category}
-            className="select-form"
             onChange={handleInputChange}
+            className="select-form"
+            required
           >
-            <option value="" disabled></option>
+            <option value="" disabled>
+              Pilih kategori
+            </option>
             <option value="Sayur-sayuran">Sayur</option>
             <option value="Buah-buahan">Buah</option>
             <option value="Umbi-umbian">Umbi</option>
@@ -157,6 +165,7 @@ export default function AddProduct({ page }) {
             name="price"
             value={product.price}
             onChange={handleInputChange}
+            placeholder="Masukkan harga produk"
             required
           />
         </div>
@@ -167,6 +176,7 @@ export default function AddProduct({ page }) {
             name="stock"
             value={product.stock}
             onChange={handleInputChange}
+            placeholder="Masukkan jumlah stok"
             required
           />
         </div>
@@ -176,6 +186,7 @@ export default function AddProduct({ page }) {
             name="description"
             value={product.description}
             onChange={handleInputChange}
+            placeholder="Masukkan deskripsi produk"
             required
           ></textarea>
         </div>
@@ -186,25 +197,27 @@ export default function AddProduct({ page }) {
             name="image"
             accept="image/*"
             onChange={handleImageChange}
-            required
+            required={page !== "edit"}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="">Status produk</label>
+          <label>Status Produk:</label>
           <select
             name="productStatus"
             value={product.productStatus}
-            className="select-form"
             onChange={handleInputChange}
+            className="select-form"
             required
           >
-            <option value="" disabled></option>
+            <option value="" disabled>
+              Pilih status
+            </option>
             <option value="regular">Reguler</option>
             <option value="presale">Presale</option>
           </select>
         </div>
         <div className="form-group">
-          <label> Tanggal Order (kosongkan jika reguler):</label>
+          <label>Tanggal Order (kosongkan jika reguler):</label>
           <input
             type="date"
             name="startDate"
@@ -223,9 +236,11 @@ export default function AddProduct({ page }) {
           />
           {errors.discount && <p className="error-text">{errors.discount}</p>}
         </div>
-        <button type="submit" className="submit-btn">
-          {page === "edit" ? <p>Update</p> : <p>Tambah Produk</p>}
-        </button>
+        <div className="tambah">
+          <button type="submit" className="submit-btn1">
+            {page === "edit" ? "Update Produk" : "Tambah Produk"}
+          </button>
+        </div>
       </form>
     </div>
   );

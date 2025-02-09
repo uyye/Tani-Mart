@@ -1,62 +1,181 @@
-.detail-product-container {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
+/* Container utama */
+.detail-container {
+  display: flex;
+  max-width: 800px;
+  margin: 90px auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bagian gambar produk */
+.product-image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-top: 100px;
+  max-width: 100%;
+  width: 200px;
+  max-height: 100%;
+  object-fit: cover;
 }
-
-.product-image {
+.product-image1 {
   width: 100%;
-  max-width: 350px; /* Maksimal lebar gambar */
-  height: auto;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  height: 100%;
+  border-radius: 10px;
+}
+/* .product-image-section {
+  max-width: 300%;
+  height: 399px;
+} */
+
+/* Bagian informasi produk */
+.product-info-section {
+  flex: 1;
+  padding: 20px;
 }
 
-.product-name {
+/* Nama produk */
+.product-title {
   font-size: 24px;
   font-weight: bold;
+  /* margin-bottom: 10px; */
+}
+
+/* Label Presale */
+.presale-info {
+  background-color: #ff6f61;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: inline-block;
   margin-bottom: 10px;
 }
 
-.product-price {
-  font-size: 20px;
+/* Meta Data Produk */
+.product-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.rating {
+  background-color: #f8f8f8;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.sold-count {
+  font-weight: bold;
   color: #28a745;
+}
+
+/* Harga Produk */
+.product-price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #e74c3c;
   margin-bottom: 10px;
 }
 
-.product-unit,
-.product-description {
+/* Stok Produk */
+.product-stock {
   font-size: 16px;
   color: #555;
   margin-bottom: 10px;
 }
 
+/* Deskripsi Produk */
+.product-description {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Informasi Penjual */
+.seller-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.store-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}
+
+.store-details {
+  flex: 1;
+}
+
+.store-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.contact-number {
+  font-size: 14px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.chat-button {
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.chat-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estimasi Ongkir */
+.shipping-info {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Kontainer Kuantitas */
 .quantity-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 20px 0;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .quantity-button {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   font-size: 18px;
   font-weight: bold;
-  border: 1px solid #ddd;
   background-color: #f7f7f7;
+  border: 1px solid #ddd;
   cursor: pointer;
   border-radius: 4px;
-  margin: 0 10px;
-  transition: background-color 0.3s;
 }
 
 .quantity-button:hover {
@@ -66,59 +185,45 @@
 .quantity-display {
   font-size: 18px;
   font-weight: bold;
-  padding: 0 10px;
 }
 
-.contact-button2 {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #0fca63;
+/* Tombol Pesan & Keranjang */
+.order-buttons {
+  display: inline;
+  gap: 10px;
+  margin-left: -10px;
+}
+
+.order-button {
+  flex: 1;
+  background-color: #ff5722;
   color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 10px 10px;
   font-size: 16px;
-  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.contact-button2:hover {
-  background-color: #000000;
-}
-.seller-info {
-  margin-left: 100px;
-  margin-top: 20px;
-  /* background-color: #f9f9f9; */
-  width: 360px;
-  height: auto;
-  padding: 5px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  text-align: left;
-  font-size: 14px;
-  color: #333;
+.order-button:hover {
+  background-color: #e64a19;
 }
 
-.store-name {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.contact-number {
-  color: #4caf50;
-  font-weight: bold;
-}
-
-.presale{
-  background-color: #ff6f61;
+.add-to-cart-button1 {
+  flex: 2;
+  background-color: #0fca63;
   color: white;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 4px;
-  z-index: 10;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 5px;
-  
+  padding: 10px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-button1:hover {
+  background-color: #0da353;
 }
 
 .disabled {
@@ -126,3 +231,18 @@
   opacity: 0.5;
 }
 
+.wishlist-button {
+  background-color: #950c0c76;
+  flex: 1;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.wishlist-button.disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}

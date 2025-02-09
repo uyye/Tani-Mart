@@ -1,90 +1,157 @@
-// ReactJS Code
-import React, { useEffect, useState } from "react";
-import "./dataManage.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDataProduct } from "../features/products/productSlice";
-import DetailButton from "../components/detailButton/DetailButton";
-import {Link} from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./KelolaProduk.css";
+import { Plus, Eye } from "lucide-react";
+import { FiSidebar } from "react-icons/fi";
+import logo from "../assets/logo.png";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Timer,
+  Users,
+  Wallet,
+  LogOut,
+} from "lucide-react";
+const products = [
+  {
+    id: "P001",
+    name: "cabe Organik Premium",
+    category: "sayur",
+    price: "Rp 180.000",
+    stock: 500,
+    status: "Reguler",
+    totalPayment: "Rp 90.000.000",
+  },
+  {
+    id: "P002",
+    name: "cengkeh",
+    category: "Rempah",
+    price: "Rp 95.000",
+    stock: 300,
+    status: "Presale",
+    totalPayment: "Rp 28.500.000",
+  },
+  {
+    id: "P003",
+    name: "Jagung",
+    category: "Buah",
+    price: "Rp 1.500.000",
+    stock: 100,
+    status: "Reguler",
+    totalPayment: "Rp 150.000.000",
+  },
+];
 
-const ManageProducts = () => {
-  const dispatch = useDispatch()
-  const products = useSelector((state)=>state.products.products)
-  console.log(products);
-  
+export default function KelolaProduk() {
+  const menuItems = [
+    {
+      icon: LayoutDashboard,
+      label: "Dashboard Admin Siafarm",
+      path: "/admin/dashboard",
+    },
+    { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
+    { icon: Timer, label: "Presale", path: "/Presale" },
+    { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
+    { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
+    { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
+    { icon: LogOut, label: "Logout", path: "/logout" },
+  ];
 
-  useEffect(()=>{
-    dispatch(fetchDataProduct())
-  },[])
-  // const [products, setProducts] = useState([
-  //   {
-  //     id: 1,
-  //     nama: "Tomat",
-  //     kategori: "Buah",
-  //     harga: 20000,
-  //     stok: 50,
-  //     deskripsi: "dsmvfsokffdnjgfdvfdvnfdvfdjvfdvsfv",
-  //     gambar: "gambar",
-  //     status: "Reguler",
-  //     tanggalOrder: "-",
-  //     diskon: "-",
-  //   },
-  //   {
-  //     id: 2,
-  //     nama: "Sawi",
-  //     kategori: "Sayur",
-  //     harga: 3000,
-  //     stok: 420,
-  //     deskripsi: "dsmvfsokffdnjgfdvfdvnfdvfdjvfdvsfv",
-  //     gambar: "gambar",
-  //     status: "Presale",
-  //     tanggalOrder: "23/04/2025",
-  //     diskon: "10%",
-  //   },
-  // ]);
+  const handleMenuClick = (label) => {
+    if (label === "Logout") {
+      alert("Logout clicked");
+      return;
+    }
+    setActiveMenu(label);
+  };
 
-  // const handleUpdateProduct = (id) => {
-  //   console.log(`Update product with ID: ${id}`);
-  //   // Add update logic here
-  // };
-
-  // const handleDeleteProduct = (id) => {
-  //   setProducts(products.filter((product) => product.id !== id));
-  //   console.log(`Delete product with ID: ${id}`);
-  // };
-
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+  const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   return (
-    <div className="manage-table">
-      <h1>Kelola Produk</h1>
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nama Produk</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-            <th>Stok</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.category}</td>
-              <td>Rp {product.price.toLocaleString()}</td>
-              <td>{product.stock}</td>
-              <td>{product.productStatus}</td>
-              <td>
-                <Link to={`/admin/DetailProduk/${product.id}`}><DetailButton/></Link>
-              </td>
-            </tr>
+    <div className="container">
+      {/* Sidebar */}
+      <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
+        <div className="sidebar-header">
+          {isSidebarOpen && <img src={logo} alt="Siafarm Logo" />}
+          <button className="toggle-button" onClick={toggleSidebar}>
+            <FiSidebar />
+          </button>
+        </div>
+        <nav className="sidebar-nav">
+          {menuItems.map((item, index) => (
+            <Link to={item.path}>
+              <button
+                key={index}
+                className={`nav-button ${
+                  activeMenu === item.label ? "active" : ""
+                }`}
+                onClick={() => handleMenuClick(item.label)}
+              >
+                <item.icon
+                  size={20}
+                  className={
+                    activeMenu === item.label ? "icon-active" : "icon-inactive"
+                  }
+                />
+                {isSidebarOpen && <span>{item.label}</span>}
+              </button>
+            </Link>
           ))}
-        </tbody>
-      </table>
+        </nav>
+      </aside>
+
+      <div className="kelola-produk-container">
+        <div className="header">
+          <h2>Kelola Produk</h2>
+        </div>
+        <Link to="/tambah-produk">
+          <button className="add-product-btn">
+            <Plus size={16} /> Tambah Produk
+          </button>
+        </Link>
+        <table className="produk-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nama Produk</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Stok</th>
+              <th>Status</th>
+              <th>Total Pembayaran</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td>{product.category}</td>
+                <td>{product.price}</td>
+                <td>{product.stock}</td>
+                <td>
+                  <span className={`status ${product.status.toLowerCase()}`}>
+                    {product.status}
+                  </span>
+                </td>
+                <td>{product.totalPayment}</td>
+                <td>
+                  <Link to="/DetailProduk">
+                    <button className="detail-btn">
+                      <Eye size={16} /> Detail
+                    </button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-};
-
-export default ManageProducts;
+}

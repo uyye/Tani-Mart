@@ -5,62 +5,75 @@ import {
   fetchFavorites,
   fetchRemoveFavorite,
 } from "../../features/favorites/favoriteSlice";
-import DeleteButton from "../../components/button/DeleteButton";
-import DetailButton from "../../components/button/DetailButton";
 import { Link } from "react-router-dom";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.dataFavorites.favorites);
 
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
   const handleDelete = (id) => {
     dispatch(fetchRemoveFavorite(id));
   };
 
   const handleAddToCart = (id) => {
-    console.log(`Tambah produk dengan ID: ${id} ke keranjang`);
+    console.log(`Produk dengan ID ${id} ditambahkan ke keranjang`);
   };
 
-  useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [dispatch]);
-
   return (
-    <header className="app">
-      <h1>Produk Favorit</h1>
-      <div className="wishlist-container">
-        {data?.length > 0 ? (
-          data.map((item) => (
+    <div className="wishlist-container">
+      <h1 className="wishlist-title">Wishlist Saya</h1>
+
+      {data?.length > 0 ? (
+        <div className="wishlist-grid">
+          {data.map((item) => (
             <div className="wishlist-card" key={item.Product.id}>
-              <div className="wishlist-content">
+              <img
+                src={item.Product.image}
+                alt={item.Product.name}
+                className="wishlist-image"
+              />
+              <div className="wishlist-info">
                 <h3 className="product-name">{item.Product.name}</h3>
+                <p className="product-price">
+                  Rp {Number(item.Product.price).toLocaleString()}
+                </p>
                 <p
                   className={`stock-status ${
                     item.Product.stock > 0 ? "available" : "unavailable"
                   }`}
                 >
-                  {item.Product.productStatus}
+                  {item.Product.stock > 0 ? "Stok Tersedia" : "Stok Habis"}
                 </p>
-                <DeleteButton handleDelete={() => handleDelete(item.Product.id)} />
-                <Link to={`/detail/${item.Product.id}`}>
-                  <DetailButton />
-                </Link>
+                <div className="wishlist-buttons">
+                  <button className="detail-btn">
+                    <Link to={`/detail/${item.Product.id}`}>Lihat Detail</Link>
+                  </button>
+                  <button
+                    className="add-to-cart-btn"
+                    onClick={() => handleAddToCart(item.Product.id)}
+                    disabled={item.Product.stock === 0}
+                  >
+                    Tambah ke Keranjang
+                  </button>
+                  <button
+                    className="remove-btn"
+                    onClick={() => handleDelete(item.Product.id)}
+                  >
+                    Hapus
+                  </button>
+                </div>
               </div>
-
-              {/* <button
-                className="add-to-cart-btn"
-                onClick={() => handleAddToCart(item.id)}
-                disabled={item.stock === 0}
-              >
-                Add to Keranjang
-              </button> */}
             </div>
-          ))
-        ) : (
-          <p className="no-data">Tidak ada produk</p>
-        )}
-      </div>
-    </header>
+          ))}
+        </div>
+      ) : (
+        <p className="no-data">Tidak ada produk di wishlist</p>
+      )}
+    </div>
   );
 };
 

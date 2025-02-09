@@ -1,65 +1,143 @@
-.app {
-  text-align: center;
-  font-family: Arial, sans-serif;
+/* Reset & Global Styles */
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-
-h1 {
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f8f8f8;
   color: #333;
-  margin-top: 100px;
+} */
+
+/* Container Halaman Order */
+.order-page {
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
 }
 
-table {
-  width: 95%;
-  border-collapse: collapse;
-  margin-bottom: 140px;
-  background-color: white;
-  margin-left: 30px;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 10px;
+/* Judul Halaman */
+.order-title {
+  font-size: 28px;
+  font-weight: bold;
   text-align: center;
+  margin-bottom: 60px;
+  color: #333;
 }
 
-th {
-  background-color: #00ec8e;
+/* Container List Pesanan */
+.order-list {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.presale {
-  color: #ff9800;
-  font-weight: bold;
-  border: none;
+/* Tabel Pesanan */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
 }
-
-.available {
-  color: #4caf50;
-  font-weight: bold;
+.order-table th,
+.order-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
 }
-
-.completed {
-  color: #4caf50;
-}
-
-.pending {
-  color: #ff5722;
-}
-
-tr:hover {
+.order-table th {
   background-color: #f1f1f1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #555;
 }
-/* Teks Tidak Ada Data */
+.order-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s;
+}
+.order-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Styling Status */
+.status {
+  font-weight: bold;
+}
+.status.completed {
+  color: #1dbf73;
+}
+.status.pending {
+  color: #e67e22;
+}
+
+/* Link Aksi */
+.order-table a {
+  text-decoration: none;
+}
+
+/* Pesan jika tidak ada data */
 .no-data {
   text-align: center;
+  padding: 20px;
   color: #999;
-  font-style: italic;
 }
-/* Mobile Phone */
-@media (max-width: 428px) {
-  .app {
+
+/* Responsive: Ubah tampilan tabel untuk layar kecil */
+@media (max-width: 768px) {
+  .order-table,
+  .order-table thead,
+  .order-table tbody,
+  .order-table th,
+  .order-table td,
+  .order-table tr {
+    display: block;
+  }
+
+  .order-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .order-table tr {
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .order-table td {
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+    border: none;
+  }
+
+  .order-table td::before {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    white-space: nowrap;
+    font-weight: bold;
+    text-transform: uppercase;
     font-size: 12px;
-    margin-left: -30px;
-    margin-top: 120px;
+    color: #555;
+  }
+
+  /* Set label sesuai urutan kolom */
+  .order-table td[data-label="No"]::before {
+    content: "No";
+  }
+  .order-table td[data-label="Nama Pembeli"]::before {
+    content: "Nama Pembeli";
+  }
+  .order-table td[data-label="Order ID"]::before {
+    content: "Order ID";
+  }
+  .order-table td[data-label="Status"]::before {
+    content: "Status";
+  }
+  .order-table td[data-label="Aksi"]::before {
+    content: "Aksi";
   }
 }

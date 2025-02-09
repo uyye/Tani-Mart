@@ -1,0 +1,82 @@
+.kelola-transaksi-container {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: white;
+  margin: 30px 10px;
+  width: 90%;
+  border-radius: 10px;
+}
+
+.kelola-transaksi-container h2 {
+  margin-top: 10px;
+  margin-bottom: 100px;
+  text-align: left;
+}
+
+.transaksi-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-left: -10px;
+}
+
+.transaksi-table th,
+.transaksi-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.transaksi-table th {
+  background-color: #5dffa3;
+}
+
+.btn-detail {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-detail:hover {
+  background-color: #45a049;
+}
+
+/* .sidebar {
+  width: 250px;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  height: 100vh;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-nav {
+  margin-top: 20px;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.nav-button:hover {
+  background-color: #444;
+}
+
+.nav-button.active {
+  background-color: #4caf50;
+} */

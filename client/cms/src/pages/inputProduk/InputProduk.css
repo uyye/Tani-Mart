@@ -1,69 +1,121 @@
-.add-product-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 80px;
+/* Reset & Global */
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-.add-product-container h1 {
-  margin-top: 20px;
-}
-.add-product-container h2 {
-  text-align: center;
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f8f8f8;
   color: #333;
-  margin-bottom: 20px;
-  margin-top: 20px;
+} */
+
+/* Container Utama */
+.add-product-container {
+  max-width: 600px;
+  height: 185vh;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px 40px;
 }
 
-.add-product-form .form-group {
-  margin-bottom: 15px;
-}
-.add-product-form .form-group label {
-  display: block;
+/* Judul Form */
+.form-title {
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 5px;
+  text-align: center;
+  margin-top: 20px;
+  /* margin-bottom: 30px; */
 }
 
-.add-product-form .form-group input,
-.add-product-form .form-group textarea,
-.select-form {
+/* Form */
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* Input, Select, Textarea */
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form input[type="date"],
+.add-product-form input[type="file"],
+.add-product-form select,
+.add-product-form textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: border 0.3s;
 }
 
-.add-product-form .form-group textarea {
+.add-product-form input:focus,
+.add-product-form select:focus,
+.add-product-form textarea:focus {
+  border-color: #1dbf73;
+  outline: none;
+}
+
+.add-product-form textarea {
   resize: vertical;
-  height: 80px;
+  min-height: 100px;
 }
 
-.submit-btn {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4caf50;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+/* Select Custom (untuk panah) */
+.select-form {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23999"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
 }
+
+/* Error Text */
 .error-text {
-  color: red;
+  color: #e74c3c;
   font-size: 12px;
   margin-top: 5px;
 }
 
-.submit-btn:hover {
-  background-color: #000000;
-  color: white;
+/* Tombol Submit */
+.tambah {
+  margin-left: -120px;
 }
-.presale {
-  display: inline;
-  margin-top: 10px;
-  margin-left: -200px;
+.submit-btn1 {
+  display: block;
+  width: 70%;
+  padding: 12px;
+  background-color: #1dbf73;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  align-items: center;
+}
+
+.submit-btn1:hover {
+  background-color: #17a15b;
 }

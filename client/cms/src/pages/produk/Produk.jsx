@@ -3,6 +3,7 @@ import "./Produk.css"; // Import file CSS terpisah
 import instance from "../../api/axiosInstance";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+
 const categories = [
   "Semua",
   "Sayur-sayuran",
@@ -10,12 +11,16 @@ const categories = [
   "Umbi-umbian",
   "Rempah-rempah",
   "Produk Organik",
+  "Produk Lainya",
+  "Presale",
 ];
+
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Semua");
-
+  const [activeTab, setActiveTab] = useState("reguler"); // Tambahkan state untuk tab aktif
+  const [searchKeyword, setSearchKeyword] = useState("");
   const fetchProduct = async () => {
     try {
       const { data } = await instance({
@@ -72,6 +77,7 @@ const ProductTable = () => {
       }
     }
   };
+
   const filterByCategory = (category) => {
     setSelectedCategory(category);
     if (category === "Semua") {
@@ -83,14 +89,34 @@ const ProductTable = () => {
       setFilteredProducts(filtered);
     }
   };
+
   useEffect(() => {
     fetchProduct();
   }, []);
 
+  // Pisahkan produk reguler dan pre-sale
+  const regularProducts = filteredProducts.filter(
+    (product) => product.productStatus === "regular"
+  );
+  const preSaleProducts = filteredProducts.filter(
+    (product) => product.productStatus === "pre-sale"
+  );
+
   return (
     <div className="table-container">
-      <h1>Daftar Produk</h1>
-
+      <header className="app-header">
+        <h1> Daftar Produk </h1>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Cari produk..."
+            className="search-input"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          <button className="search-button">Cari</button>
+        </div>
+      </header>
       {/* Tombol Filter Kategori */}
       <div className="category-buttons">
         {categories.map((category, index) => (
@@ -106,6 +132,22 @@ const ProductTable = () => {
         ))}
       </div>
 
+      {/* Tab Produk Reguler dan Pre-sale */}
+      <div className="product-tabs">
+        <button
+          className={`tab-button ${activeTab === "reguler" ? "active" : ""}`}
+          onClick={() => setActiveTab("reguler")}
+        >
+          Produk Reguler
+        </button>
+        <button
+          className={`tab-button ${activeTab === "pre-sale" ? "active" : ""}`}
+          onClick={() => setActiveTab("pre-sale")}
+        >
+          Presale
+        </button>
+      </div>
+
       {/* Tabel Produk */}
       <table className="product-table">
         <thead>
@@ -119,8 +161,46 @@ const ProductTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product, index) => (
+          {activeTab === "reguler" ? (
+            regularProducts.length > 0 ? (
+              regularProducts.map((product, index) => (
+                <tr key={product.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <div className="product-image-container">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="product-image"
+                      />
+                      <p className="product-status regular">Reguler</p>
+                    </div>
+                  </td>
+                  <td>{product.name}</td>
+                  <td>Rp {product.price.toLocaleString()}</td>
+                  <td>{product.stock}</td>
+                  <td>
+                    <button className="btn-update">
+                      <Link to={`/Input/${product.id}`}>Update</Link>
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDeleteProduct(product.id)}
+                    >
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="no-data">
+                  Tidak ada produk reguler
+                </td>
+              </tr>
+            )
+          ) : preSaleProducts.length > 0 ? (
+            preSaleProducts.map((product, index) => (
               <tr key={product.id}>
                 <td>{index + 1}</td>
                 <td>
@@ -130,13 +210,7 @@ const ProductTable = () => {
                       alt={product.name}
                       className="product-image"
                     />
-                    <p
-                      className={
-                        product.productStatus === "regular" ? "regular" : ""
-                      }
-                    >
-                      {product.productStatus}
-                    </p>
+                    <p className="product-status pre-sale">Presale</p>
                   </div>
                 </td>
                 <td>{product.name}</td>
@@ -158,7 +232,7 @@ const ProductTable = () => {
           ) : (
             <tr>
               <td colSpan="6" className="no-data">
-                Tidak ada produk
+                Tidak ada produk presale
               </td>
             </tr>
           )}

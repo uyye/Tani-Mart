@@ -1,0 +1,147 @@
+/* Reset CSS */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+} */
+
+/* body {
+  background-color: #f4f7fc;
+  padding: 20px;
+}
+
+/* Container utama */
+.order-detail-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+*/
+
+/* Kartu (box) */
+.bg-white {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.shadow-sm {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+  border-radius: 10px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: center;
+}
+
+.text-2xl {
+  font-size: 24px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.text-gray-800 {
+  color: #333;
+  margin: 10px -10px;
+}
+
+.text-gray-600 {
+  color: #666;
+}
+
+/* Informasi Pelanggan */
+.customer-info,
+.product-list,
+.order-summary {
+  margin-top: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.icon {
+  color: #007bff;
+}
+
+/* Tabel Produk */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+.w-full {
+  margin: 15px 5px 0px 10px;
+  width: 100%;
+}
+thead {
+  background-color: #007bff;
+  color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* Ringkasan Pesanan */
+.order-summary .summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+/* Status Pesanan */
+.status-label {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-transform: capitalize;
+}
+
+/* Warna berdasarkan status */
+.status-label.pending {
+  background-color: #ffcc00;
+  color: #663d00;
+}
+
+.status-label.completed {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-label.cancelled {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsif */
+@media (max-width: 600px) {
+  .order-detail-container {
+    padding: 10px;
+  }
+
+  .text-2xl {
+    font-size: 20px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}

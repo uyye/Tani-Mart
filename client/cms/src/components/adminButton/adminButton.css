@@ -1,26 +1,25 @@
-.admin-button  {
-    height: 40px;
-    padding: 0 20px; 
-    border-radius: 8px; 
-    background-color: #00c97c; 
-    border: none;
-    font-size: 14px;
-    color: #ffffff;
-    font-weight: bold; 
-    cursor: pointer; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-    transition: all 0.3s ease; 
+.admin-button {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  background-color: #00c97c;
+  border: none;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .admin-button:hover {
-    background-color: #0056b3; 
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
 .admin-button:active {
-    background-color: #003d80; 
-    transform: translateY(0); 
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  background-color: #003d80;
+  transform: translateY(0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
-

@@ -1,0 +1,61 @@
+.detail-pengguna-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.detail-card {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  color: #555;
+}
+
+.value {
+  color: #333;
+}
+
+.role-admin {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+.role-penjual {
+  color: #f0ad4e;
+  font-weight: bold;
+}
+
+.role-pembeli {
+  color: #5bc0de;
+  font-weight: bold;
+}
+
+.not-found {
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  margin-top: 20px;
+}
