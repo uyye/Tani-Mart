@@ -1,0 +1,108 @@
+/* Mengatur layout halaman approval */
+.admin-approval-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+}
+
+/* Kontainer utama approval */
+.approval-container {
+  background-color: #fff;
+  padding: 20px 30px;
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Judul halaman */
+.approval-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* List item approval */
+.approval-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Setiap item approval */
+.approval-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* Header item approval */
+.approval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Status pending */
+.pending-status {
+  background-color: #f0ad4e;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+/* Aksi approval */
+.approval-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Tombol setujui */
+.approve-button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.approve-button:hover {
+  background-color: #45a049;
+}
+
+/* Tombol tolak */
+.reject-button {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reject-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Tombol tutup/kembali */
+.close-button {
+  display: block;
+  margin: 20px auto 0;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #333;
+}

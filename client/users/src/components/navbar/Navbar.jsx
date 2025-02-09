@@ -22,9 +22,9 @@ export default function Navbar() {
         {localStorage.getItem("access_token") ? (
           <>
             <Link to="/">Beranda</Link>
-            <Link to="/wishlist">Wishlist</Link>
             <Link to="/product">Produk</Link>
             <Link to="/pesananSaya">Pesanan Saya</Link>
+            <Link to="/wishlist">Wishlist</Link>
           </>
         ) : (
           ""

@@ -12,13 +12,17 @@ import Order from "./pages/order/Order";
 import OrderDetail from "./pages/orderDetail/OrderDetail";
 import KelolaPengguna from "./admin/KelolaPengguna";
 import KelolaProduk from "./admin/KelolaProduk";
-import KelolaTranksaksi from "./admin/KelolaTranksaksi";
-import DetailPengguna from "./admin/DetailPengguna";
+import KelolaTransaksi from "./admin/KelolaTransaksi";
 import DetailProduk from "./admin/DetailProduk";
-import DetailTranksaksi from "./admin/DetailTranksaksi";
-import {jwtDecode} from "jwt-decode";
+import DetailTransaksi from "./admin/DetailTransaksi";
+import { jwtDecode } from "jwt-decode";
 import AdminMain from "./admin/AdminMain";
-
+import Pesanan from "./admin/Pesanan";
+import Presale from "./admin/Presale";
+import DetailPesanan from "./admin/detailPesanan";
+import EditPresale from "./admin/editPresale";
+import DetailPengguna from "./admin/DetailPengguna";
+import AdminApproval from "./admin/AdminApproval";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +34,7 @@ const router = createBrowserRouter([
         return redirect("/login");
       }
 
-      return null; 
+      return null;
     },
     children: [
       { path: "/", element: <Home /> },
@@ -42,38 +46,55 @@ const router = createBrowserRouter([
       { path: "/product", element: <Produk /> },
       { path: "/order", element: <Order /> },
       { path: "/order/:id", element: <OrderDetail /> },
-      
+      { path: "/kelolaproduk", element: <KelolaProduk /> },
+      { path: "/Pesanan", element: <Pesanan /> },
+      { path: "/Presale", element: <Presale /> },
+      { path: "/KelolaPengguna", element: <KelolaPengguna /> },
+      { path: "/KelolaProduk", element: <KelolaProduk /> },
+      { path: "/KelolaTransaksi", element: <KelolaTransaksi /> },
+      { path: "/DetailProduk", element: <DetailProduk /> },
+      { path: "/DetailTransaksi", element: <DetailTransaksi /> },
+      { path: "/admin/DetailPesanan/:id", element: <DetailPesanan /> },
+      { path: "/admin/Presale/:id", element: <Presale /> },
+      { path: "/admin/editPresale", element: <EditPresale /> },
+      { path: "/admin/DetailPengguna", element: <DetailPengguna /> },
+      { path: "/admin/AdminApproval", element: <AdminApproval /> },
     ],
   },
 
   {
-    path:"/admin",
-    element:<AdminMain/>,
-    loader: ()=>{
-      const token = localStorage.getItem("access_token")
+    path: "/admin",
+    element: <AdminMain />,
+    loader: () => {
+      const token = localStorage.getItem("access_token");
 
-      if(!token){
-        return redirect("/login")
+      if (!token) {
+        return redirect("/login");
       }
 
-      const decode =  jwtDecode(token)
+      const decode = jwtDecode(token);
       console.log(decode, "cek");
-      
+
       if (decode.role !== "admin") {
-        return redirect("/")
+        return redirect("/");
       }
 
-      return null
+      return null;
     },
-    children:[
+    children: [
       { path: "/admin/dashboard", element: <AdminDashboard /> },
       { path: "/admin/KelolaPengguna", element: <KelolaPengguna /> },
       { path: "/admin/KelolaProduk", element: <KelolaProduk /> },
-      { path: "/admin/KelolaTranksaksi", element: <KelolaTranksaksi /> },
-      { path: "/admin/DetailPengguna/:id", element: <DetailPengguna /> },
-      { path: "/admin/DetailProduk/:id", element: <DetailProduk /> },
-      { path: "/admin/DetailTranksaksi/:id", element: <DetailTranksaksi /> },
-    ]
+      { path: "/admin/kelolaTransaksi", element: <KelolaTransaksi /> },
+      { path: "/admin/DetailProduk", element: <DetailProduk /> },
+      { path: "/admin/DetailTransaksi", element: <DetailTransaksi /> },
+      { path: "/admin/Pesanan", element: <Pesanan /> },
+      { path: "/admin/DetailPesanan", element: <DetailPesanan /> },
+      { path: "/admin/Presale", element: <Presale /> },
+      { path: "/admin/editPresale", element: <EditPresale /> },
+      { path: "/admin/DetailPengguna", element: <DetailPengguna /> },
+      { path: "/admin/AdminApproval", element: <AdminApproval /> },
+    ],
   },
 
   { path: "/login", element: <Login /> },

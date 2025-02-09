@@ -1,115 +1,204 @@
+/* Kontainer utama */
 .orders-container {
+  max-width: 900px;
+  margin: 50px auto;
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.orders-title {
-  /* font-size: 24px; */
-  font-weight: bold;
-  margin-bottom: 80px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 80px;
-  text-align: center;
 }
 
+/* Judul halaman */
+.orders-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+/* Tidak ada pesanan */
 .no-orders {
   text-align: center;
-  color: #999;
   font-size: 16px;
+  color: #888;
 }
 
+/* Kartu pesanan */
 .order-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  padding: 15px;
   background-color: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Header pesanan */
 .order-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .order-id {
-  font-size: 16px;
   font-weight: bold;
+  color: #333;
 }
 
+/* Status Pesanan */
 .order-status {
-  font-size: 14px;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
   text-transform: capitalize;
 }
 
 .order-status.pending {
-  background-color: #ffeeba;
-  color: #856404;
+  background-color: #ffcc00;
+  color: #333;
 }
 
-.order-status.paid {
-  background-color: #d4edda;
-  color: #155724;
+.order-status.diproses {
+  background-color: #17a2b8;
+  color: #fff;
 }
 
+.order-status.dikirim {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.order-status.selesai {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Produk dalam pesanan */
 .order-products {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .product-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
-  max-width: 300px;
+  padding: 10px;
+  background: #f8f8f8;
+  border-radius: 6px;
 }
 
+/* Gambar Produk */
 .product-image {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
 }
 
+/* Informasi Produk */
 .product-info {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
 }
 
 .product-name {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.product-quantity,
-.product-price {
-  font-size: 12px;
-  color: #666;
-}
-
-.order-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-}
-
-.order-total {
   font-size: 16px;
   font-weight: bold;
 }
 
+.product-quantity {
+  font-size: 14px;
+  color: #666;
+}
+
+.product-price {
+  font-size: 16px;
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Footer Pesanan */
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.order-total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+/* Tombol Aksi */
 .order-actions {
   display: flex;
   gap: 10px;
 }
 
-.order-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.order-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+  font-weight: bold;
+}
+
+.order-button:hover {
+  opacity: 0.9;
+}
+
+.order-button.track {
+  background-color: #007bff;
+  color: white;
+}
+
+.order-button.confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.order-button.detail {
+  background-color: #ff5722;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .order-card {
+    padding: 10px;
+  }
+
+  .product-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }

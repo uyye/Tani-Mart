@@ -1,0 +1,75 @@
+.detail-produk-container {
+  max-width: 800px;
+  height: 88vh;
+  margin: 60px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.produk-detail-card {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.produk-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.produk-info {
+  flex: 1;
+}
+
+.produk-info p {
+  line-height: 25px;
+  margin: 15px 0;
+  font-size: 18px;
+}
+
+.produk-info strong {
+  color: #14521e;
+}
+.button-container {
+  margin: 10px 200px;
+  display: flex;
+  gap: 10px;
+}
+
+.update-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.update-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}

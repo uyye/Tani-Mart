@@ -14,11 +14,11 @@ export default function Order() {
   }, [dispatch]);
 
   return (
-    <div className="app">
-      <h1>Pesanan Masuk</h1>
+    <div className="order-page">
+      <h1 className="order-title">Pesanan Masuk</h1>
       <section className="order-list">
         {data?.length > 0 ? (
-          <table>
+          <table className="order-table">
             <thead>
               <tr>
                 <th>No</th>
@@ -31,17 +31,20 @@ export default function Order() {
             <tbody>
               {data.map((order, index) => (
                 <tr key={order.id}>
-                  <td>{index + 1}</td>
-                  <td>{order.User.name}</td>
-                  <td>{order.id}</td>
+                  <td data-label="No">{index + 1}</td>
+                  <td data-label="Nama Pembeli">{order.User.name}</td>
+                  <td data-label="Order ID">{order.id}</td>
                   <td
+                    data-label="Status"
                     className={
-                      order.status === "paid" ? "completed" : "pending"
+                      order.status === "paid"
+                        ? "status completed"
+                        : "status pending"
                     }
                   >
                     {order.status === "paid" ? "Lunas" : "Pending"}
                   </td>
-                  <td>
+                  <td data-label="Aksi">
                     <Link to={`/order/${order.id}`}>
                       <DetailButton />
                     </Link>
@@ -51,7 +54,7 @@ export default function Order() {
             </tbody>
           </table>
         ) : (
-          <p className="no-data">Tidak ada produk</p>
+          <p className="no-data">Tidak ada pesanan</p>
         )}
       </section>
     </div>

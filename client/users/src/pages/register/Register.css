@@ -1,72 +1,120 @@
-/* Mengatur tampilan dasar untuk halaman daftar */
+/* Register.css */
 .register-container {
-  max-width: 500px;
-  height: 80vh;
-  margin: 70px auto;
-  padding: 20 0px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #11cb81, #65f5ca, #15570f, #13b268);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  padding: 20px;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.register-card {
+  margin-left: -20rem;
+  background: rgba(255, 255, 255, 0.469);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
   text-align: center;
 }
 
 .register-container h2 {
-  color: #4caf50;
-  margin-bottom: 50px;
-  margin-top: 20px;
+  padding-top: -50px;
+  margin-bottom: 1.5rem;
+  color: #000000;
+  margin-top: 5px;
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
-.form-group label {
+label {
   display: block;
-  margin-bottom: 5px;
-  color: #333;
+  margin-bottom: 0.5rem;
+  color: #555;
 }
 
-.form-group input {
+input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #11cb7a;
+  outline: none;
 }
 
 .register-button {
-  width: 30%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: #ffffff;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #11cb6e;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  margin-top: 8px;
+  transition: background-color 0.3s ease;
 }
 
 .register-button:hover {
-  background-color: #45a049;
+  background-color: #0b765d;
 }
 
-/* Styling link untuk kembali ke halaman login */
 .login-link {
-  margin-top: 5px;
-  font-size: 14px;
+  margin-top: 1rem;
+  color: #555;
 }
 
-.login-link button {
+.login-button-link {
   background: none;
   border: none;
-  color: #4caf50;
+  color: #6a11cb;
   cursor: pointer;
-  font-size: 14px;
-  text-decoration: underline;
+  font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
-.login-link button:hover {
-  color: #45a049;
+.login-button-link:hover {
+  color: #000000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  input {
+    padding: 0.5rem;
+  }
+
+  .register-button {
+    padding: 0.5rem;
+  }
 }

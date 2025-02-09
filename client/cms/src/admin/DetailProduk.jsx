@@ -1,106 +1,84 @@
-// ReactJS Code for Product Detail Page
-import React, { useEffect, useState } from "react";
-import "./dataDetail.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchDeleteProduct,
-  fetchDetailProduct,
-  fetchUpdateProduct,
-} from "../features/products/productSlice";
-import { useNavigate, useParams } from "react-router-dom";
-import DeleteButton from "../components/deleteButton/DeleteButton";
-import UpdateButton from "../components/updateButton/UpdateButton";
-import ProductModal from "./ProductModal";
-import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
+import "./DetailProduk.css";
 
-const ProductDetail = () => {
-  const navigate = useNavigate();
+const productData = {
+  id: "P001",
+  name: "Pupuk Organik Premium",
+  category: "Pupuk",
+  price: 180000,
+  stock: 500,
+  status: "Reguler",
+  description: "Pupuk organik berkualitas tinggi untuk tanaman.",
+  store: "Toko Pertanian Siafarm",
+  storeNumber: "0812-3456-7890",
+  image: "https://via.placeholder.com/150", // Gambar produk sementara
+};
+
+export default function DetailProduk() {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.products.product);
-  const [isModal, setIsmodal] = useState(false);
 
-  const handleDeleteProduct = async () => {
-    const result = await Swal.fire({
-      position: "center",
-      icon: "warning",
-      title: "Serius!",
-      text: "Kamu ingin menghapus produk ini?",
-      showCancelButton: true,
-      confirmButtonText: "Lanjutkan",
-      cancelButtonText: "Batal",
-    });
+  const handleUpdate = () => {
+    alert("Fitur update belum diimplementasikan.");
+  };
 
-    if (result.isConfirmed) {
-      dispatch(fetchDeleteProduct(id));
-
-      await Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "delete successfully",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
-      navigate("/admin/KelolaProduk");
+  const handleDelete = () => {
+    const confirmDelete = window.confirm(
+      "Apakah Anda yakin ingin menghapus produk ini?"
+    );
+    if (confirmDelete) {
+      alert("Produk berhasil dihapus.");
     }
   };
 
-  const handleUpdateProduct = async (newData) => {
-    console.log(newData, "DATA KIRIMAN");
-    await dispatch(fetchUpdateProduct(id, newData));
-    dispatch(fetchDetailProduct(id)); // Memuat ulang detail produk
-  };
-
-  useEffect(() => {
-    dispatch(fetchDetailProduct(id));
-  }, [id]);
-
   return (
-    <div className="data-detail">
-      <h1>Detail Produk</h1>
-      <div className="detail-container">
-        <div className="detail-item">
-          <label>ID Produk:</label>
-          <p>{product.id}</p>
-        </div>
-        <div className="detail-item">
-          <label>Status:</label>
-          <p>{product.productStatus}</p>
-        </div>
-        <div className="detail-item">
-          <label>Nama:</label>
-          <p>{product.name}</p>
-        </div>
-        <div className="detail-item">
-          <label>Kategori:</label>
-          <p>{product.category}</p>
-        </div>
-        <div className="detail-item">
-          <label>Harga:</label>
-          <p>{product.price}</p>
-        </div>
-        <div className="detail-item">
-          <label>Stok:</label>
-          <p>{product.stock}</p>
-        </div>
-        <div className="detail-item">
-          <label>Deskripsi:</label>
-          <p>{product.description}</p>
-        </div>
-        <div className="control-button">
-          <DeleteButton handleFunction={handleDeleteProduct} />
-          <UpdateButton handleFunction={() => setIsmodal(true)} />
-        </div>
-        <ProductModal
-          product={product}
-          isOpen={isModal}
-          onClose={() => setIsmodal(false)}
-          onUpdate={handleUpdateProduct}
+    <div className="detail-produk-container">
+      <h2>Detail Produk</h2>
+
+      <div className="produk-detail-card">
+        <img
+          src={productData.image}
+          alt={productData.name}
+          className="produk-image"
         />
+        <div className="produk-info">
+          <p>
+            <strong>ID Produk:</strong> {productData.id}
+          </p>
+          <p>
+            <strong>Nama Produk:</strong> {productData.name}
+          </p>
+          <p>
+            <strong>Kategori:</strong> {productData.category}
+          </p>
+          <p>
+            <strong>Harga Satuan:</strong> Rp{" "}
+            {productData.price.toLocaleString()}
+          </p>
+          <p>
+            <strong>Stok:</strong> {productData.stock}
+          </p>
+          <p>
+            <strong>Status:</strong> {productData.status}
+          </p>
+          <p>
+            <strong>Deskripsi:</strong> {productData.description}
+          </p>
+          <p>
+            <strong>Nama Toko:</strong> {productData.store}
+          </p>
+          <p>
+            <strong>Nomor Toko:</strong> {productData.storeNumber}
+          </p>
+          <div className="button-container">
+            <button className="update-button" onClick={handleUpdate}>
+              Update
+            </button>
+            <button className="delete-button" onClick={handleDelete}>
+              Hapus
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
-};
-
-export default ProductDetail;
+}
