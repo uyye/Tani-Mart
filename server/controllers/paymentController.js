@@ -1,5 +1,5 @@
 const midtransClient = require("midtrans-client");
-const { Order, User, OrderDetail, Product } = require("../models");
+const {Payment, Order, User, OrderDetail, Product } = require("../models");
 
 class PaymentController {
   static async payment(req, res, next) {
@@ -9,9 +9,7 @@ class PaymentController {
     });
 
     const { orderId } = req.body;
-    console.log(orderId, "ABCDEFG");
     
-
     try {
       const orderData = await Order.findByPk(orderId, {
         include: {
@@ -82,19 +80,22 @@ class PaymentController {
               model: Product,
             },
           },
+          {
+            model: Payment
+          }
         ],
       });
+      
+      let newStatus
 
       if (!order)
         throw { name: "NotFound", status: 404, message: "Order not found" };
-
-      console.log(order, "BEFORE");
 
       if (
         transaction_status === "capture" ||
         transaction_status === "settlement"
       ) {
-        order.status = "paid";
+        newStatus = "paid";
         for (const item of order.OrderDetails) {
           item.Product.stock = item.Product.stock - item.quantity;
           await item.Product.save();
@@ -103,13 +104,20 @@ class PaymentController {
         transaction_status === "deny" ||
         transaction_status === "cancel"
       ) {
-        order.status = "failed";
+        newStatus = "failed";
       } else if (transaction_status === "pending") {
-        order.status = "pending";
+        newStatus = "pending";
       }
 
+      order.status = newStatus
       await order.save();
-      console.log(order, "AFTER");
+      
+      if(order.Payments){
+        for (const payment of order.Payments){
+          payment.status = newStatus
+          await payment.save()
+        }
+      }
 
       res.status(200).json({ message: "Payment status updated successfully" });
     } catch (error) {

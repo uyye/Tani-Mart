@@ -122,7 +122,7 @@ function Login() {
 
       {/* Card Login */}
       <div className="login-card animate__animated animate__zoomIn">
-        <h2>Login SIAFARM</h2>
+        <h2>SIAFARM</h2>
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label>Username</label>
