@@ -20,6 +20,8 @@ class OrderController{
         );
 
             for(const item of products){
+                console.log(item, "ABCDEF");
+                
                 const product = await Product.findByPk(item.id)
                 if(!product){
                     throw{name:"NotFound", status:404, message:"product not found" }
@@ -208,7 +210,7 @@ class OrderController{
             
         } catch (error) {
             console.log(error);
-            
+            next(error)
         }
     }
 }

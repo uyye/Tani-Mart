@@ -73,21 +73,6 @@ export const PostCart = (productId, quantity)=>{
             dispatch(addCartItem(data))
         } catch (error) {
             console.log(error);
-            
-            if (error.status === 401) {
-                const result = await Swal.fire({
-                    icon: "question",
-                    title: "Belum Login?",
-                    text: "Silahkan login untuk lakukan pemesanan",
-                    showCancelButton: true,
-                    confirmButtonText: "Login",
-                    cancelButtonText: "Batal",
-                });
-            
-                if (result.isConfirmed) {
-                    navigate("/login");
-                }
-            }
         }
     }
 }

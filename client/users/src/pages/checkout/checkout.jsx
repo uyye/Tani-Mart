@@ -1,58 +1,50 @@
 import React, { useState } from "react";
 import "./checkout.css";
-import instance from "../../api/axiosInstance";
 import { useLocation } from "react-router-dom";
 import { MapPin, Truck, CreditCard, Shield } from "lucide-react";
+import {useDispatch} from "react-redux"
+import Swal from "sweetalert2"
+import { fetchPostOrder } from "../../features/orders/orderSlice";
 
 function Checkout() {
+  const location = useLocation()
+  const selectedProducts = location.state?.selectedProducts || []
+  
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedShipping, setSelectedShipping] = useState("regular");
   const [note, setNote] = useState("");
 
-  // Data produk palsu, ganti dengan data asli jika tersedia
-  const products = [
-    {
-      id: 1,
-      name: "iPhone 13 Pro Max",
-      price: 15999000,
-      quantity: 1,
-      seller: "Apple Official Store",
-      image:
-        "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&q=80&w=150&h=150",
-    },
-    {
-      id: 2,
-      name: "AirPods Pro",
-      price: 3999000,
-      quantity: 2,
-      seller: "Apple Official Store",
-      image:
-        "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?auto=format&fit=crop&q=80&w=150&h=150",
-    },
-  ];
+  const dispatch = useDispatch()
+  const [selectedShipping, setSelectedShipping] = useState("regular");
 
-  const subtotal = products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
+
+  const subtotal = selectedProducts.reduce(
+    (acc, item) => acc + item.Product?.price * item.quantity,
     0
   );
+  
   const shippingCost = selectedShipping === "regular" ? 20000 : 45000;
   const total = subtotal + shippingCost;
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!address || !phoneNumber) {
-      alert("Please fill in all required fields");
-      return;
+      await Swal.fire({
+        icon:"warning",
+        text:"Silahkan masukan nomor dan Alamat pengiriman"
+      })
     }
-    // Implementasikan integrasi payment gateway di sini
-    console.log("Processing checkout...", {
-      address,
-      phoneNumber,
-      products,
-      shipping: selectedShipping,
-      note,
-      total,
-    });
+
+    const requestData = {
+      products : selectedProducts.map((product)=>({
+        id:product.Product?.id,
+        quantity:product.quantity
+      })),
+      phoneNumber:phoneNumber,
+      addressShiping:address
+    }
+
+    dispatch(fetchPostOrder(requestData))
+
   };
 
   return (
@@ -86,21 +78,21 @@ function Checkout() {
 
             {/* Products */}
             <div className="card products-list">
-              {products.map((product) => (
-                <div key={product.id} className="product-item">
+              {selectedProducts.map((item) => (
+                <div key={item.id} className="product-item">
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={item.Product?.image}
+                    alt={item.Product?.name}
                     className="product-image"
                   />
                   <div className="product-info">
-                    <p className="seller-name">{product.seller}</p>
-                    <h3 className="product-name">{product.name}</h3>
+                    <p className="seller-name">Tokoku</p>
+                    <h3 className="product-name">{item.Product?.name}</h3>
                     <p className="product-quantity">
-                      Quantity: {product.quantity}
+                      Quantity: {item.quantity}
                     </p>
                     <p className="product-price">
-                      Rp {product.price.toLocaleString()}
+                      Rp {item.Product?.price.toLocaleString()}
                     </p>
                   </div>
                 </div>
@@ -173,7 +165,7 @@ function Checkout() {
                 <div className="summary-divider"></div>
                 <div className="summary-total">
                   <span>Total</span>
-                  <span>Rp {total.toLocaleString()}</span>
+                  <span>Rp {subtotal.toLocaleString()}</span>
                 </div>
               </div>
               <button onClick={handleCheckout} className="checkout-button">

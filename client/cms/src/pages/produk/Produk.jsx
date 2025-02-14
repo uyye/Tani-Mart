@@ -3,6 +3,8 @@ import "./Produk.css"; // Import file CSS terpisah
 import instance from "../../api/axiosInstance";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDataProductBySeller, setFilter, setSearch } from "../../features/products/productSlice";
 
 const categories = [
   "Semua",
@@ -12,30 +14,31 @@ const categories = [
   "Rempah-rempah",
   "Produk Organik",
   "Produk Lainya",
-  "Presale",
 ];
 
 const ProductTable = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch()
+  // const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [activeTab, setActiveTab] = useState("reguler"); // Tambahkan state untuk tab aktif
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const fetchProduct = async () => {
-    try {
-      const { data } = await instance({
-        method: "get",
-        url: "/products/admin",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      setProducts(data);
-      setFilteredProducts(data); // Initialize filtered products
-    } catch (error) {
-      console.log(error);
+
+  const {products, search, filter} = useSelector((state)=>state.products)
+  console.log(products);
+
+  const handleFilterCategory = (category)=>{
+    if (category === "Semua") {
+      dispatch(setFilter())
+    }else{
+      dispatch(setFilter(category))
     }
-  };
+  }
+
+  const handleSearchProduct = (keyword)=>{
+    console.log(keyword, "INI KEYWORD");
+    
+    dispatch(setSearch(keyword))
+  }
 
   const handleDeleteProduct = async (id) => {
     const result = await Swal.fire({
@@ -78,28 +81,17 @@ const ProductTable = () => {
     }
   };
 
-  const filterByCategory = (category) => {
-    setSelectedCategory(category);
-    if (category === "Semua") {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(
-        (product) => product.category === category
-      );
-      setFilteredProducts(filtered);
-    }
-  };
-
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    dispatch(fetchDataProductBySeller())
+  }, [dispatch, search, filter]);
 
   // Pisahkan produk reguler dan pre-sale
-  const regularProducts = filteredProducts.filter(
+  const regularProducts = products.filter(
     (product) => product.productStatus === "regular"
   );
-  const preSaleProducts = filteredProducts.filter(
-    (product) => product.productStatus === "pre-sale"
+
+  const preSaleProducts = products.filter(
+    (product) => product.productStatus === "presale"
   );
 
   return (
@@ -108,15 +100,16 @@ const ProductTable = () => {
         <h1> Daftar Produk </h1>
         <div className="search-bar">
           <input
-            type="text"
+            type="search"
             placeholder="Cari produk..."
             className="search-input"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
+            value={search}
+            onChange={(e) => handleSearchProduct(e.target.value)}
           />
           <button className="search-button">Cari</button>
         </div>
       </header>
+
       {/* Tombol Filter Kategori */}
       <div className="category-buttons">
         {categories.map((category, index) => (
@@ -125,7 +118,7 @@ const ProductTable = () => {
             className={`category-button ${
               selectedCategory === category ? "active" : ""
             }`}
-            onClick={() => filterByCategory(category)}
+            onClick={() => handleFilterCategory(category)}
           >
             {category}
           </button>
@@ -141,8 +134,8 @@ const ProductTable = () => {
           Produk Reguler
         </button>
         <button
-          className={`tab-button ${activeTab === "pre-sale" ? "active" : ""}`}
-          onClick={() => setActiveTab("pre-sale")}
+          className={`tab-button ${activeTab === "presale" ? "active" : ""}`}
+          onClick={() => setActiveTab("presale")}
         >
           Presale
         </button>

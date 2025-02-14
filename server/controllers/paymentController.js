@@ -9,6 +9,8 @@ class PaymentController {
     });
 
     const { orderId } = req.body;
+    console.log(orderId, "ABCDEFG");
+    
 
     try {
       const orderData = await Order.findByPk(orderId, {
@@ -21,11 +23,7 @@ class PaymentController {
       });
 
       if (!orderData) {
-        throw {
-          name: "NotFound",
-          status: 404,
-          message: "Order data not found",
-        };
+        throw { name: "NotFound",status: 404,message: "Order data not found"};
       }
 
       const parameter = {

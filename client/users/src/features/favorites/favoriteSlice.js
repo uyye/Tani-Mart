@@ -40,6 +40,28 @@ export const fetchFavorites = ()=>{
     }
 }
 
+export const fetchCreateFavorite = (productId)=>{
+    return async(dispatch)=>{
+        try {
+            const {data} =await instance({
+                method:"post",
+                url:"/favorites",
+                data:{productId},
+                headers:{
+                    "Authorization":`bearer ${localStorage.getItem("access_token")}`
+                }
+            })
+
+            dispatch(setFavorites)
+            
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
 export const fetchRemoveFavorite = (productId)=>{
     return async (dispatch)=>{
         try {

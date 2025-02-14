@@ -93,20 +93,20 @@ export default function Keranjang() {
               />
             </div>
             <img
-              src={item.Product.image}
-              alt={item.Product.name}
+              src={item.Product?.image}
+              alt={item.Product?.name}
               className="item-image"
             />
             <div className="item-details">
-              <h2 className="item-name">{item.Product.name}</h2>
+              <h2 className="item-name">{item.Product?.name}</h2>
               <p className="item-price">
-                Rp {Number(item.Product.price).toLocaleString()}
+                Rp {Number(item.Product?.price).toLocaleString()}
               </p>
               <p className="item-quantity">Jumlah: {item.quantity}</p>
               <div className="item-actions">
                 <button
                   className="detail-btn"
-                  onClick={() => handleDetail(item.Product.id)}
+                  onClick={() => handleDetail(item.Product?.id)}
                 >
                   Lihat Detail
                 </button>

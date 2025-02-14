@@ -4,19 +4,23 @@ class FavoriteController{
     static async addFavorite(req, res, next){
         try {
             const {productId} = req.body
-
-            console.log(productId, "PPPPPPPPPPPPPP");
             
-            const data = await Favorite.create({
-                userId:req.user.id,
-                productId:productId
-            })
+            const getFavorite = await Favorite.findOne({where:{productId}})
+            if (getFavorite) {
+                throw {name:"Badrequest", status:400, message:"This product has been added"}
+            }else{
+                const data = await Favorite.create({
+                    userId:req.user.id,
+                    productId:productId
+                })
+    
+                res.status(201).json({
+                    message:"added favorite product successfuly",
+                    data
+                })
+                
+            }
 
-            res.status(201).json({
-                message:"added favorite product successfuly",
-                data
-            })
-            
         } catch (error) {
             console.log(error);
             next(error)
