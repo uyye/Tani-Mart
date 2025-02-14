@@ -246,3 +246,19 @@
   background-color: gray;
   cursor: not-allowed;
 }
+.wishlist-button {
+  background-color: #f0f0f0; /* Warna default */
+  flex: 1;
+  color: #000; /* Warna teks default */
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.wishlist-button.active {
+  background-color: #ff4d4d; /* Warna merah saat aktif */
+  color: #fff; /* Warna teks putih saat aktif */
+}

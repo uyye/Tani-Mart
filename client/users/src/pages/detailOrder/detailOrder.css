@@ -147,7 +147,18 @@ h1 {
   background-color: #28a745;
   color: white;
 }
+.order-button.complete-payment {
+  background-color: #4caf50; /* Warna hijau */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
+.order-button.complete-payment:hover {
+  background-color: #45a049; /* Warna hijau lebih gelap saat hover */
+}
 @media (max-width: 768px) {
   .detailOrder-container {
     max-width: 100%;

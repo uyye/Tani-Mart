@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import "./detailOrder.css";
 import instance from "../../api/axiosInstance";
 import { useParams } from "react-router-dom";
-import Table from "../../components/table/Table";
 
 export default function DetailOrder() {
   const { id } = useParams();
   const [detailOrder, setDetailOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchDetailOrder = async () => {
     try {
@@ -18,15 +18,22 @@ export default function DetailOrder() {
         },
       });
 
+      console.log(data); // Periksa data yang diterima
       setDetailOrder(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading ke false setelah selesai
     }
   };
 
   useEffect(() => {
     fetchDetailOrder();
   }, [id]);
+
+  if (loading) {
+    return <p>Memuat data pesanan...</p>;
+  }
 
   if (!detailOrder) {
     return <p>Anda belum melakukan pemesanan.</p>;
@@ -112,6 +119,11 @@ export default function DetailOrder() {
 
       {/* Tombol Aksi */}
       <div className="order-actions">
+        {detailOrder.status.toLowerCase() === "pending" && (
+          <button className="order-button complete-payment">
+            Selesaikan Pembayaran
+          </button>
+        )}
         {detailOrder.status === "Dikirim" && (
           <button className="order-button track">Lacak Pesanan</button>
         )}

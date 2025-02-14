@@ -7,6 +7,7 @@ import {
   Users,
   Wallet,
   LogOut,
+  CheckSquare, // ikon untuk approval
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Pesanan.css";
@@ -74,6 +75,11 @@ export default function Pesanan() {
     },
     { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
     { icon: Timer, label: "Presale", path: "/Presale" },
+    {
+      icon: CheckSquare,
+      label: "Approval", // menu untuk persetujuan order
+      path: "/admin/AdminApproval",
+    },
     { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
     { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
     { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
