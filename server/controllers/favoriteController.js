@@ -5,7 +5,7 @@ class FavoriteController{
         try {
             const {productId} = req.body
             
-            const getFavorite = await Favorite.findOne({where:{productId}})
+            const getFavorite = await Favorite.findOne({where:{productId, userId:req.user.id}})
             if (getFavorite) {
                 throw {name:"Badrequest", status:400, message:"This product has been added"}
             }else{
@@ -32,11 +32,13 @@ class FavoriteController{
 
             const {productId} = req.body
 
-            console.log(productId, "NUMBER KAH");
-            
-            await Favorite.destroy({where:{productId}})
-            res.status(200).json("success delete favoriteProduct")
-            
+            const getFavorite = await Favorite.findOne({where:{productId, userId:req.user.id}})
+            if (!getFavorite) {
+                throw {name:"NotFound", status:404, message:"Favorite product not found"}
+            }else{
+                await Favorite.destroy({where:{productId, userId:req.user.id}})
+                res.status(200).json("success delete favoriteProduct")
+            }
         } catch (error) {
             console.log(error);
             next(error)
@@ -47,8 +49,10 @@ class FavoriteController{
         try {
 
             const {id} = req.params
-            const data = await Favorite.findOne({where:{productId:id}})
-
+            const data = await Favorite.findOne({where:{productId:id, userId:req.user.id}})
+            if(!data){
+                throw{name:"NotFound", status:404, message:"favorite not found"}
+            }
             res.status(200).json(data)
             
         } catch (error) {

@@ -1,40 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "./Detail.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import instance from "../../api/axiosInstance";
-import FavoriteButton from "../../components/button/FavoriteButton";
+import {useNavigate, useParams } from "react-router-dom";
 import OrderButton from "../../components/button/orderButton";
 import { useDispatch, useSelector } from "react-redux";
 import { PostCart } from "../../features/carts/cartSlice";
 import { fetchDetailProduct } from "../../features/products/productSlice";
 import Swal from "sweetalert2";
-import { fetchCreateFavorite } from "../../features/favorites/favoriteSlice";
+import { fetchCreateFavorite, fetchFavoriteByProduct, fetchRemoveFavorite } from "../../features/favorites/favoriteSlice";
 
 export default function DetailProduk() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const product = useSelector((state)=>state.dataProducts.product)
   const { id } = useParams();
-  // const [isPresaleActive, setIsPresaleActive] = useState(false);
+
+  const product = useSelector((state)=>state.dataProducts.product)
+  const favorite = useSelector((state)=>state.dataFavorites.favorite) 
+  console.log(favorite, "PQIAO");
+  
+
   const [quantity, setQuantity] = useState(1);
-
-  // const fetchProduct = async () => {
-  //   try {
-  //     const { data } = await instance.get(`/products/${id}`);
-  //     setProduct(data);
-
-  //     if (data.productStatus === "presale") {
-  //       const currentDate = new Date();
-  //       const presaleStartDate = new Date(data.Presales[0]?.startDate || "");
-
-  //       setIsPresaleActive(currentDate >= presaleStartDate);
-  //     } else {
-  //       setIsPresaleActive(true);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching product:", error);
-  //   }
-  // };
 
   const handleIncrease = () => {
     if (quantity < product.stock) setQuantity(quantity + 1);
@@ -92,8 +76,13 @@ export default function DetailProduk() {
     })
   }
 
+  const handleDeleteFavorite = ()=>{
+    dispatch(fetchRemoveFavorite(id))
+  }
+
   useEffect(() => {
     dispatch(fetchDetailProduct(id))
+    dispatch(fetchFavoriteByProduct(id))
   }, [id, dispatch]);
 
   return (
@@ -167,7 +156,11 @@ export default function DetailProduk() {
           >
             + Keranjang
           </button>
-          <button className="wishlist-button" onClick={handleProductFavorite}>❤️ Wishlist</button>
+          <button
+          className="wishlist-button"
+          onClick={Object.keys(favorite).length === 0 ? handleProductFavorite : handleDeleteFavorite}>
+          ❤️ Wishlist
+          </button>
         </div>
       </div>
     </div>
