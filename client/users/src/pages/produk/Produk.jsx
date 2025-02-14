@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Produk.css";
 import { Link } from "react-router-dom";
-import instance from "../../api/axiosInstance";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchDataProduct, setFilter, setSearch } from "../../features/products/productSlice";
 
 const categories = [
   "Semua",
@@ -44,37 +45,24 @@ const ProductCard = ({ product }) => {
 };
 
 const Produk = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Semua");
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const dispatch = useDispatch()
+  const {products, search, filter} = useSelector((state)=>state.dataProducts)
 
-  const fetchProducts = async () => {
-    try {
-      let filter = selectedCategory !== "Semua" ? selectedCategory : null;
-
-      // Jika memilih kategori "Presale", maka hanya tampilkan produk Presale
-      if (selectedCategory === "Presale") {
-        filter = "presale";
-      }
-
-      const { data } = await instance.get("/products", {
-        params: { filter, search: searchKeyword },
-      });
-
-      if (Array.isArray(data)) {
-        setProducts(data);
-      } else {
-        setProducts([]);
-      }
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setProducts([]);
+  const filterProduct = (category)=>{
+    if (category === "Semua") {
+      dispatch(setFilter())
+    }else{
+      dispatch(setFilter(category))
     }
-  };
+  }
+
+  const searchProduct = (keyword)=>{
+    dispatch(setSearch(keyword))
+  }
 
   useEffect(() => {
-    fetchProducts();
-  }, [selectedCategory, searchKeyword]);
+    dispatch(fetchDataProduct())
+  }, [dispatch, search, filter]);
 
   // Pisahkan produk reguler dan presale
   const regularProducts = products.filter((p) => p.productStatus !== "presale");
@@ -86,11 +74,11 @@ const Produk = () => {
         <h1>Produk Siafarm</h1>
         <div className="search-bar">
           <input
-            type="text"
+            type="search"
             placeholder="Cari produk..."
             className="search-input"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
+            value={search}
+            onChange={(e) => searchProduct(e.target.value)}
           />
           <button className="search-button">Cari</button>
         </div>
@@ -102,9 +90,9 @@ const Produk = () => {
           <button
             key={index}
             className={`category-button ${
-              selectedCategory === category ? "active" : ""
+              filter === category ? "active" : ""
             }`}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => filterProduct(category)}
           >
             {category}
           </button>
@@ -113,7 +101,7 @@ const Produk = () => {
 
       <main>
         {/* Produk Reguler */}
-        {regularProducts.length > 0 && selectedCategory !== "Presale" && (
+        {regularProducts.length > 0 && (
           <section className="product-section">
             <h2 className="section-title">Produk Reguler</h2>
             <div className="product-list">

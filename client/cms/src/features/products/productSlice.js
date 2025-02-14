@@ -39,7 +39,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { setProduct, setDetailProduct, removeProduct } =
+export const { setProduct, setDetailProduct, removeProduct, setFilter,setSearch } =
   productSlice.actions;
 
 export const fetchDataProduct = () => {
@@ -58,6 +58,28 @@ export const fetchDataProduct = () => {
     dispatch(setProduct(data));
   };
 };
+
+export const fetchDataProductBySeller = ()=>{
+  return async (dispatch, getState)=>{
+    const {filter, search} = getState().products
+
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:"/products/admin",
+        headers:{
+          Authorization:`bearer ${localStorage.getItem("access_token")}`
+        },
+        params:{ search, filter}
+      })
+
+      dispatch(setProduct(data))
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}
 
 export const fetchDetailProduct = (id) => {
   return async (dispatch) => {

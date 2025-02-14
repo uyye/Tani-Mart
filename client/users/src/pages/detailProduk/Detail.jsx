@@ -4,34 +4,37 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import instance from "../../api/axiosInstance";
 import FavoriteButton from "../../components/button/FavoriteButton";
 import OrderButton from "../../components/button/orderButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PostCart } from "../../features/carts/cartSlice";
+import { fetchDetailProduct } from "../../features/products/productSlice";
+import Swal from "sweetalert2";
+import { fetchCreateFavorite } from "../../features/favorites/favoriteSlice";
 
 export default function DetailProduk() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [isPresaleActive, setIsPresaleActive] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const [product, setProduct] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const product = useSelector((state)=>state.dataProducts.product)
+  const { id } = useParams();
+  // const [isPresaleActive, setIsPresaleActive] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
-  const fetchProduct = async () => {
-    try {
-      const { data } = await instance.get(`/products/${id}`);
-      setProduct(data);
+  // const fetchProduct = async () => {
+  //   try {
+  //     const { data } = await instance.get(`/products/${id}`);
+  //     setProduct(data);
 
-      if (data.productStatus === "presale") {
-        const currentDate = new Date();
-        const presaleStartDate = new Date(data.Presales[0]?.startDate || "");
+  //     if (data.productStatus === "presale") {
+  //       const currentDate = new Date();
+  //       const presaleStartDate = new Date(data.Presales[0]?.startDate || "");
 
-        setIsPresaleActive(currentDate >= presaleStartDate);
-      } else {
-        setIsPresaleActive(true);
-      }
-    } catch (error) {
-      console.error("Error fetching product:", error);
-    }
-  };
+  //       setIsPresaleActive(currentDate >= presaleStartDate);
+  //     } else {
+  //       setIsPresaleActive(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching product:", error);
+  //   }
+  // };
 
   const handleIncrease = () => {
     if (quantity < product.stock) setQuantity(quantity + 1);
@@ -41,18 +44,57 @@ export default function DetailProduk() {
     if (quantity > 1) setQuantity(quantity - 1);
   };
 
-  const handleInputCart = () => {
-    dispatch(PostCart(id, quantity));
+  const handleInputCart =async () => {
+    if(!localStorage.getItem("access_token")){
+      const result = await Swal.fire({
+        icon:"question",
+        title:"Belum login?",
+        text:"Silahkan login untuk lakukan pemesanan",
+        showCancelButton:true,
+        confirmButtonText:"Login",
+        cancelButtonText:"Cancel"
+      })
+
+      if(result.isConfirmed){
+        navigate("/login")
+      }
+    }else{
+      dispatch(PostCart(id, quantity));
+    }
   };
 
-  const handleCheckout = () => {
-    const selectedProducts = [{ Product: product, quantity }];
-    navigate("/checkout", { state: { selectedProducts } });
+  const handleCheckout = async () => {
+
+    if(!localStorage.getItem("access_token")){
+     const result = await Swal.fire({
+        icon:"question",
+        title:"Belum login?",
+        text:"Silahkan login untuk lakukan pemesanan",
+        showCancelButton:true,
+        confirmButtonText:"Login",
+        cancelButtonText:"Cancel"
+      })
+
+      if(result.isConfirmed){
+        navigate("/login")
+      }
+    }else{
+      const selectedProducts = [{ Product: product, quantity }];
+      navigate("/checkout", { state: { selectedProducts } });
+    }
   };
+
+  const handleProductFavorite = async ()=>{
+    dispatch(fetchCreateFavorite(id))
+    await Swal.fire({
+      icon:"success",
+      text:"Berhasil menambahkan produk ke daftar whislist"
+    })
+  }
 
   useEffect(() => {
-    fetchProduct();
-  }, [id]);
+    dispatch(fetchDetailProduct(id))
+  }, [id, dispatch]);
 
   return (
     <div className="detail-container">
@@ -116,20 +158,16 @@ export default function DetailProduk() {
 
         {/* Tombol Order, Keranjang & Wishlist */}
         <div className="order-buttons">
-          <OrderButton isPresale={isPresaleActive} handleOrder={handleCheckout}>
+          <OrderButton handleOrder={handleCheckout}>
             Beli Sekarang
           </OrderButton>
           <button
-            className={`add-to-cart-button1 ${
-              !isPresaleActive ? "disabled" : ""
-            }`}
-            onClick={isPresaleActive ? handleInputCart : undefined}
+            className={`add-to-cart-button1`}
+            onClick={handleInputCart}
           >
             + Keranjang
           </button>
-          <Link to="/wishlist">
-            <button className="wishlist-button">❤️ Wishlist</button>
-          </Link>
+          <button className="wishlist-button" onClick={handleProductFavorite}>❤️ Wishlist</button>
         </div>
       </div>
     </div>

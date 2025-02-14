@@ -38,9 +38,20 @@ class ProductController{
         }
     }
 
-    static async getSellerProduct(req, res, next){
+    static async getSellerProduct(req, res, next){ 
         try {
-            const data = await Product.findAll({where:{authorId:req.user.id}})
+            const {filter, search} = req.query
+            
+            const option = {
+                where:{
+                    authorId:req.user.id,
+                ...(filter && {category:filter}),
+                ...(search && {name:{[Op.iLike]:`%${search}%`}})
+                },
+                order: [['createdAt', 'DESC']]
+            }
+            
+            const data = await Product.findAll(option)
             res.status(200).json(data)
         } catch (error) {
             console.log(error);
