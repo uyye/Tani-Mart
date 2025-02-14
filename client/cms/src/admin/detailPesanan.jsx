@@ -5,22 +5,22 @@ import { Link } from "react-router-dom";
 const orderDetail = {
   id: "ORD001",
   customer: "Budi Santoso",
-  address: "Jl. Mangga No. 10, Jakarta",
+  address: "Jl. Mangga No. 10, Bantaeng",
   products: [
     {
-      name: "Pupuk Organik Premium",
-      quantity: 2,
-      price: "Rp 1.000.000",
+      name: "Cabe Rawit",
+      quantity: 3,
+      price: "Rp. 105.000",
     },
     {
-      name: "Bibit Unggul",
-      quantity: 1,
-      price: "Rp 500.000",
+      name: "Cengkeh Kering",
+      quantity: 2,
+      price: "Rp. 210.000",
     },
   ],
-  total: "Rp 2.500.000",
+  total: "Rp 315.000",
   status: "pending",
-  date: "2024-03-15",
+  date: "2025-03-15",
 };
 
 export default function DetailPesanan() {

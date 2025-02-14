@@ -5,7 +5,7 @@ import Footer from "../components/footer/Footer";
 export default function Index() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Outlet />
       <Footer />
       {/* <Produk /> */}

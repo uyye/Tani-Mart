@@ -14,7 +14,7 @@
 .space-y-4 {
   margin: 10px;
   padding-top: 10px;
-  background-color: #166534;
+  /* background-color: #166534; */
 }
 .container {
   display: flex;
@@ -178,7 +178,7 @@
 
 .text-gray-600 {
   color: #010101;
-  background-color: #55f59a;
+  /* background-color: #55f59a; */
   text-align: center;
 }
 

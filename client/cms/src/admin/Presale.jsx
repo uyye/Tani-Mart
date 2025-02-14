@@ -11,6 +11,7 @@ import {
   Users,
   Wallet,
   LogOut,
+  CheckSquare, // ikon untuk approval
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -18,22 +19,22 @@ import { FiSidebar } from "react-icons/fi";
 const presaleItems = [
   {
     id: "PRE001",
-    product: "Pupuk Organik Premium Plus",
-    startDate: "2024-03-20",
-    endDate: "2024-04-20",
-    price: "Rp 180.000",
-    normalPrice: "Rp 220.000",
+    product: "Bawang",
+    startDate: "2025-03-20",
+    endDate: "2025-04-20",
+    price: "Rp 25.000",
+    normalPrice: "Rp 27.000",
     stock: 500,
     sold: 125,
     status: "active",
   },
   {
     id: "PRE002",
-    product: "Bibit Unggul Spesial",
-    startDate: "2024-03-25",
-    endDate: "2024-04-25",
-    price: "Rp 95.000",
-    normalPrice: "Rp 120.000",
+    product: "Tomat",
+    startDate: "2025-03-25",
+    endDate: "2025-04-25",
+    price: "Rp 3.500",
+    normalPrice: "Rp 4.000",
     stock: 300,
     sold: 50,
     status: "upcoming",
@@ -62,6 +63,11 @@ export default function Presale() {
     },
     { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
     { icon: Timer, label: "Presale", path: "/Presale" },
+    {
+      icon: CheckSquare,
+      label: "Approval", // menu untuk persetujuan order
+      path: "/admin/AdminApproval",
+    },
     { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
     { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
     { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
