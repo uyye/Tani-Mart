@@ -71,6 +71,9 @@ export const fetchPostOrder = (request)=>{
                     await instance({
                         method:"post",
                         url:"/payments/webhooks",
+                        headers:{
+                            "Authorization": `bearer ${localStorage.getItem("access_token")}`
+                        },
                         data:{
                             order_id:Number(result.order_id.split("-")[1]),
                             transaction_status: result.transaction_status
@@ -82,6 +85,9 @@ export const fetchPostOrder = (request)=>{
                     await instance({
                         method:"post",
                         url:"/payments/webhooks",
+                        headers:{
+                            "Authorization": `bearer ${localStorage.getItem("access_token")}`
+                        },
                         data:{
                             order_id:Number(result.order_id.split("-")[1]),
                             transaction_status: result.transaction_status
@@ -93,6 +99,9 @@ export const fetchPostOrder = (request)=>{
                     await instance({
                         method:"post",
                         url:"/payments/webhooks",
+                        headers:{
+                            "Authorization": `bearer ${localStorage.getItem("access_token")}`
+                        },
                         data:{
                             order_id:Number(result.order_id.split("-")[1]),
                             transaction_status: result.transaction_status
