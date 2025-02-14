@@ -12,6 +12,8 @@ function Register() {
     address: "",
     phoneNumber: "",
     role: "seller",
+    bankName: "", // Tambahkan state untuk nama bank
+    accountNumber: "", // Tambahkan state untuk nomor rekening
   });
 
   const handleInputChange = (e) => {
@@ -33,7 +35,7 @@ function Register() {
 
       Swal.fire({
         title: "Success",
-        text: "You are register",
+        text: "You are registered",
         icon: "success",
         showConfirmButton: false,
         timer: 2000,
@@ -88,6 +90,28 @@ function Register() {
               name="phoneNumber"
               onChange={handleInputChange}
               placeholder="Masukkan Nomor Telepon"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Nama Bank</label>
+            <select name="bankName" onChange={handleInputChange} required>
+              <option value="">Pilih Bank</option>
+              <option value="BCA">BCA</option>
+              <option value="Mandiri">Mandiri</option>
+              <option value="BNI">BNI</option>
+              <option value="BRI">BRI</option>
+              <option value="CIMB Niaga">CIMB Niaga</option>
+              <option value="Bank Lainnya">Bank Lainnya</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Nomor Rekening</label>
+            <input
+              type="text"
+              name="accountNumber"
+              onChange={handleInputChange}
+              placeholder="Masukkan Nomor Rekening"
               required
             />
           </div>

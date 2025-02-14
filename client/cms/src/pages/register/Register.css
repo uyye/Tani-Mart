@@ -3,11 +3,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 120vh;
   background: linear-gradient(135deg, #11cb81, #65f5ca, #15570f, #13b268);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
-  padding: 20px;
+  padding: 10px;
 }
 
 @keyframes gradientBG {
@@ -37,7 +37,7 @@
 .register-container-cms h2 {
   margin-bottom: 2rem;
   padding-top: -6px;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 
 .register-container-cms .form-group {
