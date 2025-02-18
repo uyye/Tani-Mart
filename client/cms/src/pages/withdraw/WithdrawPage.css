@@ -1,0 +1,44 @@
+.withdraw-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+.withdraw-page h1 {
+  margin-top: 80px;
+}
+.withdraw-form {
+  margin-bottom: 20px;
+}
+
+.withdraw-form input {
+  padding: 10px;
+  margin-right: 20px;
+  width: 220px;
+}
+
+.withdraw-form button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.withdraw-form button:hover {
+  background-color: #218838;
+}
+
+.withdraw-history ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.withdraw-history li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.withdraw-history li span {
+  margin-right: 20px;
+}

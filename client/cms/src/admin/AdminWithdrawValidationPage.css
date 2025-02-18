@@ -1,0 +1,42 @@
+.admin-withdraw-validation-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.buttonwithdraw {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.buttonwithdraw :first-child {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.buttonwithdraw :last-child {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.8;
+}
