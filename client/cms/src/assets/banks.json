@@ -1,0 +1,15 @@
+{
+    "banks": [
+      { "value": "bri", "label": "BRI", "codebank": "002" },
+      { "value": "bni", "label": "BNI", "codebank": "009" },
+      { "value": "bca", "label": "BCA", "codebank": "014" },
+      { "value": "mandiri", "label": "Mandiri", "codebank": "008" },
+      { "value": "bsi", "label": "BSI", "codebank": "451" },
+      { "value": "btn", "label": "BTN", "codebank": "200" },
+      { "value": "bpd_sulselbar", "label": "BPD Sulselbar", "codebank": "126" },
+      { "value": "bukopin", "label": "KB Bukopin", "codebank": "441" },
+      { "value": "btpn", "label": "BTPN", "codebank": "213" },
+      { "value": "mega", "label": "Bank Mega", "codebank": "426" }
+    ]
+  }
+  

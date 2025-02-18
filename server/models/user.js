@@ -81,10 +81,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     bankName:{
-      type:DataTypes.STRING
+      type:DataTypes.STRING,
     },
     bankAccountNumber:{
-      type:DataTypes.INTEGER
+      type:DataTypes.STRING,
     }
   }, {
     sequelize,
