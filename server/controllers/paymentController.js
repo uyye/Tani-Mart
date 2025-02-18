@@ -1,5 +1,8 @@
 const midtransClient = require("midtrans-client");
-const {Payment, Order, User, OrderDetail, Product } = require("../models");
+const {Payment, Order, User, OrderDetail, Product, Sequelize } = require("../models");
+const { isProduction } = require("midtrans-client/lib/snapBi/snapBiConfig");
+const { Op } = require("sequelize");
+
 
 class PaymentController {
   static async payment(req, res, next) {
@@ -182,6 +185,212 @@ class PaymentController {
       next(error);
     }
   }
+
+  static async dailyStatistic(req, res, next){
+    try{
+      const now = new Date();
+      const startOfToday = new Date(now.setHours(0,0,0,0));
+
+      const startOfYesterday = new Date(startOfToday)
+      startOfYesterday.setDate(startOfYesterday.getDate() - 1)
+      const endOfYesterday = new Date(startOfToday)
+
+      //dailySales
+      const dailySales = (await Payment.sum("amount", {
+        where:{createdAt:{[Op.gte]:startOfToday}, authorId:req.user.id, status:"paid"}
+      })) || 0
+
+      const yesterdaySales = (await Payment.sum("amount", {
+        where:{
+          createdAt:{
+            [Op.gte]:startOfYesterday,
+            [Op.lt]:endOfYesterday
+          },
+          status:"paid",
+          authorId:req.user.id
+        }
+      })) || 0
+
+      //dailyPercentage
+      let dailyPercentage = 0
+      if(yesterdaySales){
+        dailyPercentage = ((dailySales - yesterdaySales)/ yesterdaySales) * 100
+      }
+
+      const result = {
+        totalDailySales : dailySales,
+        totalYesterdaySales : yesterdaySales,
+        totalDailyPercentage : dailyPercentage.toFixed(2)
+      }
+      
+      res.status(200).json(result)
+    }catch(error){
+      console.log(error);
+      next(error)
+    }
+  }
+
+  static async weeklyStatistic(req, res, next){
+    try {
+      const weekAgo = new Date()
+      weekAgo.setDate(weekAgo.getDate() - 7)
+
+      const twoWeekAgo = new Date(weekAgo)
+      twoWeekAgo.setDate(twoWeekAgo.getDate()- 7)
+
+      const weeklySales = (await Payment.sum("amount", {
+        where:{
+          createdAt:{[Op.gte]:weekAgo},
+          authorId:req.user.id,
+          status:"paid"
+        }
+      })) || 0
+
+      const twoWeeklyAgoSales = (await Payment.sum("amount", {
+        where:{
+          createdAt:{
+            [Op.gte]:twoWeekAgo,
+            [Op.lt]:weekAgo
+          },
+          authorId:req.user.id,
+          status:"paid"
+        }
+      })) || 0
+
+
+      let weeklyPercentage = 0
+
+      if(twoWeeklyAgoSales){
+        weeklyPercentage = ((weeklySales - twoWeeklyAgoSales)/twoWeeklyAgoSales) * 100
+      }
+
+      const result = {
+        totalWeeklySales : weeklySales,
+        totalTwoWeeklySales : twoWeeklyAgoSales,
+        totalWeeklyPercentage : weeklyPercentage.toFixed(2)
+      }
+
+      res.status(200).json(result)
+    } catch (error) {
+      console.log(error);
+      next(error)
+      
+    }
+  }
+
+  static async montlyStatistic(req, res, next){
+    try{
+
+      const monthAgo = new Date()
+      monthAgo.setMonth(monthAgo.getMonth() - 1)
+
+      const twoMonthAgo = new Date(monthAgo)
+      twoMonthAgo.setMonth(twoMonthAgo.getDate() - 1)
+
+      //montlySales
+      const montlySales = (await Payment.sum("amount", {
+        where:{
+          createdAt:{[Op.gte]:monthAgo},
+          authorId:req.user.id,
+          status:"paid"
+        }
+      })) || 0
+
+      //twoMonthSales
+      const twoMontlySales = (await Payment.sum("amount",{
+        where:{
+          createdAt:{
+            [Op.gte]:twoMonthAgo,
+            [Op.lt]:monthAgo
+          },
+          authorId:req.user.id,
+          status:"paid"
+        }
+      })) || 0
+
+      let montlyPercentage = 0
+      if(twoMontlySales > 0){
+        montlyPercentage = ((montlySales - twoMontlySales)/twoMontlySales) * 100
+      }
+
+      const result = {
+        totalMonthlySales:montlySales,
+        totalTwoMonthlySales:twoMontlySales,
+        totalMonthlyPercentage: montlyPercentage.toFixed(2) 
+      }
+
+      res.status(200).json(result)
+    }catch(error){
+      console.log(error);
+      next(error)
+      
+    }
+  }
+
+  static async buyerStatistic(req, res, next) {
+    try {
+      const now = new Date();
+      const startOfToday = new Date(now.setHours(0, 0, 0, 0));
+  
+      const yesterday = new Date(startOfToday);
+      yesterday.setDate(yesterday.getDate() - 1);
+  
+      const totalBuyerResult = await Payment.findOne({
+        where: { authorId: req.user.id },
+        include: { model: Order, attributes: [] },
+        attributes: [
+          [Sequelize.fn("COUNT", Sequelize.fn("DISTINCT", Sequelize.col("Order.userId"))), "totalBuyer"]
+        ],
+        raw: true
+      }) || {};
+  
+      const dailyBuyerResult = await Payment.findOne({
+        where: {
+          authorId: req.user.id,
+          createdAt: { [Op.gte]: startOfToday }
+        },
+        include: { model: Order, attributes: [] },
+        attributes: [
+          [Sequelize.fn("COUNT", Sequelize.fn("DISTINCT", Sequelize.col("Order.userId"))), "dailyBuyer"]
+        ],
+        raw: true
+      }) || {};
+  
+      const yesterdayBuyerResult = await Payment.findOne({
+        where: {
+          authorId: req.user.id,
+          createdAt: { [Op.between]: [yesterday, startOfToday] }
+        },
+        include: { model: Order, attributes: [] },
+        attributes: [
+          [Sequelize.fn("COUNT", Sequelize.fn("DISTINCT", Sequelize.col("Order.userId"))), "yesterdayBuyer"]
+        ],
+        raw: true
+      }) || {};
+  
+      const totalBuyer = totalBuyerResult.totalBuyer || 0;
+      const dailyBuyer = dailyBuyerResult.dailyBuyer || 0;
+      const yesterdayBuyer = yesterdayBuyerResult.yesterdayBuyer || 0;
+  
+      let buyerPercentage = 0;
+      if (yesterdayBuyer > 0) {
+        buyerPercentage = ((dailyBuyer - yesterdayBuyer) / yesterdayBuyer) * 100;
+        buyerPercentage = parseFloat(buyerPercentage.toFixed(2));
+      }
+  
+      res.status(200).json({
+        totalBuyer,
+        dailyBuyer,
+        yesterdayBuyer,
+        buyerPercentage
+      });
+  
+    } catch (error) {
+      console.error(error);
+      return next(error);
+    }
+  }
+  
 }
 
 module.exports = PaymentController;

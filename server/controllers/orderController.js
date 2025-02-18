@@ -1,4 +1,4 @@
-const {Order, Product, OrderDetail, User, Payment, sequelize} = require("../models")
+const {Order, Product, OrderDetail, User, Payment, sequelize, Sequelize} = require("../models")
 const midtransClient = require('midtrans-client');
 
 class OrderController{
@@ -213,6 +213,52 @@ class OrderController{
             next(error)
         }
     }
+
+    static async orderStatistic(req, res, next){
+        try {
+
+            const data = await Order.count({
+                distink:true,
+                col:"userId",
+                include:[
+                    {
+                        model:OrderDetail,
+                        where:{authorId:req.user.id}
+                    },
+                ]
+            })
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+            
+        }
+    }
+
+    static async topOrder(req, res, next){
+        try {
+            const data = await OrderDetail.findAll({
+                where:{authorId:req.user.id},
+                include:{model:Product, attributes:[]},
+                attributes:[
+                    [Sequelize.col("Product.id"), "productId"],
+                    [Sequelize.col("Product.name"), "productName"],
+                    [Sequelize.col("Product.image"), "productImage"],
+                    [Sequelize.col("Product.price"), "productPrice"],
+                    [Sequelize.fn("SUM", Sequelize.col("quantity")), "totalQuantityOrder"]
+                ],
+                group:["Product.id", "Product.name"],
+                order:[[Sequelize.fn("SUM", Sequelize.col("quantity")), "desc"]],
+                limit:5
+            })
+
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+    
 }
 
 module.exports = OrderController
