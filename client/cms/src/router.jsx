@@ -23,6 +23,9 @@ import DetailPesanan from "./admin/detailPesanan";
 import EditPresale from "./admin/editPresale";
 import DetailPengguna from "./admin/DetailPengguna";
 import AdminApproval from "./admin/AdminApproval";
+import WithdrawPage from "./pages/withdraw/WithdrawPage";
+import AdminWithdrawValidationPage from "./admin/AdminWithdrawValidationPage";
+import AdminProductApprovalPage from "./admin/AdminProductApprovalPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,6 +62,15 @@ const router = createBrowserRouter([
       { path: "/admin/editPresale", element: <EditPresale /> },
       { path: "/admin/DetailPengguna", element: <DetailPengguna /> },
       { path: "/admin/AdminApproval", element: <AdminApproval /> },
+      { path: "/WithdrawPage", element: <WithdrawPage /> },
+      {
+        path: "/AdminWithdrawValidationPage",
+        element: <AdminWithdrawValidationPage />,
+      },
+      {
+        path: "/AdminProductApprovalPage",
+        element: <AdminProductApprovalPage />,
+      },
     ],
   },
 
@@ -94,6 +106,15 @@ const router = createBrowserRouter([
       { path: "/admin/editPresale", element: <EditPresale /> },
       { path: "/admin/DetailPengguna", element: <DetailPengguna /> },
       { path: "/admin/AdminApproval", element: <AdminApproval /> },
+      // { path: "/WithdrawPage", element: <WithdrawPage /> },
+      // {
+      //   path: "/AdminWithdrawValidationPage",
+      //   element: <AdminWithdrawValidationPage />,
+      // },
+      // {
+      //   path: "/AdminProductApprovalPage",
+      //   element: <AdminProductApprovalPage />,
+      // },
     ],
   },
 
