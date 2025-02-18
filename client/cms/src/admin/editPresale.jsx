@@ -7,10 +7,10 @@ export default function EditPresale() {
 
   // Data dummy untuk sementara (tanpa API & presaleItems)
   const [formData, setFormData] = useState({
-    productName: "Produk Contoh",
+    productName: "Tomat",
     price: 10000,
-    startDate: "2024-01-01",
-    endDate: "2024-01-07",
+    startDate: "2025-01-01",
+    endDate: "2025-02-07",
     stock: 50,
   });
 

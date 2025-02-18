@@ -3,13 +3,14 @@ import "./DetailProduk.css";
 
 const productData = {
   id: "P001",
-  name: "Pupuk Organik Premium",
-  category: "Pupuk",
-  price: 180000,
+  name: "Cabe Rawit",
+  category: "Sayur-Sayuran",
+  price: 30000,
   stock: 500,
   status: "Reguler",
-  description: "Pupuk organik berkualitas tinggi untuk tanaman.",
-  store: "Toko Pertanian Siafarm",
+  description:
+    "Cabe rawit dengan tingkat kepedasan yang extra dan berkualitas tinggi.",
+  store: "Syarifuddin",
   storeNumber: "0812-3456-7890",
   image: "https://via.placeholder.com/150", // Gambar produk sementara
 };
