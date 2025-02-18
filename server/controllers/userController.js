@@ -22,9 +22,12 @@ class UserController{
             const {name, password, address, phoneNumber, role, bankName, bankAccountNumber} = req.body
             let create;
 
-            if(role === "saler"){
+            console.log(bankAccountNumber, "ABCDEF"); //00010000 ABCDEF
+            
+
+            if(role === "seller"){
                 create = await User.create({name, password, address, phoneNumber, role, bankName, bankAccountNumber})
-            }else if(role !== "saler"){
+            }else if(role !== "seller"){
                 create = await User.create({name, password, address, phoneNumber, role})
             }
 

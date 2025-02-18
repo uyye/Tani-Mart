@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import instance from "../../api/axiosInstance";
+import bankList from "../../assets/banks.json"
 
 function Register() {
   const navigate = useNavigate();
@@ -13,9 +14,9 @@ function Register() {
     phoneNumber: "",
     role: "seller",
     bankName: "", // Tambahkan state untuk nama bank
-    accountNumber: "", // Tambahkan state untuk nomor rekening
+    bankAccountNumber: "", // Tambahkan state untuk nomor rekening
   });
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -97,19 +98,18 @@ function Register() {
             <label>Nama Bank</label>
             <select name="bankName" onChange={handleInputChange} required>
               <option value="">Pilih Bank</option>
-              <option value="BCA">BCA</option>
-              <option value="Mandiri">Mandiri</option>
-              <option value="BNI">BNI</option>
-              <option value="BRI">BRI</option>
-              <option value="CIMB Niaga">CIMB Niaga</option>
-              <option value="Bank Lainnya">Bank Lainnya</option>
+              {
+                bankList.banks?.map((bank, index)=>(
+                  <option key={index} value={bank.value}>{bank.label}</option>
+                ))
+              }
             </select>
           </div>
           <div className="form-group">
             <label>Nomor Rekening</label>
             <input
               type="text"
-              name="accountNumber"
+              name="bankAccountNumber"
               onChange={handleInputChange}
               placeholder="Masukkan Nomor Rekening"
               required
