@@ -21,6 +21,9 @@ import {
   ArrowUpRight,
   Clock,
 } from "lucide-react";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchSalesStatistic } from "../../features/statistic/statisticSlice";
+import { fetchTopOrderBySeller } from "../../features/orders/orderSlice";
 
 // Mock data untuk slider
 const FEATURED_PRODUCTS = [
@@ -76,7 +79,7 @@ const POPULAR_PRODUCTS = [
 // Mock data untuk dashboard
 const DASHBOARD_STATS = {
   dailySales: "Rp 2.5M",
-  weeklySales: "Rp 15.2M",
+  weeklySales: 20000,
   monthlySales: "Rp 45.8M",
   totalBuyers: 1250,
   activeProducts: 85,
@@ -87,6 +90,12 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [showAdminApproval, setShowAdminApproval] = useState(false);
+  const dispatch = useDispatch()
+  const dataStatistic = useSelector((state)=>state.statistics.salesStatistic)
+  const topOrder = useSelector((state)=>state.orders.topOrder)
+
+  console.log(topOrder);
+  
 
   // State untuk daftar approval, dengan status awal "Menunggu Persetujuan"
   const [approvalList, setApprovalList] = useState([
@@ -165,11 +174,15 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(nextSlide, 5000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
+  useEffect(()=>{
+    dispatch(fetchSalesStatistic())
+    dispatch(fetchTopOrderBySeller())
+  }, [dispatch])
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="diatas">
@@ -222,10 +235,10 @@ export default function Home() {
                     <BarChart3 className="stat-icon" size={24} />
                     <h3>Penjualan Harian</h3>
                   </div>
-                  <p className="stat-value">{DASHBOARD_STATS.dailySales}</p>
+                  <p className="stat-value">Rp.{dataStatistic?.dailySales?.totalDailySales.toLocaleString()}</p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>12% dari kemarin</span>
+                    <span>{dataStatistic?.dailySales?.totalDailyPercentage} % dari kemarin</span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -233,10 +246,10 @@ export default function Home() {
                     <Clock className="stat-icon" size={24} />
                     <h3>Penjualan Mingguan</h3>
                   </div>
-                  <p className="stat-value">{DASHBOARD_STATS.weeklySales}</p>
+                  <p className="stat-value">Rp.{dataStatistic?.weeklySales?.totalWeeklySales.toLocaleString()}</p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>8% dari minggu lalu</span>
+                    <span>{dataStatistic?.weeklySales?.totalWeeklyPercentage} % dari minggu lalu</span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -244,10 +257,10 @@ export default function Home() {
                     <Users className="stat-icon" size={24} />
                     <h3>Total Pembeli</h3>
                   </div>
-                  <p className="stat-value">{DASHBOARD_STATS.totalBuyers}</p>
+                  <p className="stat-value">{dataStatistic?.dailyBuyer?.totalBuyer}</p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>25 pembeli baru</span>
+                    <span>{dataStatistic?.dailyBuyer?.dailyBuyer} pembeli baru</span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -255,10 +268,10 @@ export default function Home() {
                     <DollarSign className="stat-icon" size={24} />
                     <h3>Total Pendapatan</h3>
                   </div>
-                  <p className="stat-value">{DASHBOARD_STATS.totalRevenue}</p>
+                  <p className="stat-value">Rp.{dataStatistic?.monthlySales?.totalMonthlySales.toLocaleString()}</p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>15% bulan ini</span>
+                    <span>{dataStatistic?.monthlySales?.totalMonthlyPercentage} % bulan ini</span>
                   </div>
                 </div>
               </div>
@@ -389,20 +402,20 @@ export default function Home() {
             </h2>
           </div>
           <div className="products-grid">
-            {POPULAR_PRODUCTS.map((product) => (
+            {topOrder?.map((product) => (
               <div key={product.id} className="product-card1">
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={product.productImage}
+                  alt={product.productName}
                   className="product-image1"
                 />
                 <div className="product-info">
-                  <h3 className="product-title">{product.name}</h3>
-                  <p className="product-price">{product.price}</p>
+                  <h3 className="product-title">Rp.{product.productName?.toLocaleString()}</h3>
+                  <p className="product-price">Rp.{product.productPrice?.toLocaleString()}</p>
                   <div className="product-meta">
                     <Star size={16} color="#FCD34D" />
                     <span>{product.rating}</span>
-                    <span className="meta-separator">•</span>
+                    <span className="meta-separator">{product.totalQuantityOrder}</span>
                     <ShoppingBag size={16} />
                     <span>{product.sales} terjual</span>
                   </div>

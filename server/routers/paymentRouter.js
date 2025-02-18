@@ -6,4 +6,10 @@ const router = express.Router()
 router.post("/", authentication, PaymentController.payment)
 router.post("/webhooks", authentication, PaymentController.midtransWebHook)
 
+//statistic
+router.get("/daily/sales", authentication, PaymentController.dailyStatistic)
+router.get("/weekly/sales", authentication, PaymentController.weeklyStatistic)
+router.get("/monthly/sales", authentication, PaymentController.montlyStatistic)
+router.get("/daily/buyer", authentication, PaymentController.buyerStatistic)
+
 module.exports = router
