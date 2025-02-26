@@ -1,5 +1,10 @@
 import { useParams } from "react-router-dom";
 import "./DetailProduk.css";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchDetailProduct } from "../features/products/productSlice";
+import { formatIDR } from "../helpers/formatIDR";
 
 const productData = {
   id: "P001",
@@ -17,6 +22,10 @@ const productData = {
 
 export default function DetailProduk() {
   const { id } = useParams();
+  const dispatch = useDispatch()
+  const detailProduct = useSelector((state)=>state.products.product)
+  console.log(detailProduct);
+  
 
   const handleUpdate = () => {
     alert("Fitur update belum diimplementasikan.");
@@ -31,44 +40,50 @@ export default function DetailProduk() {
     }
   };
 
+  useEffect(()=>{
+    dispatch(fetchDetailProduct(id))
+  },[id, dispatch])
+
   return (
-    <div className="detail-produk-container">
+    <div className="container">
+      <SideNavbar/>
+      <div className="detail-produk-container">
       <h2>Detail Produk</h2>
 
       <div className="produk-detail-card">
         <img
-          src={productData.image}
-          alt={productData.name}
+          src={detailProduct.image}
+          alt={detailProduct.name}
           className="produk-image"
         />
         <div className="produk-info">
           <p>
-            <strong>ID Produk:</strong> {productData.id}
+            <strong>ID Produk:</strong> {detailProduct.id}
           </p>
           <p>
-            <strong>Nama Produk:</strong> {productData.name}
+            <strong>Nama Produk:</strong> {detailProduct.name}
           </p>
           <p>
-            <strong>Kategori:</strong> {productData.category}
+            <strong>Kategori:</strong> {detailProduct.category}
           </p>
           <p>
-            <strong>Harga Satuan:</strong> Rp{" "}
-            {productData.price.toLocaleString()}
+            <strong>Harga Satuan:</strong>
+            {formatIDR(detailProduct.price)}
           </p>
           <p>
-            <strong>Stok:</strong> {productData.stock}
+            <strong>Stok:</strong> {detailProduct.stock}
           </p>
           <p>
-            <strong>Status:</strong> {productData.status}
+            <strong>Status:</strong> {detailProduct.productStatus}
           </p>
           <p>
-            <strong>Deskripsi:</strong> {productData.description}
+            <strong>Deskripsi:</strong> {detailProduct.description}
           </p>
           <p>
-            <strong>Nama Toko:</strong> {productData.store}
+            <strong>Nama Toko:</strong> {detailProduct.User?.name}
           </p>
           <p>
-            <strong>Nomor Toko:</strong> {productData.storeNumber}
+            <strong>Nomor Toko:</strong> {detailProduct.User?.phoneNumber}
           </p>
           <div className="button-container">
             <button className="update-button" onClick={handleUpdate}>
@@ -80,6 +95,7 @@ export default function DetailProduk() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

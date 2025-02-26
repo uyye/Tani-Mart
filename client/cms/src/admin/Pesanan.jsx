@@ -1,96 +1,19 @@
-import React, { useState } from "react";
-import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Timer,
-  Users,
-  Wallet,
-  LogOut,
-  CheckSquare, // ikon untuk approval
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import {Package} from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Pesanan.css";
-import logo from "../assets/logo.png";
-import { FiSidebar } from "react-icons/fi";
-const orders = [
-  {
-    id: "ORD001",
-    customer: "Budi Santoso",
-    products: ["Pupuk Organik Premium", "Bibit Unggul"],
-    total: "Rp 2.500.000",
-    status: "pending",
-    date: "2024-03-15",
-  },
-  {
-    id: "ORD002",
-    customer: "Siti Aminah",
-    products: ["Pestisida Alami"],
-    total: "Rp 850.000",
-    status: "processing",
-    date: "2024-03-15",
-  },
-  {
-    id: "ORD003",
-    customer: "Ahmad Hidayat",
-    products: ["Alat Pertanian", "Pupuk Organik Premium"],
-    total: "Rp 3.200.000",
-    status: "completed",
-    date: "2024-03-14",
-  },
-  {
-    id: "ORD003",
-    customer: "Ahmad Hidayat",
-    products: ["Alat Pertanian", "Pupuk Organik Premium"],
-    total: "Rp 3.200.000",
-    status: "completed",
-    date: "2024-03-14",
-  },
-  {
-    id: "ORD003",
-    customer: "Ahmad Hidayat",
-    products: ["Alat Pertanian", "Pupuk Organik Premium"],
-    total: "Rp 3.200.000",
-    status: "completed",
-    date: "2024-03-14",
-  },
-  {
-    id: "ORD003",
-    customer: "Ahmad Hidayat",
-    products: ["Alat Pertanian", "Pupuk Organik Premium"],
-    total: "Rp 3.200.000",
-    status: "completed",
-    date: "2024-03-14",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderAdmin } from "../features/orders/orderSlice";
+import formateDate from "../../../users/src/helpers/formateDate";
+import { formatIDR } from "../helpers/formatIDR";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
+
 
 export default function Pesanan() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
-  const menuItems = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard Admin Siafarm",
-      path: "/admin/dashboard",
-    },
-    { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
-    { icon: Timer, label: "Presale", path: "/Presale" },
-    {
-      icon: CheckSquare,
-      label: "Approval", // menu untuk persetujuan order
-      path: "/admin/AdminApproval",
-    },
-    { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
-    { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
-    { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
-    { icon: LogOut, label: "Logout", path: "/logout" },
-  ];
-
+  const dispatch = useDispatch()
+  const orders = useSelector((state)=>state.orders.orders)
   const [editOrder, setEditOrder] = useState(null);
 
-  const handleEdit = (order) => {
-    setEditOrder(order);
-  };
 
   const handleSave = () => {
     // Simpan perubahan pesanan di sini (misalnya, update state atau kirim ke server)
@@ -100,41 +23,15 @@ export default function Pesanan() {
   const handleCancel = () => {
     setEditOrder(null);
   };
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+
+  useEffect(()=>{
+    dispatch(fetchOrderAdmin())
+  }, [dispatch])
+  
   return (
     <div className="container">
       {/* Sidebar */}
-      <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
-        <div className="sidebar-header">
-          {isSidebarOpen && <img src={logo} alt="Siafarm Logo" />}
-          <button className="toggle-button" onClick={toggleSidebar}>
-            <FiSidebar />
-          </button>
-        </div>
-        <nav className="sidebar-nav">
-          {menuItems.map((item, index) => (
-            <Link to={item.path}>
-              <button
-                key={index}
-                className={`nav-button ${
-                  activeMenu === item.label ? "active" : ""
-                }`}
-                onClick={() => handleMenuClick(item.label)}
-              >
-                <item.icon
-                  size={20}
-                  className={
-                    activeMenu === item.label ? "icon-active" : "icon-inactive"
-                  }
-                />
-                {isSidebarOpen && <span>{item.label}</span>}
-              </button>
-            </Link>
-          ))}
-        </nav>
-      </aside>
+      <SideNavbar/>
 
       <div className="space-y-6">
         {/* Orders Table */}
@@ -233,20 +130,20 @@ export default function Pesanan() {
                     {orders.map((order) => (
                       <tr key={order.id} className="border-b border-gray-100">
                         <td className="py-4">{order.id}</td>
-                        <td className="py-4">{order.customer}</td>
+                        <td className="py-4">{order.User.name}</td>
                         <td className="py-4">
                           <div className="flex items-center gap-2">
                             <Package size={16} />
-                            <span>{order.products.length} items</span>
+                            <span>{order.totalItem} items</span>
                           </div>
                         </td>
-                        <td className="py-4">{order.total}</td>
+                        <td className="py-4">{formatIDR(order.totalPrice)}</td>
                         <td className="py-4">
                           <span
                             className={`px-3 py-1 rounded-full text-sm ${
                               order.status === "completed"
                                 ? "bg-green-100 text-green-800"
-                                : order.status === "processing"
+                                : order.status === "paid"
                                 ? "bg-blue-100 text-blue-800"
                                 : "bg-yellow-100 text-yellow-800"
                             }`}
@@ -255,7 +152,7 @@ export default function Pesanan() {
                               order.status.slice(1)}
                           </span>
                         </td>
-                        <td className="py-4">{order.date}</td>
+                        <td className="py-4">{formateDate(order.createdAt)}</td>
                         <td className="py-4">
                           <button>
                             <Link
@@ -265,14 +162,6 @@ export default function Pesanan() {
                               Detail
                             </Link>
                           </button>
-                          {order.status !== "cancelled" && (
-                            <button
-                              onClick={() => handleEdit(order)}
-                              className="ml-4 text-blue-600 hover:text-blue-800"
-                            >
-                              Edit
-                            </button>
-                          )}
                         </td>
                       </tr>
                     ))}

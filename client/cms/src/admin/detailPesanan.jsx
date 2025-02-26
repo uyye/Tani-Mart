@@ -1,35 +1,32 @@
 import React from "react";
 import { Package, User, Calendar } from "lucide-react";
 import "./detailPesanan.css";
-import { Link } from "react-router-dom";
-const orderDetail = {
-  id: "ORD001",
-  customer: "Budi Santoso",
-  address: "Jl. Mangga No. 10, Bantaeng",
-  products: [
-    {
-      name: "Cabe Rawit",
-      quantity: 3,
-      price: "Rp. 105.000",
-    },
-    {
-      name: "Cengkeh Kering",
-      quantity: 2,
-      price: "Rp. 210.000",
-    },
-  ],
-  total: "Rp 315.000",
-  status: "pending",
-  date: "2025-03-15",
-};
+import {useParams} from "react-router-dom"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAdminOrderDetail } from "../features/orders/orderSlice";
+import formateDate from "../helpers/formateDate";
+import { formatIDR } from "../helpers/formatIDR";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
+
 
 export default function DetailPesanan() {
+  const {id} = useParams()
+  const dispatch = useDispatch()
+  const detailOrder = useSelector((state)=>state.orders.orderDetail)
+  
+
+  useEffect(()=>{
+    dispatch(fetchAdminOrderDetail(id))
+  }, [id, dispatch])
   return (
-    <div className="order-detail-container">
+    <div className="container">
+      <SideNavbar/>
+      <div className="order-detail-container">
       {/* Header */}
       <div className="header bg-white shadow-sm rounded-lg p-6">
         <h1 className="text-2xl font-semibold text-gray-800">Detail Pesanan</h1>
-        <p className="text-gray-600">ID Pesanan: {orderDetail.id}</p>
+        <p className="text-gray-600">ID Pesanan: {detailOrder?.id}</p>
       </div>
 
       {/* Customer Info */}
@@ -39,15 +36,15 @@ export default function DetailPesanan() {
         </h2>
         <div className="info-item">
           <User className="icon" size={20} />
-          <p>{orderDetail.customer}</p>
+          <p>{detailOrder?.User?.name}</p>
         </div>
         <div className="info-item">
           <Package className="icon" size={20} />
-          <p>{orderDetail.address}</p>
+          <p>{detailOrder?.addressShiping}</p>
         </div>
         <div className="info-item">
           <Calendar className="icon" size={20} />
-          <p>{orderDetail.date}</p>
+          <p>{formateDate(detailOrder.createdAt)}</p>
         </div>
       </div>
 
@@ -65,11 +62,11 @@ export default function DetailPesanan() {
             </tr>
           </thead>
           <tbody>
-            {orderDetail.products.map((product, index) => (
+            {detailOrder.OrderDetails?.map((item, index) => (
               <tr key={index} className="border-b border-gray-100">
-                <td className="py-4">{product.name}</td>
-                <td className="py-4">{product.quantity}</td>
-                <td className="py-4">{product.price}</td>
+                <td className="py-4">{item.Product.name}</td>
+                <td className="py-4">{item.quantity}</td>
+                <td className="py-4">{formatIDR(item.price)}</td>
               </tr>
             ))}
           </tbody>
@@ -83,16 +80,17 @@ export default function DetailPesanan() {
         </h2>
         <div className="summary-item">
           <p className="text-gray-600">Total:</p>
-          <p className="font-semibold text-gray-800">{orderDetail.total}</p>
+          <p className="font-semibold text-gray-800">{formatIDR(detailOrder.totalPrice)}</p>
         </div>
         <div className="summary-item">
           <p className="text-gray-600">Status:</p>
-          <span className={`status-label ${orderDetail.status}`}>
-            {orderDetail.status.charAt(0).toUpperCase() +
-              orderDetail.status.slice(1)}
+          <span className={`status-label ${detailOrder.status}`}>
+            {detailOrder.status}
+             
           </span>
         </div>
       </div>
+    </div>
     </div>
   );
 }

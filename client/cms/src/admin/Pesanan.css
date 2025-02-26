@@ -18,9 +18,9 @@
 }
 .container {
   display: flex;
-  height: 100vh;
   background-image: url("bgadmin.jpg");
   width: 100%;
+  height: 100vh;
   overflow: hidden;
 }
 /* Search and Filter Bar */

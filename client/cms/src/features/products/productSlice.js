@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import instance from "../../api/axiosInstance";
+import Swal from "sweetalert2";
 
 const productSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
     product: {},
+    requestData:[],
+    presales:[],
     sort: "ASC",
     filter: "",
     search: "",
@@ -36,11 +39,24 @@ const productSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
+    setPresalesProducts: (state, action) =>{
+      state.presales = action.payload
+    },
+    setRequestData:(state, action) =>{
+      state.requestData = action.payload
+    }
   },
 });
 
-export const { setProduct, setDetailProduct, removeProduct, setFilter,setSearch } =
-  productSlice.actions;
+export 
+const { setProduct,
+  setDetailProduct,
+  removeProduct,
+  setFilter,
+  setSearch,
+  setPresalesProducts,
+  setRequestData
+} = productSlice.actions;
 
 export const fetchDataProduct = () => {
   return async (dispatch, getState) => {
@@ -131,5 +147,81 @@ export const fetchUpdateProduct = (id, newData) => {
     }
   };
 };
+
+export const fetchPresaleProduct = ()=>{
+  return async(dispatch)=>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:"/products/presales",
+        headers:{"Authorization":`bearer ${localStorage.getItem("access_token")}`}
+      })
+
+      dispatch(setPresalesProducts(data))
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}
+
+export const fetchRequestProduct = ()=>{
+  console.log("Masukkah?");
+  
+  return async (dispatch)=>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:"/products/request/seller",
+        headers:{"Authorization":`bearer ${localStorage.getItem("access_token")}`}
+      })
+      
+      console.log(data);
+      
+      dispatch(setRequestData(data))
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}
+
+export const fetchAdminRequestData = ()=>{
+  return async (dispatch) =>{
+    try {
+      const {data} = await instance({
+        method:"get",
+        url:"/products/request/admin",
+        headers:{"Authorization":`bearer ${localStorage.getItem("access_token")}`}
+      })
+
+      dispatch(setRequestData(data))
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}
+
+export const fetchAprroveProduct = (id)=>{
+  return async(dispatch)=>{
+    try {
+      await instance({
+        method:"post",
+        url:"/products/approve",
+        data:{productId:id},
+        headers:{"Authorization": `bearer ${localStorage.getItem("access_token")}`}
+      })
+
+      Swal.fire({
+        icon:"success"
+      })
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+}
+
 
 export default productSlice.reducer;

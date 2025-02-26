@@ -3,11 +3,14 @@ import "./InputProduk.css";
 import instance from "../../api/axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-export default function AddProduct({ page }) {
+export default function AddProduct({ page, setModal }) {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const token = localStorage.getItem("access_token");
+  const decode = jwtDecode(token)
 
   const [product, setProduct] = useState({
     name: "",
@@ -93,7 +96,12 @@ export default function AddProduct({ page }) {
         showConfirmButton: false,
         timer: 2000,
       });
-      navigate("/product");
+      if(decode.role === "seller"){
+        navigate("/product")
+      }else if(decode.role === "admin"){
+        navigate("/kelolaproduk");
+        setModal()
+      }
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -123,7 +131,8 @@ export default function AddProduct({ page }) {
   }, [id]);
 
   return (
-    <div className="add-product-container">
+    <div className={decode.role === "admin"?"modal-overlay":"add-product-container"}>
+      <div className={decode.role === "admin"&&"modal-container"}>
       <h1 className="form-title">
         {page === "edit" ? "Edit Produk" : "Tambah Produk"}
       </h1>
@@ -242,6 +251,7 @@ export default function AddProduct({ page }) {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

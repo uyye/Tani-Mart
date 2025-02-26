@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import instance from "../../api/axiosInstance";
+// import { useNavigate } from "react-router-dom";
+
 
 const orderSlice = createSlice({
     name:"orders",
     initialState:{
-        orders:[]
+        orders:[],
+        topOrders:[]
     },
     reducers:{
         setOrders:(state, action)=>{
@@ -12,11 +15,16 @@ const orderSlice = createSlice({
         },
         postOrder:(state, action)=>{
             state.orders
+        },
+        setTopOrder:(state, action)=>{
+            console.log(action.payload, "BBBBBBBBBB");
+            state.topOrders = action.payload
         }
     }
 })
 
-export const {setOrders} = orderSlice.actions
+
+export const {setOrders, setTopOrder} = orderSlice.actions
 
 export const fetchOrder = ()=>{
     return async (dispatch)=>{
@@ -37,8 +45,6 @@ export const fetchOrder = ()=>{
 }
 
 export const fetchPostOrder = (request)=>{
-    console.log(request, "ABCD");
-    
     return async (dispatch)=>{
         try {
            const {data} = await instance({
@@ -50,21 +56,29 @@ export const fetchPostOrder = (request)=>{
                     "Content-Type": "application/json"
                 }
             })
-
-            console.log(data, "NEXT TO PAYMENT");
             
+            dispatch(fetchPaidOrder(data.newOrder?.id))
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchPaidOrder = (orderId)=>{
+    // const navigate = useNavigate()
+    return async(dispatch)=>{
+        try {
             const payment = await instance({
                 method:"post",
                 url:"/payments",
-                data:{orderId:data.newOrder?.id},
+                data:{orderId},
                 headers:{
                     "Authorization" :`bearer ${localStorage.getItem("access_token")}`,
                 }
             })
-
-            console.log("NEXT TO WEBHOOK");
-            
-
+    
             window.snap.pay(payment.data?.token?.token, {
                 onSuccess:async(result) => {
                     alert("Payment Success!");
@@ -112,10 +126,26 @@ export const fetchPostOrder = (request)=>{
                     alert("You closed the popup without finishing the payment");
                   },
             })
-            
+
+            // navigate("/pesananSaya")
         } catch (error) {
             console.log(error);
             
+        }
+        
+    }
+}
+
+export const fetchTopOrder = ()=>{
+    return async (dispatch)=>{
+        try {
+            const {data} = await instance({
+                method:"get",
+                url:"/orders/admin/topOrder"
+            })            
+            dispatch(setTopOrder(data))
+        } catch (error) {
+            console.log(error);
         }
     }
 }

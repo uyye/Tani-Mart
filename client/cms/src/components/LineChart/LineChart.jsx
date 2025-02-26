@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   LineChart as ReLineChart,
   Line,
@@ -9,17 +9,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Sen", pendapatan: 4000, withdraw: 2400 },
-  { name: "Sel", pendapatan: 3000, withdraw: 1398 },
-  { name: "Rab", pendapatan: 2000, withdraw: 9800 },
-  { name: "Kam", pendapatan: 2780, withdraw: 3908 },
-  { name: "Jum", pendapatan: 1890, withdraw: 4800 },
-  { name: "Sab", pendapatan: 2390, withdraw: 3800 },
-  { name: "Min", pendapatan: 3490, withdraw: 4300 },
-];
+import {useDispatch, useSelector} from "react-redux"
+import { fetchChartData } from "../../features/statistic/statisticSlice";
 
 const LineChart = () => {
+  const dispatch = useDispatch()
+  const data = useSelector((state)=>state.statistics.dataChart)
+
+  useEffect(()=>{
+    dispatch(fetchChartData())
+  }, [dispatch])
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <ReLineChart data={data}>
@@ -27,7 +27,7 @@ const LineChart = () => {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Line type="monotone" dataKey="pendapatan" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="commission" stroke="#82ca9d" />
         <Line type="monotone" dataKey="withdraw" stroke="#8884d8" />
       </ReLineChart>
     </ResponsiveContainer>

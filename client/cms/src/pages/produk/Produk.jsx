@@ -150,6 +150,7 @@ const ProductTable = () => {
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Stok</th>
+            <th>Permission</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -172,6 +173,7 @@ const ProductTable = () => {
                   <td>{product.name}</td>
                   <td>Rp {product.price.toLocaleString()}</td>
                   <td>{product.stock}</td>
+                  <td>{product.permission}</td>
                   <td>
                     <button className="btn-update">
                       <Link to={`/Input/${product.id}`}>Update</Link>

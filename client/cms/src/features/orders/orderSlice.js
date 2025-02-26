@@ -6,7 +6,8 @@ const orderSlice = createSlice({
     initialState:{
         orders:[],
         orderDetail:{},
-        topOrder:[]
+        topOrder:[],
+        adminOrder:[]
     },
     reducers:{
         setOrder:(state, action)=>{
@@ -17,11 +18,14 @@ const orderSlice = createSlice({
         },
         setTopOrder:(state, action)=>{
             state.topOrder = action.payload
-        }
+        },
     }
 })
 
-export const {setOrder, setOrderDetail, setTopOrder}= orderSlice.actions
+export const {setOrder, setOrderDetail, setTopOrder, }= orderSlice.actions
+
+//SELLER
+
 export const  fetchDataOrder = ()=>{
     return async(dispatch)=>{
         try {
@@ -62,20 +66,18 @@ export const fetchAdminOrder = ()=>{
     }
 }
 
-export const fetchOrderDetail = (id)=>{
-    console.log(localStorage.getItem("access_token"));
+export const fetchDataDetailOrder = (id)=>{
     
     return async (dispatch)=>{
         try {
             const {data} = await instance({
                 method:"get",
-                url:`/orders/${id}`,
+                url:`/orders/seller/${id}`,
                 headers:{
                     "Authorization":`bearer ${localStorage.getItem("access_token")}`
                 }
             })
 
-            console.log(data, "INI DATA DETAIL PADA ORDER SLICE");
             dispatch(setOrderDetail(data))
         } catch (error) {
             console.log(error);
@@ -94,6 +96,44 @@ export const fetchTopOrderBySeller = ()=>{
             })
 
             dispatch(setTopOrder(data))
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+// ADMIN
+
+export const fetchOrderAdmin = ()=>{
+    return async(dispatch)=>{
+        try {
+            const {data} = await instance({
+                method:"get",
+                url:"/orders/admin",
+                headers:{"Authorization":`bearer ${localStorage.getItem("access_token")}`}
+            })
+
+            dispatch(setOrder(data))
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+}
+
+export const fetchAdminOrderDetail = (id)=>{
+    return async(dispatch)=>{
+        try {
+            const { data } = await instance({
+                method: "get",
+                url: `/orders/${id}`,
+                headers: {
+                  Authorization: `bearer ${localStorage.getItem("access_token")}`,
+                },
+              });
+
+              dispatch(setOrderDetail(data))
         } catch (error) {
             console.log(error);
             

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import "./detailOrder.css";
 import instance from "../../api/axiosInstance";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchPaidOrder } from "../../features/orders/orderSlice";
 
 export default function DetailOrder() {
   const { id } = useParams();
   const [detailOrder, setDetailOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch()
 
   const fetchDetailOrder = async () => {
     try {
@@ -26,6 +29,12 @@ export default function DetailOrder() {
       setLoading(false); // Set loading ke false setelah selesai
     }
   };
+
+  const handlePayment = (e)=>{
+    e.preventDefault()
+    dispatch(fetchPaidOrder(id))
+    dispatch(fetchDetailOrder(id))
+  }
 
   useEffect(() => {
     fetchDetailOrder();
@@ -71,24 +80,26 @@ export default function DetailOrder() {
               <th>Jumlah</th>
               <th>Harga</th>
               <th>Subtotal</th>
+              <th>Toko</th>
             </tr>
           </thead>
           <tbody>
-            {detailOrder.products?.map((product) => (
-              <tr key={product.id}>
+            {detailOrder.OrderDetails?.map((item) => (
+              <tr key={item.id}>
                 <td>
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={item.Product.image}
+                    alt={item.Product.name}
                     className="product-image"
                   />
                 </td>
-                <td>{product.name}</td>
-                <td>{product.quantity}</td>
-                <td>Rp {Number(product.price).toLocaleString()}</td>
+                <td>{item.Product.name}</td>
+                <td>{item.quantity}</td>
+                <td>Rp {Number(item.price).toLocaleString()}</td>
                 <td>
-                  Rp {Number(product.quantity * product.price).toLocaleString()}
+                  Rp {Number(item.quantity * item.price).toLocaleString()}
                 </td>
+                <td>{item.Product.User.name}</td>
               </tr>
             ))}
           </tbody>
@@ -102,25 +113,12 @@ export default function DetailOrder() {
           <strong>Total Harga:</strong> Rp{" "}
           {Number(detailOrder.totalPrice).toLocaleString()}
         </p>
-        <p>
-          <strong>Ongkos Kirim:</strong> Rp{" "}
-          {Number(detailOrder.shippingCost).toLocaleString()}
-        </p>
-        <p>
-          <strong>Total Pembayaran:</strong>{" "}
-          <span className="total-price">
-            Rp{" "}
-            {Number(
-              detailOrder.totalPrice + detailOrder.shippingCost
-            ).toLocaleString()}
-          </span>
-        </p>
       </div>
 
       {/* Tombol Aksi */}
       <div className="order-actions">
         {detailOrder.status.toLowerCase() === "pending" && (
-          <button className="order-button complete-payment">
+          <button className="order-button complete-payment" onClick={handlePayment}>
             Selesaikan Pembayaran
           </button>
         )}

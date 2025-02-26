@@ -14,6 +14,8 @@ import {
   Star,
   ShoppingBag,
 } from "lucide-react";
+import {useDispatch, useSelector} from "react-redux"
+import { fetchTopOrder } from "../../features/orders/orderSlice";
 
 // Mock data for demonstration
 const FEATURED_PRODUCTS = [
@@ -81,6 +83,11 @@ const POPULAR_PRODUCTS = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const dispatch = useDispatch()
+  const topProducts = useSelector((state)=>state.dataOrder.topOrders)
+
+  console.log(topProducts, "CLCKCKCKCK");
+  
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % FEATURED_PRODUCTS.length);
@@ -138,10 +145,14 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(nextSlide, 5000);
+  //   return () => clearInterval(timer);
+  // }, []);
+
+  useEffect(()=>{
+    dispatch(fetchTopOrder())
+  }, [dispatch])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -236,22 +247,22 @@ export default function Home() {
             </h2>
           </div>
           <div className="products-grid">
-            {POPULAR_PRODUCTS.map((product) => (
+            {topProducts?.map((product) => (
               <div key={product.id} className="product-card1">
                 <img
-                  src={product.image}
-                  alt={product.title}
+                  src={product?.image}
+                  alt={product.name}
                   className="product-image1"
                 />
                 <div className="product-info">
-                  <h3 className="product-title1">{product.title}</h3>
+                  <h3 className="product-title1">{product.name}</h3>
                   <p className="product-price1">{product.price}</p>
                   <div className="product-meta1">
                     <Star size={16} color="#FCD34D" />
                     <span>{product.rating}</span>
                     <span className="meta-separator">•</span>
                     <ShoppingBag size={16} />
-                    <span>{product.sales} terjual</span>
+                    <span>{product.totalQuantityOrder} terjual</span>
                   </div>
                 </div>
               </div>

@@ -1,21 +1,13 @@
-import { useState } from "react";
-
 import "./Presale.css";
-import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Timer,
-  Search,
-  Plus,
-  Users,
-  Wallet,
-  LogOut,
-  CheckSquare, // ikon untuk approval
-} from "lucide-react";
+import {Timer} from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { FiSidebar } from "react-icons/fi";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
+import {useSelector, useDispatch} from "react-redux"
+import { useEffect } from "react";
+import { fetchPresaleProduct } from "../features/products/productSlice";
+import formateDate from "../helpers/formateDate";
+import { formatIDR } from "../helpers/formatIDR";
+
 const presaleItems = [
   {
     id: "PRE001",
@@ -53,61 +45,20 @@ const presaleItems = [
 ];
 
 export default function Presale() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
-  const menuItems = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard Admin Siafarm",
-      path: "/admin/dashboard",
-    },
-    { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
-    { icon: Timer, label: "Presale", path: "/Presale" },
-    {
-      icon: CheckSquare,
-      label: "Approval", // menu untuk persetujuan order
-      path: "/admin/AdminApproval",
-    },
-    { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
-    { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
-    { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
-    { icon: LogOut, label: "Logout", path: "/logout" },
-  ];
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+const presaleProducts = useSelector((state)=>state.products.presales)
+console.log(presaleProducts);
+
+const dispatch = useDispatch()
+
+
+useEffect(()=>{
+  dispatch(fetchPresaleProduct())
+}, [dispatch])
+
   return (
     <div className="container">
       {/* Sidebar */}
-      <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
-        <div className="sidebar-header">
-          {isSidebarOpen && <img src={logo} alt="Siafarm Logo" />}
-          <button className="toggle-button" onClick={toggleSidebar}>
-            <FiSidebar />
-          </button>
-        </div>
-        <nav className="sidebar-nav">
-          {menuItems.map((item, index) => (
-            <Link to={item.path}>
-              <button
-                key={index}
-                className={`nav-button ${
-                  activeMenu === item.label ? "active" : ""
-                }`}
-                onClick={() => handleMenuClick(item.label)}
-              >
-                <item.icon
-                  size={20}
-                  className={
-                    activeMenu === item.label ? "icon-active" : "icon-inactive"
-                  }
-                />
-                {isSidebarOpen && <span>{item.label}</span>}
-              </button>
-            </Link>
-          ))}
-        </nav>
-      </aside>
+      <SideNavbar/>
 
       <div className="space-y-6">
         {/* Presale Items */}
@@ -127,17 +78,17 @@ export default function Presale() {
               </div>
             </div>
             <div className="grid gap-6">
-              {presaleItems.map((item) => (
+              {presaleProducts?.map((item) => (
                 <div key={item.id} className="border rounded-lg p-4">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800">
-                        {item.product}
+                        {item.Product.name}
                       </h3>
                       <div className="flex items-center gap-2 text-gray-600 mt-1">
                         <Timer size={16} />
                         <span>
-                          {item.startDate} - {item.endDate}
+                          {formateDate(item.startDate)} - {formateDate(item.endDate)}
                         </span>
                       </div>
                     </div>
@@ -150,15 +101,15 @@ export default function Presale() {
                           : "bg-gray-100 text-gray-800"
                       }`}
                     >
-                      {item.status.charAt(0).toUpperCase() +
-                        item.status.slice(1)}
+                      {/* {item.status.charAt(0).toUpperCase() +
+                        item.status.slice(1)} */}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                       <p className="text-sm text-gray-600">Harga Presale</p>
                       <p className="font-semibold text-green-600">
-                        {item.price}
+                        {formatIDR(item.Product.price)}
                       </p>
                       <p className="text-sm text-gray-400 line-through">
                         {item.normalPrice}
@@ -166,7 +117,7 @@ export default function Presale() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Stok</p>
-                      <p className="font-semibold">{item.stock}</p>
+                      <p className="font-semibold">{item.Product.stock}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Terjual</p>

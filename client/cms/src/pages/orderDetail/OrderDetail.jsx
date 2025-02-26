@@ -1,18 +1,18 @@
 import { useParams } from "react-router-dom"
 import "./orderDetail.css"
-import { useEffect, useState } from "react"
-import instance from "../../api/axiosInstance"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchDataDetailOrder } from "../../features/orders/orderDetailSlice"
+import { fetchDataDetailOrder } from "../../features/orders/orderSlice"
 import ContactButton from "../../components/contactButton/ContactButton"
 
 export default function OrderDetail() {
     const {id} = useParams()
     const dispatch = useDispatch()
-    const data = useSelector((state)=>state.orderDetail.detailOrder)
-    
+    const data = useSelector((state)=>state.orders.orderDetail)
+
     console.log(data);
     
+        
     useEffect(()=>{
         dispatch(fetchDataDetailOrder(id))
     },[dispatch, id])
@@ -54,8 +54,9 @@ export default function OrderDetail() {
                                     </tr>
                                 )
                             }):
-                        <td colSpan={4}>Tidak ada pesanan</td>
+                            <tr><td colSpan={4}>Tidak ada pesanan</td></tr>
                         }
+                        <tr>
                         <td colSpan={6}>
                             <ContactButton
                             phoneNumber={data[0]?.Order.phoneNumber}
@@ -64,6 +65,8 @@ export default function OrderDetail() {
                             >
                                 Hubungi pembeli
                             </ContactButton></td>
+                        </tr>
+                        
                     </tbody>
                 </table>
             </section>

@@ -12,11 +12,11 @@ cloudinary.config({
 class ProductController{
     static async getProduct(req, res, next){
         try {
-            const {page, sort, filter, search} = req.query
-            let option = {where:{}, include:{model:Presale}}
-
-            if(sort){
-                option.order = [["createdAt", sort]]
+            const {page, filter, search} = req.query
+            let option = {
+                where:{permission:"sale"},
+                include:[{model:Presale}, {model:User, attributes:["name"]}],
+                order:[["createdAt", "desc"]]
             }
 
             if (filter) {
@@ -79,56 +79,116 @@ class ProductController{
         }
     }
 
-    static async addProduct(req, res, next){
-        try {
-            let createProduct
-    
-            let {name, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
+    // static async addProduct(req, res, next){
+    //     try {
+    //         let createProduct
             
-            if(!req.file){
-                throw{name:"BadRequest", status:400, message:"image file require"}
-            }
-
-            let base64 = Buffer.from(req.file.buffer).toString("base64")
-
-            let dataUrl = `data:${req.file.mimetype};base64,${base64}`
-
-            const response = await cloudinary.uploader.upload(dataUrl)
-            const image = response.secure_url
+    //         if(!req.file){
+    //             throw{name:"BadRequest", status:400, message:"image file require"}
+    //         }
+    //         let {name, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
             
 
-            const discountPrice = price - (discount / 100 * price)        
+    //         let base64 = Buffer.from(req.file.buffer).toString("base64")
 
+    //         let dataUrl = `data:${req.file.mimetype};base64,${base64}`
+
+    //         const response = await cloudinary.uploader.upload(dataUrl)
+    //         const image = response.secure_url
+    //         let discountPrice = price
+
+    //         if(productStatus === "presale"){
+    //              discountPrice = price - (discount / 100 * price)        
+    //             endDate = dayjs(startDate).add(7, "day").toISOString()
+    //             createProduct = await Product.create({name, image, category, description, price, stock, productStatus, authorId:req.user.id})
+    //             await Presale.create({
+    //                 productId:createProduct.id,
+    //                 startDate:startDate,
+    //                 endDate:endDate,
+    //                 price:discountPrice,
+    //                 discount:discount
+    //             })
+    //         }else{
+    //             createProduct = await Product.create({name, image, description, category, price, stock, productStatus, authorId:req.user.id})
+    //         }
             
+    //         const result = {
+    //             message:"Product add successfully",
+    //             product:{
+    //                 id: createProduct.id,
+    //                 name: createProduct.name
+    //             }
+    //         }
+    //         res.status(201).json(result)
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
             
-            if(productStatus === "presale"){
-                endDate = dayjs(startDate).add(1, "day").toISOString()
-                createProduct = await Product.create({name, image, category, description, price, stock, productStatus, authorId:req.user.id})
-                await Presale.create({
-                    productId:createProduct.id,
-                    startDate:startDate,
-                    endDate:endDate,
-                    price:discountPrice,
-                    discount:discount
-                })
-            }else{
-                createProduct = await Product.create({name, image, description, category, price, stock, productStatus, authorId:req.user.id})
-            }
-            
-            const result = {
-                message:"Product add successfully",
-                product:{
-                    id: createProduct.id,
-                    name: createProduct.name
-                }
-            }
-            res.status(201).json(result)
-        } catch (error) {
-            console.log(error);
-            next(error)
-            
+    //     }
+    // }
+
+    static async addProduct(req, res, next) {
+    try {
+        if (!req.file) {
+            throw { name: "BadRequest", status: 400, message: "image file required" };
         }
+
+        let { name, category, description, price, stock, productStatus, discount, startDate, endDate } = req.body;
+
+        // Validasi angka
+        if (isNaN(price) || isNaN(stock) || price <= 0 || stock < 0) {
+            throw { name: "BadRequest", status: 400, message: "Invalid price or stock" };
+        }
+
+        if (productStatus === "presale" && (isNaN(discount) || discount < 0 || discount > 100)) {
+            throw { name: "BadRequest", status: 400, message: "Invalid discount value" };
+        }
+
+        // Upload gambar ke Cloudinary
+        let base64 = Buffer.from(req.file.buffer).toString("base64");
+        let dataUrl = `data:${req.file.mimetype};base64,${base64}`;
+        const response = await cloudinary.uploader.upload(dataUrl);
+        const image = response.secure_url;
+
+        let discountPrice = price;
+        if (productStatus === "presale") {
+            discountPrice = price - (discount / 100 * price);
+        }
+
+        // Jika `endDate` tidak diberikan, set default 7 hari dari `startDate`
+        if (productStatus === "presale" && !endDate) {
+            endDate = dayjs(startDate).add(7, "day").toISOString();
+        }
+
+        // Insert ke tabel Product
+        let createProduct = await Product.create({
+            name, image, category, description, price, stock, productStatus, authorId: req.user.id
+        });
+
+        // Insert ke tabel Presale jika statusnya presale
+        if (productStatus === "presale") {
+            await Presale.create({
+                productId: createProduct.id,
+                startDate: startDate,
+                endDate: endDate,
+                price: discountPrice,
+                discount: discount
+            });
+        }
+
+        res.status(201).json({
+            message: "Product added successfully",
+            product: {
+                id: createProduct.id,
+                name: createProduct.name
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
+    }
+
 
     static async updateProduct(req, res, next) {
         try {
@@ -193,40 +253,6 @@ class ProductController{
     }
     
 
-    // static async updateProduct(req, res, next){
-    //     try {
-    //         const {id} = req.params
-
-    //         const { name, image, category, description, price, stock}= req.body
-    //         const [rowsUpdated, [updatedProduct]] = await Product.update({name, image, category, description, price, stock, authorId:req.user.id},
-    //             {
-    //                 where:{id:id},
-    //                 returning:true
-    //             }
-    //         )
-
-    //         if (rowsUpdated === 0) {
-    //             throw {name:"BadRequest", status:400, message:"updated failed"}
-    //         }
-
-    //         res.status(200).json({
-    //             message:"succes update product",
-    //             product:{
-    //                 name:updatedProduct.name,
-    //                 image:updatedProduct.image,
-    //                 category:updatedProduct.category,
-    //                 description:updatedProduct.description,
-    //                 price:updatedProduct.price,
-    //                 stock:updatedProduct.stock
-    //             }
-    //         })
-            
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error)
-    //     }
-    // }
-
     static async deleteProduct(req, res, next){
         try {
             const {id} = req.params
@@ -242,6 +268,72 @@ class ProductController{
             console.log(error);
             next(error)
             
+        }
+    }
+
+    static async sellerRequestProduct(req, res, next){
+        try {
+            const data = await Product.findAll({
+                where:{permission:"waiting", authorId:req.user.id}
+            })
+            
+            console.log(data, ">>>>>>>>>>>>>><<<<<<<<<<<<");
+            
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+
+    //admin
+    static async getPresaleProduct(req, res, next){
+        try {
+            const data = await Presale.findAll({
+                include:[{model:Product}]
+            })
+
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async productApprove(req, res, next) {
+        try {
+            const { productId } = req.body;
+            const product = await Product.findByPk(productId);
+    
+            if (!product) {
+                throw { name: "NotFound", status: 404, message: "Product Not Found" };
+            }
+    
+            if (product.permission !== "waiting") {
+                throw { name: "BadRequest", status: 400, message: "Product is already on sale" };
+            }
+    
+            product.permission = "sale";
+            await product.save();
+    
+            res.status(200).json({ message: "Success", product });
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
+
+    static async adminRequestProduct(req, res, next){
+        try {
+            const product = await Product.findAll({
+                where:{permission:"waiting"},
+                order:[["createdAt", "desc"]]
+            })
+            res.status(200).json(product)
+        } catch (error) {
+            console.log(error);
+            next(error)
         }
     }
 
