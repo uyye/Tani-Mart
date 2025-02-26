@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { FiSidebar } from "react-icons/fi";
 import { RiAdminFill } from "react-icons/ri";
@@ -11,110 +11,53 @@ import {
   Users,
   Wallet,
   LogOut,
-  CheckSquare, // ikon untuk approval
+  CheckSquare,
 } from "lucide-react";
-// import { Routes, Route } from "react-router-dom";
-// import Dashboard from "../admin/AdminMain";
-// import Pesanan from "./Pesanan";
-// import Presale from "./Presale";
-// import KelolaProduk from "./KelolaProduk";
-// import KelolaPengguna from "./KelolaPengguna";
-// import Kelolatransaksi from "./KelolaTranksaksi";
-
-// import { LineChart } from "../components/LineChart/LineChart";
 import LineChart from "../components/LineChart/LineChart";
 
 import "./baru.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAdminCard, fetchAdminTopOrder } from "../features/statistic/statisticSlice";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
 
 function App() {
   const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const dispatch = useDispatch()
+  const dataCard = useSelector((state)=>state.statistics.adminStatistic)
+  const topOrder = useSelector((state)=>state.statistics.adminTopOrder)
+  
+  
   const orderStats = [
     {
       label: "Total Pesanan Hari Ini",
-      value: "156",
-      change: "+12%",
-      trend: "up",
+      value: dataCard["totalOrder"]?.dailyOrder,
+      change: dataCard["totalOrder"]?.percentage + " %" ,
+      trend: dataCard["totalOrder"]?.dailyOrder < dataCard["totalOrder"]?.yesterdayOrder ? "down" : "up"
     },
     {
       label: "Pendapatan Hari Ini",
-      value: "Rp 8.5M",
-      change: "+8%",
-      trend: "up",
+      value: "Rp." + dataCard["commission"]?.dailyCommission.toLocaleString(),
+      change:dataCard["commission"]?.percentage + " %",
+      trend: dataCard["commission"]?.dailyCommission < dataCard["commission"]?.yesterdayCommission ? "down" : "up",
     },
-    { label: "Withdraw", value: "Rp 2.1M", change: "-5%", trend: "down" },
+    { label: "Withdraw",
+      value: "Rp." + dataCard["withdraw"]?.dailyWithdraw.toLocaleString(),
+      change: dataCard["withdraw"]?.percentage + " %",
+      trend: dataCard["withdraw"]?.dailyWithdraw < dataCard["withdraw"]?.yesterdayWithdraw ? "down" : "upc",
+    },
   ];
 
-  const topProducts = [
-    { name: "Pupuk Organik Premium", sales: 1234, revenue: "Rp 45.6M" },
-    { name: "Bibit Unggul", sales: 856, revenue: "Rp 34.2M" },
-    { name: "Pestisida Alami", sales: 654, revenue: "Rp 26.1M" },
-    { name: "Alat Pertanian", sales: 432, revenue: "Rp 21.6M" },
-  ];
 
-  const menuItems = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard Admin Siafarm",
-      path: "/admin/dashboard",
-    },
-    { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
-    { icon: Timer, label: "Presale", path: "/Presale" },
-    {
-      icon: CheckSquare,
-      label: "Approval", // menu untuk persetujuan order
-      path: "/admin/AdminApproval",
-    },
-    { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
-    { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
-    { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
-    { icon: LogOut, label: "Logout", path: "/login" },
-  ];
-
-  const handleMenuClick = (label) => {
-    if (label === "Logout") {
-      alert("Logout clicked");
-      return;
-    }
-    setActiveMenu(label);
-  };
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(()=>{
+    dispatch(fetchAdminCard())
+    dispatch(fetchAdminTopOrder())
+  }, [dispatch])
 
   return (
     <div className="container-admin">
       {/* Sidebar */}
-      <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
-        <div className="sidebar-header">
-          {isSidebarOpen && <img src={logo} alt="Siafarm Logo" />}
-          <button className="toggle-button" onClick={toggleSidebar}>
-            <FiSidebar />
-          </button>
-        </div>
-        <nav className="sidebar-nav">
-          {menuItems.map((item, index) => (
-            <Link to={item.path} key={index}>
-              <button
-                className={`nav-button ${
-                  activeMenu === item.label ? "active" : ""
-                }`}
-                onClick={() => handleMenuClick(item.label)}
-              >
-                <item.icon
-                  size={20}
-                  className={
-                    activeMenu === item.label ? "icon-active" : "icon-inactive"
-                  }
-                />
-                {isSidebarOpen && <span>{item.label}</span>}
-              </button>
-            </Link>
-          ))}
-        </nav>
-      </aside>
+      <SideNavbar/>
 
       {/* Main Content */}
       <div className="main-container">
@@ -175,11 +118,11 @@ function App() {
                         </tr>
                       </thead>
                       <tbody>
-                        {topProducts.map((product, index) => (
+                        {topOrder.map((product, index) => (
                           <tr key={index}>
                             <td>{product.name}</td>
-                            <td>{product.sales}</td>
-                            <td>{product.revenue}</td>
+                            <td>{product.totalQuantityOrder} Item</td>
+                            <td>Rp.{parseInt(product.price * product.totalQuantityOrder).toLocaleString()}</td>
                           </tr>
                         ))}
                       </tbody>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./KelolaPengguna.css";
 import { FiSidebar } from "react-icons/fi";
 import logo from "../assets/logo.png";
+import {useSelector, useDispatch} from "react-redux"
 
 import {
   LayoutDashboard,
@@ -14,6 +15,9 @@ import {
   LogOut,
   CheckSquare, // ikon untuk approval
 } from "lucide-react";
+import { useEffect } from "react";
+import { fetchDataUser } from "../features/users/userSlice";
+import SideNavbar from "../components/sideNavbar/SideNavbar";
 
 const usersData = [
   {
@@ -37,78 +41,25 @@ const usersData = [
 ];
 
 export default function KelolaPengguna() {
-  const [users, setUsers] = useState(usersData);
-  const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const dispatch = useDispatch()
+  const users = useSelector((state)=>state.users.users)
+  console.log(users);
+ 
   const handleDelete = (id) => {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     alert("Pengguna berhasil dihapus!");
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
-  const handleMenuClick = (label) => {
-    if (label === "Logout") {
-      alert("Logout berhasil!");
-      return;
-    }
-    setActiveMenu(label);
-  };
-
-  const menuItems = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard Admin Siafarm",
-      path: "/admin/dashboard",
-    },
-    { icon: ShoppingCart, label: "Pesanan", path: "/Pesanan" },
-    { icon: Timer, label: "Presale", path: "/Presale" },
-    {
-      icon: CheckSquare,
-      label: "Approval", // menu untuk persetujuan order
-      path: "/admin/AdminApproval",
-    },
-    { icon: Package, label: "Kelola Produk", path: "/kelolaproduk" },
-    { icon: Users, label: "Kelola Pengguna", path: "/kelolapengguna" },
-    { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
-    { icon: LogOut, label: "Logout", path: "/logout" },
-  ];
+  useEffect(()=>{
+    dispatch(fetchDataUser())
+  },[dispatch])
 
   return (
     <div className="container">
       {/* Sidebar */}
-      <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
-        <div className="sidebar-header">
-          {isSidebarOpen && <img src={logo} alt="Siafarm Logo" />}
-          <button className="toggle-button" onClick={toggleSidebar}>
-            <FiSidebar />
-          </button>
-        </div>
-        <nav className="sidebar-nav">
-          {menuItems.map((item, index) => (
-            <Link key={index} to={item.path}>
-              <button
-                className={`nav-button ${
-                  activeMenu === item.label ? "active" : ""
-                }`}
-                onClick={() => handleMenuClick(item.label)}
-              >
-                <item.icon
-                  size={20}
-                  className={
-                    activeMenu === item.label ? "icon-active" : "icon-inactive"
-                  }
-                />
-                {isSidebarOpen && <span>{item.label}</span>}
-              </button>
-            </Link>
-          ))}
-        </nav>
-      </aside>
+      <SideNavbar/>
 
       {/* Konten Kelola Pengguna */}
       <div className="kelola-pengguna-container">
@@ -130,12 +81,12 @@ export default function KelolaPengguna() {
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
-                  <td>{user.phone}</td>
+                  <td>{user.phoneNumber}</td>
                   <td>{user.role}</td>
                   <td>
                     <Link
                       to={{
-                        pathname: "/admin/DetailPengguna",
+                        pathname: `/admin/DetailPengguna/${user.id}`,
                       }}
                       state={{ user }} // Mengirim data pengguna ke halaman detail
                       className="btn-detail"

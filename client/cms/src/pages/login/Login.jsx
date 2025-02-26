@@ -5,6 +5,7 @@ import "animate.css";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import "./login.css";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const navigate = useNavigate();
@@ -29,9 +30,15 @@ function Login() {
         url: "/users/login",
         data: dataLogin,
       });
-      console.log(data);
+
       localStorage.setItem("access_token", data.token);
-      navigate("/");
+      const token = localStorage.getItem("access_token")
+      const decode = jwtDecode(token)
+      if(decode.role === "admin"){
+        navigate("/admin/dashboard")
+      }else if(decode.role === "seller"){
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }

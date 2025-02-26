@@ -3,26 +3,11 @@ const { signToken } = require("../helpers/jwt")
 const {User} = require("../models")
 
 class UserController{
-    static async getDataUsers(req, res, next){
-        try {
-
-            const data = await User.findAll({
-                attributes:{exclude:["password"]}
-            })
-            res.status(200).json(data)
-            
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    }
 
     static async register(req, res, next){
         try {
             const {name, password, address, phoneNumber, role, bankName, bankAccountNumber} = req.body
             let create;
-
-            console.log(bankAccountNumber, "ABCDEF"); //00010000 ABCDEF
             
 
             if(role === "seller"){
@@ -114,11 +99,8 @@ class UserController{
             
             const data = await User.findByPk(id)
             if(!data){
-                throw{name:"NotFound", status:404, message:"user not found"}
-            }
-
-            console.log(data);
-            
+                throw{name:"NotFound", status:404, message:"User ID not found"}
+            }            
             res.status(200).json(data)
         } catch (error) {
             next(error)
@@ -141,6 +123,21 @@ class UserController{
 
             await data.destroy()
             res.status(200).json({message:"User deleted successfully"})
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    //admin
+    static async getDataUsers(req, res, next){
+        try {
+
+            const data = await User.findAll({
+                attributes:{exclude:["password"]}
+            })
+            res.status(200).json(data)
+            
         } catch (error) {
             console.log(error);
             next(error)

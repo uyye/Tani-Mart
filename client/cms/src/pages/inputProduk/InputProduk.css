@@ -1,15 +1,27 @@
-/* Reset & Global */
-/* * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.modal-overlay{
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: fixed;
 }
 
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #f8f8f8;
-  color: #333;
-} */
+.modal-container{
+  background-color: #f9f9f9;
+  width: 50%;
+  height: 80%;
+  border: none;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+  margin-bottom: 40px;
+  
+}
 
 /* Container Utama */
 .add-product-container {
@@ -114,6 +126,7 @@ body {
   transition: background-color 0.3s;
   text-align: center;
   align-items: center;
+  margin: 20px;
 }
 
 .submit-btn1:hover {

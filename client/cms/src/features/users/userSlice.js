@@ -21,6 +21,7 @@ const userSlice = createSlice({
 })
 
 export const {setUser, setDetailUser, removeUser} = userSlice.actions
+
 export const fetchDataUser = ()=>{
     return async (dispatch)=>{
         const {data} = await instance({

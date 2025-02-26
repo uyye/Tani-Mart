@@ -1,4 +1,5 @@
-const {Order, Product, OrderDetail, User, Payment, sequelize, Sequelize} = require("../models")
+const { Op } = require("sequelize");
+const {Order, Product, OrderDetail, User, Payment, Presale, sequelize, Sequelize} = require("../models")
 const midtransClient = require('midtrans-client');
 
 class OrderController{
@@ -20,17 +21,28 @@ class OrderController{
         );
 
             for(const item of products){
-                console.log(item, "ABCDEF");
-                
-                const product = await Product.findByPk(item.id)
+                const product = await Product.findByPk(item.id, {
+                    include:[{model:Presale, require:false}]
+                });
+
                 if(!product){
                     throw{name:"NotFound", status:404, message:"product not found" }
                 }
 
-                const itemTotalPrice = product.price * item.quantity
+                let itemPrice = product.price
+                if(product.productStatus === "presale" && product.Presale){
+                    const now = new Date()
+                    if(new Date(product.Presale.endDate) < now){
+                        throw{ name: "BadRequest", status: 400, message: "Presale period has ended"}
+                    }
+                    itemPrice = product.Presale.price
+                }
+
+                const itemTotalPrice = itemPrice * item.quantity
                 totalPrice += itemTotalPrice
 
                 const commissionRate = product.commissionRate || 10
+                
                 const authorPayment = (itemTotalPrice * (100 - commissionRate)) / 100
 
                 await OrderDetail.create(
@@ -38,8 +50,8 @@ class OrderController{
                     orderId: newOrder.id,
                     productId: product.id,
                     quantity: item.quantity,
-                    price: product.price,
-                    subTotal: product.price * item.quantity,
+                    price: itemPrice,
+                    subTotal: itemTotalPrice,
                     authorId:product.authorId
                     },
                     {transaction}
@@ -50,21 +62,22 @@ class OrderController{
                         orderId:newOrder.id,
                         authorId:product.authorId,
                         amount:authorPayment,
-                        status:"pending"
+                        status:"pending",
+                        adminCommission:itemTotalPrice - authorPayment
                     },
                     {transaction}
                 )
             }
 
             newOrder.totalPrice = totalPrice
-            await newOrder.save(({transaction}))
+            await newOrder.save({transaction})
             await transaction.commit()
 
             res.status(201).json({message:"Order created successfuly", newOrder})
 
         } catch (error) {
-            next(error)
             if(transaction) await transaction.rollback()
+            next(error)
             console.log(error);
         }
     }
@@ -76,7 +89,8 @@ class OrderController{
                 include:{
                     model:User,
                     attributes:{exclude:["password"]}
-                }
+                },
+                order:[["createdAt", "desc"]]
             })
             res.status(200).json(data)
         } catch (error) {
@@ -86,27 +100,29 @@ class OrderController{
     }
 
     static async getOrderDetail(req, res, next){
-        
         try {
             const {id} = req.params
+            if(!id){
+                throw{name:"NotFound", status:400, message:"No ID order"}
+            }
             const data =await Order.findOne({
                 where:{id:id},
                 include:[
                     {
                         model:OrderDetail,
+                        attributes:["id", "quantity", "subTotal", "price"],
                         include:{
                             model:Product,
+                            attributes:["image", "name"],
                             include:{
                                 model:User,
-                                attributes:{exclude:["password"]}
+                                attributes:["name"]
                             }
                         }
                     },
-                    {
-                        model:User,
-                        attributes:{exclude:["password"]}
-                    }
-                ]
+                    {model:User, attributes:["name"]}
+                ],
+                attributes:["id","addressShiping","phoneNumber", "status", "totalPrice", "createdAt"]
             })
 
             res.status(200).json(data)
@@ -116,6 +132,8 @@ class OrderController{
         }
     }
 
+    //seller
+
     static async getOrderSeller(req, res, next){
         try {
 
@@ -123,13 +141,12 @@ class OrderController{
                 include:[
                     {
                         model:OrderDetail,
+                        attributes:[],
                         where:{authorId:req.user.id},
                     },
-                    {
-                        model:User
-                    }
-                    
-                ]
+                    {model:User, attributes:["name"]}
+                ],
+                order:[["createdAt", "DESC"]]
             })
 
             res.status(200).json(data)            
@@ -151,68 +168,67 @@ class OrderController{
         }
     }
 
-    static async getOrderDetailAdmin(req, res, next){
-        console.log("Masuk detail ADMIN");
+    static async getOrderDetailSeller(req, res, next){
         try {
-            
             const {id} = req.params
+
             const data = await OrderDetail.findAll({
                 where:{orderId:id, authorId:req.user.id},
-                include:[{model:Product},{model:Order,include:User}]
-            })
-            console.log(data, ">>>>>>>>>>");
-            
+                include:[
+                    {model:Product, attributes:["name"]},
+                    {model:Order,include:User}
+                ]
+            })            
             res.status(200).json(data)
-            
         } catch (error) {
             console.log(error);
             next(error)
         }
     }
 
-    static async payment(req, res, next){
-        let snap = new midtransClient.Snap({
-            isProduction : false,
-            serverKey : process.env.MIDTRANSSERVERKEY
-        });
+    // static async payment(req, res, next){
+    //     let snap = new midtransClient.Snap({
+    //         isProduction : false,
+    //         serverKey : process.env.MIDTRANSSERVERKEY
+    //     });
 
-        const {orderId} = req.body
-        const orderData = await Order.findByPk(orderId, {
-            include:{
-                model:User,
-                attributes:{exclude:["password"]}
-            }
-        })   
+    //     const {orderId} = req.body
+    //     const orderData = await Order.findByPk(orderId, {
+    //         include:{
+    //             model:User,
+    //             attributes:{exclude:["password"]}
+    //         }
+    //     })   
         
-        if (!orderData) {
-            throw{name:"NotFound", status:404, message:"Order data not found"}
-        }
+    //     if (!orderData) {
+    //         throw{name:"NotFound", status:404, message:"Order data not found"}
+    //     }
 
         
-        try {
-            let parameter = {
-                "transaction_details": {
-                    "order_id": `SIAFARM-${orderData.id}-${Date.now()}`,
-                    "gross_amount": orderData.totalPrice
-                },
-                "credit_card":{
-                    "secure" : true
-                },
-                "customer_details": {
-                    "first_name": orderData.User.name.split(" ")[0],
-                    "last_name": orderData.User.name.split(" ")[1] || "",
-                    "phone": orderData.phoneNumber
-                }
-            };
+    //     try {
+    //         let parameter = {
+    //             "transaction_details": {
+    //                 "order_id": `SIAFARM-${orderData.id}-${Date.now()}`,
+    //                 "gross_amount": orderData.totalPrice
+    //             },
+    //             "credit_card":{
+    //                 "secure" : true
+    //             },
+    //             "customer_details": {
+    //                 "first_name": orderData.User.name.split(" ")[0],
+    //                 "last_name": orderData.User.name.split(" ")[1] || "",
+    //                 "phone": orderData.phoneNumber
+    //             }
+    //         };
 
-            const token = await snap.createTransaction(parameter)            
-            res.status(200).json(token)
+    //         const token = await snap.createTransaction(parameter)            
+    //         res.status(200).json(token)
             
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
+    //     }
+    // }
 
     static async orderStatistic(req, res, next){
         try {
@@ -252,6 +268,97 @@ class OrderController{
                 limit:5
             })
 
+            res.status(200).json(data)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    //admin
+    static async dailyOrder(req, res, next){
+        try {
+            const now = new Date()
+            const today = new Date(now.setHours(0,0,0,0))
+            const yesterday = new Date(today)
+            yesterday.setDate(yesterday.getDate()-1)
+
+            const dailyOrder = await Order.count({
+                where:{
+                    createdAt:{[Op.gte]:today}
+                }
+            })
+
+            const yesterdayOrder = await Order.count({
+                where:{
+                    createdAt:{[Op.between]:[yesterday, today]}
+                }
+            })
+
+            let percentage = 0
+            if (yesterdayOrder > 0) {
+                percentage = ((dailyOrder - yesterdayOrder) / yesterdayOrder) * 100
+            }
+
+            const result = {
+                dailyOrder, yesterdayOrder, percentage : percentage.toFixed(2)
+            }
+            
+            res.status(200).json(result)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async allTopOrder(req, res, next){
+        try {
+
+            const data = await OrderDetail.findAll({
+                include:{model:Product, attributes:[]},
+                attributes:[
+                    [Sequelize.col("Product.id"), "id"],
+                    [Sequelize.col("Product.name"), "name"],
+                    [Sequelize.col("Product.price"), "price"],
+                    [Sequelize.col("Product.image"), "image"],
+                    [Sequelize.fn("SUM", Sequelize.col("quantity")), "totalQuantityOrder"]
+                ],
+                group:["Product.id", "Product.name"],
+                order:[[Sequelize.fn("SUM", sequelize.col("quantity")), "desc"]],
+                limit: 5
+            })
+
+            res.status(200).json(data)
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async getOrderAdmin(req, res, next){
+        try {
+            const data = await Order.findAll({
+                include:[
+                    {model:User, attributes:["name"]},
+                    {
+                        model:OrderDetail,
+                        attributes:[],
+                        include:{ model:Product, attributes:[]}
+                    }
+
+                ],
+                attributes:[
+                    "id",
+                    "totalPrice",
+                    "status",
+                    "createdAt",
+                    [Sequelize.fn("COUNT", Sequelize.fn("DISTINCT", Sequelize.col("OrderDetails.productId"))), "totalItem"]
+                ],
+                group:["Order.id", "User.id"],
+                order:[["createdAt", "DESC"]]
+            })
+            
             res.status(200).json(data)
         } catch (error) {
             console.log(error);

@@ -1,6 +1,5 @@
 const midtransClient = require("midtrans-client");
-const {Payment, Order, User, OrderDetail, Product, Sequelize } = require("../models");
-const { isProduction } = require("midtrans-client/lib/snapBi/snapBiConfig");
+const {Payment, Order, User, OrderDetail, Product, Sequelize, Presale } = require("../models");
 const { Op } = require("sequelize");
 
 
@@ -17,14 +16,26 @@ class PaymentController {
       const orderData = await Order.findByPk(orderId, {
         include: {
           model: User,
-          attributes: {
-            exclude: ["password"],
-          },
+          attributes: { exclude: ["password"]},
         },
       });
 
       if (!orderData) {
         throw { name: "NotFound",status: 404,message: "Order data not found"};
+      }
+
+      const orderDetails = await OrderDetail.findAll({
+        where:{orderId},
+        include:[{model:Product, include:[Presale]}]
+      })
+
+      for(const item of orderDetails){
+        if(item.Product.productStatus === "presale" && item.Product.Presale){
+          const now = new Date()
+          if(new Date(item.Product.Presale.endDate) < now){
+            throw { name: "BadRequest", status: 400, message: "Presale period has ended, payment failed" };
+          }
+        }
       }
 
       const parameter = {
@@ -69,6 +80,73 @@ class PaymentController {
       console.log(error);
     }
   }
+
+  static async distributePayment(req, res, next) {
+      const iris = new midtransClient.Iris({
+          isProduction: false,
+          apiKey: process.env.MIDTRANS_API_KEY
+      });
+  
+      const { orderId } = req.body;
+      try {
+          const payments = await Payment.findAll({
+              where: { orderId, status: "paid" },
+          });
+  
+          if (!payments || payments.length === 0) {
+              return next({
+                  name: "NotFound",
+                  status: 404,
+                  message: "No pending payment for this order",
+              });
+          }
+  
+          let payoutRequests = [];
+  
+          for (const payment of payments) {
+              const author = await User.findByPk(payment.authorId);
+  
+              if (!author || !author.bankAccountNumber) {
+                  return next({
+                      name: "BadRequest",
+                      status: 400,
+                      message: "Author bank detail not found",
+                  });
+              }
+  
+              payoutRequests.push({
+                  beneficiary_name: author.name,
+                  beneficiary_account: author.bankAccountNumber,
+                  beneficiary_bank: author.bankName,
+                  amount: payment.amount,
+                  notes: `Payment for order #${payment.orderId}`,
+                  email: author.email,
+              });
+          }
+  
+          const disbursementResponse = await iris.createPayouts({ payouts: payoutRequests });
+  
+          // Update status payment jika berhasil
+          if (disbursementResponse && disbursementResponse.payouts) {
+              for (const payout of disbursementResponse.payouts) {
+                  await Payment.update(
+                      { status: "completed" },
+                      { where: { id: payout.paymentId } }
+                  );
+              }
+          }
+  
+          res.status(200).json({
+              message: "Payment distribution attempted",
+              response: disbursementResponse,
+          });
+  
+      } catch (error) {
+          console.error("Disbursement Error:", error);
+          return next(error);
+      }
+  }
+  
 
   static async midtransWebHook(req, res, next) {
     try {
@@ -123,63 +201,6 @@ class PaymentController {
       }
 
       res.status(200).json({ message: "Payment status updated successfully" });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  }
-
-  static async distributePayment(req, res, next) {
-    const iris = new midtransClient.Iris({
-      isProduction: false,
-      serverKey: process.env.MIDTRANSSERVERKEY,
-      clientKey: process.env.MIDTRANSCLIENTKEY,
-    });
-
-    const { orderId } = req.body;
-    try {
-      const payments = await Payment.findAll({
-        where: { orderId, status: "pending" },
-      });
-
-      if (payments.length === 0) {
-        throw {
-          name: "NotFound",
-          status: 404,
-          message: "No pending payment for this order",
-        };
-      }
-
-      for (const payment of payments) {
-        const author = await User.findByPk(payment.authorId);
-
-        if (!author || !author.bankAccountNumber) {
-          throw {
-            name: "BadRequest",
-            status: 400,
-            message: "Author bank detail not found",
-          };
-        }
-
-        const disbursementRequest = {
-          bank: author.bankName,
-          account: author.bankAccountNumber,
-          amount: payment.amount,
-          notes: `Payment for order #${payment.orderId}`,
-        };
-
-        const disbursementResponse = await iris.createDisbursement(
-          disbursementRequest
-        );
-
-        if (disbursementResponse.status === "COMPLETED") {
-          await Payment.update(
-            { status: "completed" },
-            { where: { id: payment.id } }
-          );
-        }
-      }
-      res.status(200).json({ message: "Payment distributed successfully" });
     } catch (error) {
       console.log(error);
       next(error);
@@ -390,6 +411,127 @@ class PaymentController {
       return next(error);
     }
   }
+
+  //ADMIN
+
+  static async dailyWithdraw(req, res, next){
+    try {
+
+      const now = new Date()
+      
+      const today = new Date(now.setHours(0,0,0,0))
+
+      const yesterday = new Date(today)
+      yesterday.setDate(yesterday.getDate() - 1)
+
+
+      const dailyWithdraw = (await Payment.sum("amount", {
+        where:{
+          createdAt:{[Op.gte]:today},
+          status:"paid"
+        }
+      })) || 0
+
+      const yesterdayWithdraw = (await Payment.sum("amount", {
+        where:{
+          createdAt:{[Op.between]:[yesterday, today]},
+          status:"paid"
+        }
+      })) || 0
+
+      let percentage = 0
+      if(yesterdayWithdraw > 0){
+        percentage = ((dailyWithdraw - yesterdayWithdraw)  / yesterdayWithdraw) * 100
+      }
+
+      const result = {dailyWithdraw, yesterdayWithdraw, percentage:percentage.toFixed(2)}
+      res.status(200).json(result)
+
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
+  static async adminCommission(req, res, next){
+    try {
+      const today = new Date()
+      const startDay = new Date(today.setHours(0,0,0,0))
+
+      const yesterday = new Date(startDay)
+      yesterday.setDate(yesterday.getDate() - 1)
+
+      const dailyCommission = (await Payment.sum("adminCommission",{
+        where:{
+          createdAt:{[Op.gte]:startDay},
+          status:"paid"
+        }
+      })) || 0
+
+      const yesterdayCommission = (await Payment.sum("adminCommission",{
+        where:{
+          createdAt:{[Op.between]:[yesterday, startDay]},
+          status:"paid"
+        }
+      })) || 0
+
+      let percentage = 0
+      if (yesterdayCommission > 0) {
+        percentage = ((dailyCommission - yesterdayCommission) / yesterdayCommission) * 100
+      }
+
+      const result = {
+        dailyCommission,
+        yesterdayCommission,
+        percentage:parseInt(percentage).toFixed(2)
+      }
+
+      res.status(200).json(result)
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
+  static async adminChart(req, res, next) {
+    try {
+      const today = new Date();
+      const weekAgo = new Date(today);
+      weekAgo.setDate(weekAgo.getDate() - 7);
+  
+      const daysMap = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+  
+      const weeklyData = await Payment.findAll({
+        where: {
+          createdAt: { [Op.gte]: weekAgo },
+          status: "paid",
+        },
+        attributes: [
+          [Sequelize.literal(`EXTRACT(DOW FROM DATE("createdAt" AT TIME ZONE 'Asia/Jakarta'))`), "date"],
+          [Sequelize.fn("SUM", Sequelize.col("amount")), "totalWithdraw"],
+          [Sequelize.fn("SUM", Sequelize.col("adminCommission")), "totalCommission"]
+        ],
+        group:[Sequelize.literal(`EXTRACT(DOW FROM DATE("createdAt" AT TIME ZONE 'Asia/Jakarta'))`)],
+        raw: true
+      });
+
+      
+  
+      const result = weeklyData.map((payment) => ({
+        name: daysMap[parseInt(payment.date) + 1],
+        withdraw: parseInt(payment.totalWithdraw) || 0,
+        commission: parseInt(payment.totalCommission) || 0
+      }));
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+  
+  
+  
   
 }
 

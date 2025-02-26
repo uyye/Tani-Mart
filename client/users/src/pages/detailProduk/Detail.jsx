@@ -11,6 +11,7 @@ import {
   fetchFavoriteByProduct,
   fetchRemoveFavorite,
 } from "../../features/favorites/favoriteSlice";
+import formateDate from "../../helpers/formateDate";
 
 export default function DetailProduk() {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ export default function DetailProduk() {
 
   const product = useSelector((state) => state.dataProducts.product);
   const favorite = useSelector((state) => state.dataFavorites.favorite);
-  console.log(favorite, "PQIAO");
+  console.log(product, "CEK DATA");
+  
 
   const [quantity, setQuantity] = useState(1);
 
@@ -101,17 +103,22 @@ export default function DetailProduk() {
       {/* Kanan: Informasi Produk */}
       <div className="product-info-section">
         <h1 className="product-title">{product.name}</h1>
+
         {product.productStatus === "presale" && (
           <p className="presale-info">
-            Presale: Siap jual pada{" "}
-            {product.Presales[0]?.startDate.split("T")[0]}
+            [ Pre-Order Delivery {formateDate(product.Presales[0]?.endDate)} ]
           </p>
         )}
 
         {/* Rating dan Terjual */}
         <div className="product-meta">
-          <span className="rating">⭐ {product.rating || "0.0"} / 5.0</span>
-          <span className="sold-count">Terjual {product.sold || 0} produk</span>
+          {/* <span className="rating">⭐ {product.rating || "0.0"} / 5.0</span>
+          <span className="sold-count">Terjual {product.sold || 0} produk</span> */}
+        <span>
+          Discount:{product.Presales?.length > 0?
+          product.Presales[0].discount + `%`:
+          "0 %"}
+        </span>
         </div>
 
         {/* Harga */}
@@ -120,6 +127,7 @@ export default function DetailProduk() {
         </h2>
 
         {/* Stok */}
+
         <p className="product-stock">Stok: {product.stock} Kg</p>
 
         {/* Deskripsi */}
@@ -150,9 +158,13 @@ export default function DetailProduk() {
         {/* Tombol Order, Keranjang & Wishlist */}
         <div className="order-buttons">
           <OrderButton handleOrder={handleCheckout}>Beli Sekarang</OrderButton>
-          <button className={`add-to-cart-button1`} onClick={handleInputCart}>
-            + Keranjang
-          </button>
+          {
+            product.productStatus === "regular" &&
+            <button className={`add-to-cart-button1`} onClick={handleInputCart}>
+              + Keranjang
+            </button>
+
+          } 
           <button
             className={`wishlist-button ${
               Object.keys(favorite).length !== 0 ? "active" : ""

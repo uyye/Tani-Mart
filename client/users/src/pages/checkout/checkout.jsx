@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./checkout.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MapPin, Truck, CreditCard, Shield } from "lucide-react";
 import {useDispatch} from "react-redux"
 import Swal from "sweetalert2"
 import { fetchPostOrder } from "../../features/orders/orderSlice";
 
 function Checkout() {
+  const navigate = useNavigate()
   const location = useLocation()
   const selectedProducts = location.state?.selectedProducts || []
   
@@ -44,6 +45,7 @@ function Checkout() {
     }
 
     dispatch(fetchPostOrder(requestData))
+    // navigate("/pesananSaya")
 
   };
 

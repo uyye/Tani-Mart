@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./home.css";
 import Card from "../../components/card/Card";
 import logo from "../../assets/lgg.png";
-import bg from "../../assets/bg.jpg";
 import { Link } from "react-router-dom";
 import slider1 from "../../assets/slider2cms.png";
 import slider2 from "../../assets/slider1cms.png";
@@ -13,10 +12,8 @@ import {
   TrendingUp,
   Star,
   ShoppingBag,
-  // Search,
   BarChart3,
   Users,
-  // Package,
   DollarSign,
   ArrowUpRight,
   Clock,
@@ -24,6 +21,7 @@ import {
 import {useDispatch, useSelector} from "react-redux"
 import { fetchSalesStatistic } from "../../features/statistic/statisticSlice";
 import { fetchTopOrderBySeller } from "../../features/orders/orderSlice";
+import { fetchRequestProduct } from "../../features/products/productSlice";
 
 // Mock data untuk slider
 const FEATURED_PRODUCTS = [
@@ -76,25 +74,18 @@ const POPULAR_PRODUCTS = [
   },
 ];
 
-// Mock data untuk dashboard
-const DASHBOARD_STATS = {
-  dailySales: "Rp 2.5M",
-  weeklySales: 20000,
-  monthlySales: "Rp 45.8M",
-  totalBuyers: 1250,
-  activeProducts: 85,
-  totalRevenue: "Rp 145.2M",
-};
-
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [showAdminApproval, setShowAdminApproval] = useState(false);
+
   const dispatch = useDispatch()
   const dataStatistic = useSelector((state)=>state.statistics.salesStatistic)
   const topOrder = useSelector((state)=>state.orders.topOrder)
+  const requestData = useSelector((state)=> state.products.requestData)
 
-  console.log(topOrder);
+  console.log(requestData);
+  
   
 
   // State untuk daftar approval, dengan status awal "Menunggu Persetujuan"
@@ -103,6 +94,11 @@ export default function Home() {
     { id: 2, status: "Menunggu Persetujuan" },
     { id: 3, status: "Menunggu Persetujuan" },
   ]);
+
+  const handleOpenModal = ()=>{
+    setShowAdminApproval(true)
+    dispatch(fetchRequestProduct())
+  }
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % FEATURED_PRODUCTS.length);
@@ -114,23 +110,6 @@ export default function Home() {
     );
   };
 
-  // Handler untuk update status produk jika disetujui
-  const handleApprove = (id) => {
-    setApprovalList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, status: "Disetujui oleh Admin" } : item
-      )
-    );
-  };
-
-  // Handler untuk update status produk jika ditolak (dijadikan pending)
-  const handleReject = (id) => {
-    setApprovalList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, status: "Pending" } : item
-      )
-    );
-  };
 
   useEffect(() => {
     const navbar = document.querySelector(".navbar-nav");
@@ -201,7 +180,7 @@ export default function Home() {
               </div>
               <div className="buttonApproval">
                 <button
-                  onClick={() => setShowAdminApproval(true)}
+                  onClick={handleOpenModal}
                   className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
                 >
                   Admin Approval
@@ -285,24 +264,24 @@ export default function Home() {
             <div className="modal-content">
               <h2>Admin Approval</h2>
               <div className="approval-list">
-                {approvalList.map((item) => (
+                {requestData?.map((item) => (
                   <div key={item.id} className="approval-item">
                     <div className="approval-header">
-                      <h3>Produk #{item.id}</h3>
+                      <h3>#{item.name}</h3>
                       <span
                         className={`approval-status ${
-                          item.status === "Menunggu Persetujuan"
+                          item.permission === "waiting"
                             ? "waiting"
-                            : item.status === "Pending"
+                            : item.permission === "Pending"
                             ? "pending"
                             : "approved"
                         }`}
                       >
-                        {item.status}
+                        {item.permission}
                       </span>
                     </div>
                     <p>
-                      Petani mengajukan produk baru untuk dijual di platform.
+                     Mengajukan produk baru untuk dijual di platform.
                     </p>
                     {/* <div className="approval-actions">
                       <button

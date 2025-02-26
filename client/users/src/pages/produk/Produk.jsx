@@ -31,13 +31,13 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="product-info">
           <h3 className="product-name">{product.name}</h3>
-          <p className="store-name">Toko: {product.storeName || "Tidak Ada"}</p>
+          <p className="store-name">Toko: {product.User.name || "Tidak Ada"}</p>
           <p>Harga: Rp {product.price.toLocaleString()} / Kg</p>
-          <p className="sold-count">Terjual: {product.sold || 0} kg</p>
+          {/* <p className="sold-count">Terjual: {product.sold || 0} kg</p> */}
           <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
             {product.stock > 0 ? `Stok: ${product.stock} Kg` : "Out of Stock"}
           </p>
-          <p className="rating">⭐ {product.rating || "0.0"} / 5.0</p>
+          {/* <p className="rating">⭐ {product.rating || "0.0"} / 5.0</p> */}
         </div>
       </div>
     </Link>
