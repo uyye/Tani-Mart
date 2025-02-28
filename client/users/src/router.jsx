@@ -11,6 +11,7 @@ import Checkout from "./pages/checkout/checkout";
 import Wishlist from "./pages/wishlist/wishlist";
 import PesananSaya from "./pages/pesananSaya/PesananSaya";
 import DetailOrder from "./pages/detailOrder/DetailOrder";
+import LoginSeller from "./pages/login/LoginSeller";
 const router = createBrowserRouter(
   [
     {
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
         { path: "/wishlist", element: <Wishlist /> },
         { path: "/pesananSaya", element: <PesananSaya /> },
         { path: "/orders/:id", element: <DetailOrder /> },
+        { path: "/seller", element: <LoginSeller /> },
       ],
     },
 

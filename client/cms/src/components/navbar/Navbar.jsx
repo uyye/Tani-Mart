@@ -22,7 +22,7 @@ export default function Navbar() {
           <>
             <Link to="/">Beranda</Link>
             {/* <Link to="/#about">Tentang Kami</Link> */}
-            <Link to="/product"> Product saya</Link>
+            <Link to="/product"> Produk saya</Link>
             <Link to="/order"> Cek order</Link>
           </>
         ) : (

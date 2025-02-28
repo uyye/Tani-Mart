@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Package} from "lucide-react";
+import { Package } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Pesanan.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,12 +8,10 @@ import formateDate from "../../../users/src/helpers/formateDate";
 import { formatIDR } from "../helpers/formatIDR";
 import SideNavbar from "../components/sideNavbar/SideNavbar";
 
-
 export default function Pesanan() {
-  const dispatch = useDispatch()
-  const orders = useSelector((state)=>state.orders.orders)
+  const dispatch = useDispatch();
+  const orders = useSelector((state) => state.orders.orders);
   const [editOrder, setEditOrder] = useState(null);
-
 
   const handleSave = () => {
     // Simpan perubahan pesanan di sini (misalnya, update state atau kirim ke server)
@@ -24,14 +22,14 @@ export default function Pesanan() {
     setEditOrder(null);
   };
 
-  useEffect(()=>{
-    dispatch(fetchOrderAdmin())
-  }, [dispatch])
-  
+  useEffect(() => {
+    dispatch(fetchOrderAdmin());
+  }, [dispatch]);
+
   return (
     <div className="container">
       {/* Sidebar */}
-      <SideNavbar/>
+      <SideNavbar />
 
       <div className="space-y-6">
         {/* Orders Table */}
@@ -99,12 +97,12 @@ export default function Pesanan() {
                   Daftar Pesanan
                 </h2>
                 <div className="flex gap-2">
-                  <select className="border rounded-lg px-3 py-2">
+                  {/* <select className="border rounded-lg px-3 py-2">
                     <option>Semua Status</option>
                     <option>Pending</option>
                     <option>Processing</option>
                     <option>Completed</option>
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <div className="overflow-x-auto">

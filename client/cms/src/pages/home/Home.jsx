@@ -18,7 +18,7 @@ import {
   ArrowUpRight,
   Clock,
 } from "lucide-react";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { fetchSalesStatistic } from "../../features/statistic/statisticSlice";
 import { fetchTopOrderBySeller } from "../../features/orders/orderSlice";
 import { fetchRequestProduct } from "../../features/products/productSlice";
@@ -79,14 +79,12 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAdminApproval, setShowAdminApproval] = useState(false);
 
-  const dispatch = useDispatch()
-  const dataStatistic = useSelector((state)=>state.statistics.salesStatistic)
-  const topOrder = useSelector((state)=>state.orders.topOrder)
-  const requestData = useSelector((state)=> state.products.requestData)
+  const dispatch = useDispatch();
+  const dataStatistic = useSelector((state) => state.statistics.salesStatistic);
+  const topOrder = useSelector((state) => state.orders.topOrder);
+  const requestData = useSelector((state) => state.products.requestData);
 
   console.log(requestData);
-  
-  
 
   // State untuk daftar approval, dengan status awal "Menunggu Persetujuan"
   const [approvalList, setApprovalList] = useState([
@@ -95,10 +93,10 @@ export default function Home() {
     { id: 3, status: "Menunggu Persetujuan" },
   ]);
 
-  const handleOpenModal = ()=>{
-    setShowAdminApproval(true)
-    dispatch(fetchRequestProduct())
-  }
+  const handleOpenModal = () => {
+    setShowAdminApproval(true);
+    dispatch(fetchRequestProduct());
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % FEATURED_PRODUCTS.length);
@@ -109,7 +107,6 @@ export default function Home() {
       (prev) => (prev - 1 + FEATURED_PRODUCTS.length) % FEATURED_PRODUCTS.length
     );
   };
-
 
   useEffect(() => {
     const navbar = document.querySelector(".navbar-nav");
@@ -158,18 +155,17 @@ export default function Home() {
   //   return () => clearInterval(timer);
   // }, []);
 
-  useEffect(()=>{
-    dispatch(fetchSalesStatistic())
-    dispatch(fetchTopOrderBySeller())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchSalesStatistic());
+    dispatch(fetchTopOrderBySeller());
+  }, [dispatch]);
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="coba">
       <div className="diatas">
-        {/* Search Section */}
         <div className="bg-white shadow-sm sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 py-3">
             <div className="flex items-center gap-4">
-              <div className="flex-1 relative">
+              {/* <div className="flex-1 relative">
                 <input
                   type="text"
                   placeholder="Cari produk pertanian..."
@@ -177,7 +173,7 @@ export default function Home() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
-              </div>
+              </div> */}
               <div className="buttonApproval">
                 <button
                   onClick={handleOpenModal}
@@ -189,7 +185,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
         {/* Hero Section with Dashboard */}
         <section className="hero">
           <div className="hero-overlay"></div>
@@ -214,10 +209,16 @@ export default function Home() {
                     <BarChart3 className="stat-icon" size={24} />
                     <h3>Penjualan Harian</h3>
                   </div>
-                  <p className="stat-value">Rp.{dataStatistic?.dailySales?.totalDailySales.toLocaleString()}</p>
+                  <p className="stat-value">
+                    Rp.
+                    {dataStatistic?.dailySales?.totalDailySales.toLocaleString()}
+                  </p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>{dataStatistic?.dailySales?.totalDailyPercentage} % dari kemarin</span>
+                    <span>
+                      {dataStatistic?.dailySales?.totalDailyPercentage} % dari
+                      kemarin
+                    </span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -225,10 +226,16 @@ export default function Home() {
                     <Clock className="stat-icon" size={24} />
                     <h3>Penjualan Mingguan</h3>
                   </div>
-                  <p className="stat-value">Rp.{dataStatistic?.weeklySales?.totalWeeklySales.toLocaleString()}</p>
+                  <p className="stat-value">
+                    Rp.
+                    {dataStatistic?.weeklySales?.totalWeeklySales.toLocaleString()}
+                  </p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>{dataStatistic?.weeklySales?.totalWeeklyPercentage} % dari minggu lalu</span>
+                    <span>
+                      {dataStatistic?.weeklySales?.totalWeeklyPercentage} % dari
+                      minggu lalu
+                    </span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -236,10 +243,14 @@ export default function Home() {
                     <Users className="stat-icon" size={24} />
                     <h3>Total Pembeli</h3>
                   </div>
-                  <p className="stat-value">{dataStatistic?.dailyBuyer?.totalBuyer}</p>
+                  <p className="stat-value">
+                    {dataStatistic?.dailyBuyer?.totalBuyer}
+                  </p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>{dataStatistic?.dailyBuyer?.dailyBuyer} pembeli baru</span>
+                    <span>
+                      {dataStatistic?.dailyBuyer?.dailyBuyer} pembeli baru
+                    </span>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -247,17 +258,22 @@ export default function Home() {
                     <DollarSign className="stat-icon" size={24} />
                     <h3>Total Pendapatan</h3>
                   </div>
-                  <p className="stat-value">Rp.{dataStatistic?.monthlySales?.totalMonthlySales.toLocaleString()}</p>
+                  <p className="stat-value">
+                    Rp.
+                    {dataStatistic?.monthlySales?.totalMonthlySales.toLocaleString()}
+                  </p>
                   <div className="stat-trend">
                     <ArrowUpRight size={16} />
-                    <span>{dataStatistic?.monthlySales?.totalMonthlyPercentage} % bulan ini</span>
+                    <span>
+                      {dataStatistic?.monthlySales?.totalMonthlyPercentage} %
+                      bulan ini
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-
         {/* Admin Approval Modal */}
         {showAdminApproval && (
           <div className="modal-overlay">
@@ -280,9 +296,7 @@ export default function Home() {
                         {item.permission}
                       </span>
                     </div>
-                    <p>
-                     Mengajukan produk baru untuk dijual di platform.
-                    </p>
+                    <p>Mengajukan produk baru untuk dijual di platform.</p>
                     {/* <div className="approval-actions">
                       <button
                         className="approve-button"
@@ -389,12 +403,18 @@ export default function Home() {
                   className="product-image1"
                 />
                 <div className="product-info">
-                  <h3 className="product-title">Rp.{product.productName?.toLocaleString()}</h3>
-                  <p className="product-price">Rp.{product.productPrice?.toLocaleString()}</p>
+                  <h3 className="product-title">
+                    {product.productName?.toLocaleString()}
+                  </h3>
+                  <p className="product-price">
+                    Rp.{product.productPrice?.toLocaleString()} /kg
+                  </p>
                   <div className="product-meta">
                     <Star size={16} color="#FCD34D" />
                     <span>{product.rating}</span>
-                    <span className="meta-separator">{product.totalQuantityOrder}</span>
+                    <span className="meta-separator">
+                      {product.totalQuantityOrder}
+                    </span>
                     <ShoppingBag size={16} />
                     <span>{product.sales} terjual</span>
                   </div>

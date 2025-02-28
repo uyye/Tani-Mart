@@ -126,7 +126,8 @@
   margin-bottom: 0.5rem;
 }
 .buttonApproval {
-  margin-top: 10px;
+  margin-top: 1px;
+  margin-left: 1000px;
 }
 /* Style untuk status approval */
 .approval-status {
@@ -406,6 +407,7 @@
   font-weight: 600;
   font-size: 1.125rem;
   margin-bottom: 2px;
+  text-align: left;
 }
 
 .product-price {

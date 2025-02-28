@@ -21,7 +21,6 @@ export default function DetailProduk() {
   const product = useSelector((state) => state.dataProducts.product);
   const favorite = useSelector((state) => state.dataFavorites.favorite);
   console.log(product, "CEK DATA");
-  
 
   const [quantity, setQuantity] = useState(1);
 
@@ -96,7 +95,7 @@ export default function DetailProduk() {
         <img
           src={product.image}
           alt={product.name}
-          className="product-image1"
+          className="product-image12"
         />
       </div>
 
@@ -114,11 +113,12 @@ export default function DetailProduk() {
         <div className="product-meta">
           {/* <span className="rating">⭐ {product.rating || "0.0"} / 5.0</span>
           <span className="sold-count">Terjual {product.sold || 0} produk</span> */}
-        <span>
-          Discount:{product.Presales?.length > 0?
-          product.Presales[0].discount + `%`:
-          "0 %"}
-        </span>
+          <span>
+            Discount:
+            {product.Presales?.length > 0
+              ? product.Presales[0].discount + `%`
+              : "0 %"}
+          </span>
         </div>
 
         {/* Harga */}
@@ -158,13 +158,11 @@ export default function DetailProduk() {
         {/* Tombol Order, Keranjang & Wishlist */}
         <div className="order-buttons">
           <OrderButton handleOrder={handleCheckout}>Beli Sekarang</OrderButton>
-          {
-            product.productStatus === "regular" &&
+          {product.productStatus === "regular" && (
             <button className={`add-to-cart-button1`} onClick={handleInputCart}>
               + Keranjang
             </button>
-
-          } 
+          )}
           <button
             className={`wishlist-button ${
               Object.keys(favorite).length !== 0 ? "active" : ""

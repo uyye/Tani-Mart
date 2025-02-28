@@ -50,6 +50,7 @@
   display: inline-flex;
   gap: 10px;
   margin-bottom: 20px;
+  margin-left: -230px;
 }
 
 .category-button {
@@ -59,6 +60,7 @@
   background-color: #f8f8f8;
   cursor: pointer;
   margin-top: 20px;
+  margin-left: 10px;
 }
 
 .category-button.active {
@@ -72,7 +74,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-  margin-left: 110px;
+  margin-left: 0px;
 }
 
 .tab-button {
@@ -151,6 +153,9 @@
   background-color: #00ff04;
   color: white;
   margin-right: 5px;
+}
+.btn-update:hover {
+  background-color: white;
 }
 .btn-delete:hover {
   background-color: white;

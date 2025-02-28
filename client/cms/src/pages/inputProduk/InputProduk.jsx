@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./InputProduk.css";
 import instance from "../../api/axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { ClipLoader } from "react-spinners"; // Import spinner dari react-spinners
 
 export default function AddProduct({ page, setModal }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const token = localStorage.getItem("access_token");
-  const decode = jwtDecode(token)
+  const decode = jwtDecode(token);
 
   const [product, setProduct] = useState({
     name: "",
@@ -28,6 +29,30 @@ export default function AddProduct({ page, setModal }) {
     startDate: "",
     discount: "",
   });
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading
+
+  const modalRef = useRef(null); // Ref untuk modal content
+
+  // Fungsi untuk menutup modal saat klik di luar modal
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      if (decode.role === "admin") {
+        setModal(false); // Tutup modal jika admin
+      } else {
+        navigate("/product"); // Kembali ke halaman produk jika seller
+      }
+    }
+  };
+
+  // Tambahkan event listener saat modal dibuka
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener saat komponen unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -40,6 +65,7 @@ export default function AddProduct({ page, setModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Mulai loading
 
     // Validasi khusus untuk produk presale
     let validationErrors = { startDate: "", discount: "" };
@@ -56,6 +82,7 @@ export default function AddProduct({ page, setModal }) {
 
     // Jika ada error validasi, hentikan submit
     if (validationErrors.startDate || validationErrors.discount) {
+      setIsLoading(false); // Hentikan loading jika validasi gagal
       return;
     }
 
@@ -96,11 +123,12 @@ export default function AddProduct({ page, setModal }) {
         showConfirmButton: false,
         timer: 2000,
       });
-      if(decode.role === "seller"){
-        navigate("/product")
-      }else if(decode.role === "admin"){
+
+      if (decode.role === "seller") {
+        navigate("/product");
+      } else if (decode.role === "admin") {
         navigate("/kelolaproduk");
-        setModal()
+        setModal();
       }
     } catch (error) {
       console.log(error);
@@ -109,6 +137,8 @@ export default function AddProduct({ page, setModal }) {
         text: "Terjadi kesalahan saat menyimpan data",
         icon: "error",
       });
+    } finally {
+      setIsLoading(false); // Hentikan loading setelah request selesai
     }
   };
 
@@ -131,126 +161,142 @@ export default function AddProduct({ page, setModal }) {
   }, [id]);
 
   return (
-    <div className={decode.role === "admin"?"modal-overlay":"add-product-container"}>
-      <div className={decode.role === "admin"&&"modal-container"}>
-      <h1 className="form-title">
-        {page === "edit" ? "Edit Produk" : "Tambah Produk"}
-      </h1>
-      <form onSubmit={handleSubmit} className="add-product-form">
-        <div className="form-group">
-          <label>Nama Produk:</label>
-          <input
-            type="text"
-            name="name"
-            value={product.name}
-            onChange={handleInputChange}
-            placeholder="Masukkan nama produk"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Kategori:</label>
-          <select
-            name="category"
-            value={product.category}
-            onChange={handleInputChange}
-            className="select-form"
-            required
-          >
-            <option value="" disabled>
-              Pilih kategori
-            </option>
-            <option value="Sayur-sayuran">Sayur</option>
-            <option value="Buah-buahan">Buah</option>
-            <option value="Umbi-umbian">Umbi</option>
-            <option value="Rempah-rempah">Rempah</option>
-            <option value="Produk Organik">Organik</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Harga Produk:</label>
-          <input
-            type="number"
-            name="price"
-            value={product.price}
-            onChange={handleInputChange}
-            placeholder="Masukkan harga produk"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Stok:</label>
-          <input
-            type="number"
-            name="stock"
-            value={product.stock}
-            onChange={handleInputChange}
-            placeholder="Masukkan jumlah stok"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Deskripsi Produk:</label>
-          <textarea
-            name="description"
-            value={product.description}
-            onChange={handleInputChange}
-            placeholder="Masukkan deskripsi produk"
-            required
-          ></textarea>
-        </div>
-        <div className="form-group">
-          <label>Gambar Produk:</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            required={page !== "edit"}
-          />
-        </div>
-        <div className="form-group">
-          <label>Status Produk:</label>
-          <select
-            name="productStatus"
-            value={product.productStatus}
-            onChange={handleInputChange}
-            className="select-form"
-            required
-          >
-            <option value="" disabled>
-              Pilih status
-            </option>
-            <option value="regular">Reguler</option>
-            <option value="presale">Presale</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Tanggal Order (kosongkan jika reguler):</label>
-          <input
-            type="date"
-            name="startDate"
-            value={product.startDate}
-            onChange={handleInputChange}
-          />
-          {errors.startDate && <p className="error-text">{errors.startDate}</p>}
-        </div>
-        <div className="form-group">
-          <label>Diskon (kosongkan jika reguler):</label>
-          <input
-            type="number"
-            name="discount"
-            value={product.discount}
-            onChange={handleInputChange}
-          />
-          {errors.discount && <p className="error-text">{errors.discount}</p>}
-        </div>
-        <div className="tambah">
-          <button type="submit" className="submit-btn1">
-            {page === "edit" ? "Update Produk" : "Tambah Produk"}
-          </button>
-        </div>
-      </form>
+    <div
+      className={
+        decode.role === "admin" ? "modal-overlay" : "add-product-container"
+      }
+    >
+      <div
+        className={decode.role === "admin" ? "modal-container" : ""}
+        ref={modalRef} // Ref untuk modal content
+      >
+        <h1 className="form-title">
+          {page === "edit" ? "Edit Produk" : "Tambah Produk"}
+        </h1>
+        <form onSubmit={handleSubmit} className="add-product-form">
+          <div className="form-group">
+            <label>Nama Produk:</label>
+            <input
+              type="text"
+              name="name"
+              value={product.name}
+              onChange={handleInputChange}
+              placeholder="Masukkan nama produk"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Kategori:</label>
+            <select
+              name="category"
+              value={product.category}
+              onChange={handleInputChange}
+              className="select-form"
+              required
+            >
+              <option value="" disabled>
+                Pilih kategori
+              </option>
+              <option value="Sayur-sayuran">Sayur</option>
+              <option value="Buah-buahan">Buah</option>
+              <option value="Umbi-umbian">Umbi</option>
+              <option value="Rempah-rempah">Rempah</option>
+              <option value="Produk Organik">Organik</option>
+              <option value="Produk Lainya">Produk Lainya</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Harga Produk:</label>
+            <input
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={handleInputChange}
+              placeholder="Masukkan harga produk"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Stok/kg:</label>
+            <input
+              type="number"
+              name="stock"
+              value={product.stock}
+              onChange={handleInputChange}
+              placeholder="Masukkan jumlah stok"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Deskripsi Produk:</label>
+            <textarea
+              name="description"
+              value={product.description}
+              onChange={handleInputChange}
+              placeholder="Masukkan deskripsi produk"
+              required
+            ></textarea>
+          </div>
+          <div className="form-group">
+            <label>Gambar Produk:</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              required={page !== "edit"}
+            />
+          </div>
+          <div className="form-group">
+            <label>Status Produk:</label>
+            <select
+              name="productStatus"
+              value={product.productStatus}
+              onChange={handleInputChange}
+              className="select-form"
+              required
+            >
+              <option value="" disabled>
+                Pilih status
+              </option>
+              <option value="regular">Reguler</option>
+              <option value="presale">Presale</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Tanggal Order (kosongkan jika reguler):</label>
+            <input
+              type="date"
+              name="startDate"
+              value={product.startDate}
+              onChange={handleInputChange}
+            />
+            {errors.startDate && (
+              <p className="error-text">{errors.startDate}</p>
+            )}
+          </div>
+          <div className="form-group">
+            <label>Diskon (kosongkan jika reguler):</label>
+            <input
+              type="number"
+              name="discount"
+              value={product.discount}
+              onChange={handleInputChange}
+            />
+            {errors.discount && <p className="error-text">{errors.discount}</p>}
+          </div>
+          <div className="tambah">
+            <button type="submit" className="submit-btn1" disabled={isLoading}>
+              {isLoading ? (
+                <ClipLoader size={20} color="#2cc136" /> // Tampilkan spinner saat loading
+              ) : page === "edit" ? (
+                "Update Produk"
+              ) : (
+                "Tambah Produk"
+              )}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
