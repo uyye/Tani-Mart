@@ -14,7 +14,7 @@ import {
   Star,
   ShoppingBag,
 } from "lucide-react";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { fetchTopOrder } from "../../features/orders/orderSlice";
 
 // Mock data for demonstration
@@ -83,11 +83,10 @@ const POPULAR_PRODUCTS = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const dispatch = useDispatch()
-  const topProducts = useSelector((state)=>state.dataOrder.topOrders)
+  const dispatch = useDispatch();
+  const topProducts = useSelector((state) => state.dataOrder.topOrders);
 
   console.log(topProducts, "CLCKCKCKCK");
-  
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % FEATURED_PRODUCTS.length);
@@ -150,9 +149,9 @@ export default function Home() {
   //   return () => clearInterval(timer);
   // }, []);
 
-  useEffect(()=>{
-    dispatch(fetchTopOrder())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchTopOrder());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -256,13 +255,16 @@ export default function Home() {
                 />
                 <div className="product-info">
                   <h3 className="product-title1">{product.name}</h3>
-                  <p className="product-price1">{product.price}</p>
+                  <p className="product-price1">Rp.{product.price} /kg </p>
                   <div className="product-meta1">
                     <Star size={16} color="#FCD34D" />
                     <span>{product.rating}</span>
                     <span className="meta-separator">•</span>
                     <ShoppingBag size={16} />
                     <span>{product.totalQuantityOrder} terjual</span>
+                    <div className="product-store">
+                      <span className="store-name">{product.storeName}</span>
+                    </div>
                   </div>
                 </div>
               </div>

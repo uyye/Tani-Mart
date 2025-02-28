@@ -1,4 +1,4 @@
-.modal-overlay{
+.modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   position: fixed;
 }
 
-.modal-container{
+.modal-container {
   background-color: #f9f9f9;
   width: 50%;
   height: 80%;
@@ -20,7 +20,6 @@
   padding: 20px;
   overflow-y: auto;
   margin-bottom: 40px;
-  
 }
 
 /* Container Utama */
@@ -131,4 +130,8 @@
 
 .submit-btn1:hover {
   background-color: #17a15b;
+}
+.submit-btn1:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

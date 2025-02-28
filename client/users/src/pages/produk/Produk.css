@@ -41,25 +41,29 @@
 
 .categories {
   display: flex;
-  gap: 10px;
-  margin: 10px 0px 30px 20px;
-  padding: 40px 10px;
+  gap: 5px;
+  margin: 10px 10px 40px;
+  padding: 10px 10px;
+  margin-left: 100px;
 }
 
 .category-button {
   margin-bottom: -30px;
-  padding: 10px 25px;
+  padding: 10px 15px;
   background-color: #f8f8f8;
   border: 1px solid #ddd;
   cursor: pointer;
   border-radius: 5px;
+  margin-left: 20px;
 }
 
 .category-button.active {
   background-color: #00aa5b;
   color: white;
 }
-
+.tab-buttons {
+  margin-left: -20px;
+}
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

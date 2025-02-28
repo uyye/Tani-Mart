@@ -4,7 +4,11 @@ import instance from "../../api/axiosInstance";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDataProductBySeller, setFilter, setSearch } from "../../features/products/productSlice";
+import {
+  fetchDataProductBySeller,
+  setFilter,
+  setSearch,
+} from "../../features/products/productSlice";
 
 const categories = [
   "Semua",
@@ -17,28 +21,27 @@ const categories = [
 ];
 
 const ProductTable = () => {
-  const dispatch = useDispatch()
-  // const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("Semua");
-  const [activeTab, setActiveTab] = useState("reguler"); // Tambahkan state untuk tab aktif
+  const [activeTab, setActiveTab] = useState("reguler"); // State untuk tab aktif
 
-  const {products, search, filter} = useSelector((state)=>state.products)
+  const { products, search, filter } = useSelector((state) => state.products);
   console.log(products);
 
-  const handleFilterCategory = (category)=>{
+  const handleFilterCategory = (category) => {
+    // Update state local untuk penampilan background tombol aktif
+    setSelectedCategory(category);
     if (category === "Semua") {
-      dispatch(setFilter())
-    }else{
-      dispatch(setFilter(category))
+      dispatch(setFilter());
+    } else {
+      dispatch(setFilter(category));
     }
-  }
+  };
 
-  const handleSearchProduct = (keyword)=>{
+  const handleSearchProduct = (keyword) => {
     console.log(keyword, "INI KEYWORD");
-    
-    dispatch(setSearch(keyword))
-  }
+    dispatch(setSearch(keyword));
+  };
 
   const handleDeleteProduct = async (id) => {
     const result = await Swal.fire({
@@ -66,7 +69,8 @@ const ProductTable = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        fetchProduct();
+        // Pastikan untuk memanggil kembali data produk setelah menghapus
+        dispatch(fetchDataProductBySeller());
       } catch (error) {
         Swal.fire({
           position: "center",
@@ -82,10 +86,10 @@ const ProductTable = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchDataProductBySeller())
+    dispatch(fetchDataProductBySeller());
   }, [dispatch, search, filter]);
 
-  // Pisahkan produk reguler dan pre-sale
+  // Pisahkan produk reguler dan presale
   const regularProducts = products.filter(
     (product) => product.productStatus === "regular"
   );
@@ -97,7 +101,7 @@ const ProductTable = () => {
   return (
     <div className="table-container">
       <header className="app-header">
-        <h1> Daftar Produk </h1>
+        <h1>Daftar Produk</h1>
         <div className="search-bar">
           <input
             type="search"
@@ -150,7 +154,7 @@ const ProductTable = () => {
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Stok</th>
-            <th>Permission</th>
+            <th>Izin</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -189,7 +193,7 @@ const ProductTable = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-data">
+                <td colSpan="7" className="no-data">
                   Tidak ada produk reguler
                 </td>
               </tr>
@@ -211,6 +215,7 @@ const ProductTable = () => {
                 <td>{product.name}</td>
                 <td>Rp {product.price.toLocaleString()}</td>
                 <td>{product.stock}</td>
+                <td>{product.permission}</td> {/* Tambahkan kolom Permission */}
                 <td>
                   <button className="btn-update">
                     <Link to={`/Input/${product.id}`}>Update</Link>
@@ -226,7 +231,7 @@ const ProductTable = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="no-data">
+              <td colSpan="7" className="no-data">
                 Tidak ada produk presale
               </td>
             </tr>

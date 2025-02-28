@@ -50,11 +50,26 @@ export default function Navbar() {
             </Link>
           </>
         ) : (
-          <Link to="/login">Masuk</Link>
+          <>
+            <Link to="/login">Login Pembeli</Link>
+            {/* Mengarahkan link ke login CMS */}
+            <Link
+              to="/cms"
+              style={{
+                backgroundColor: "#059669",
+                color: "#fff",
+                border: "none",
+                marginLeft: "10px",
+                padding: "0.4rem 1rem",
+                borderRadius: "10px",
+              }}
+            >
+              Login Penjual
+            </Link>
+          </>
         )}
 
         <a href="#" id="hamburger-menu">
-          {" "}
           <CiMenuBurger />
         </a>
       </div>

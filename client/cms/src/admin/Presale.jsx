@@ -1,8 +1,8 @@
 import "./Presale.css";
-import {Timer} from "lucide-react";
+import { Timer } from "lucide-react";
 import { Link } from "react-router-dom";
 import SideNavbar from "../components/sideNavbar/SideNavbar";
-import {useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchPresaleProduct } from "../features/products/productSlice";
 import formateDate from "../helpers/formateDate";
@@ -45,20 +45,19 @@ const presaleItems = [
 ];
 
 export default function Presale() {
-const presaleProducts = useSelector((state)=>state.products.presales)
-console.log(presaleProducts);
+  const presaleProducts = useSelector((state) => state.products.presales);
+  console.log(presaleProducts);
 
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-
-useEffect(()=>{
-  dispatch(fetchPresaleProduct())
-}, [dispatch])
+  useEffect(() => {
+    dispatch(fetchPresaleProduct());
+  }, [dispatch]);
 
   return (
     <div className="container">
       {/* Sidebar */}
-      <SideNavbar/>
+      <SideNavbar />
 
       <div className="space-y-6">
         {/* Presale Items */}
@@ -69,12 +68,12 @@ useEffect(()=>{
                 Daftar Presale
               </h2>
               <div className="flex gap-2">
-                <select className="border rounded-lg px-3 py-2">
+                {/* <select className="border rounded-lg px-3 py-2">
                   <option>Semua Status</option>
                   <option>Active</option>
                   <option>Upcoming</option>
                   <option>Ended</option>
-                </select>
+                </select> */}
               </div>
             </div>
             <div className="grid gap-6">
@@ -88,7 +87,8 @@ useEffect(()=>{
                       <div className="flex items-center gap-2 text-gray-600 mt-1">
                         <Timer size={16} />
                         <span>
-                          {formateDate(item.startDate)} - {formateDate(item.endDate)}
+                          {formateDate(item.startDate)} -{" "}
+                          {formateDate(item.endDate)}
                         </span>
                       </div>
                     </div>
