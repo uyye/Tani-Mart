@@ -255,15 +255,20 @@ class OrderController{
         try {
             const data = await OrderDetail.findAll({
                 where:{authorId:req.user.id},
-                include:{model:Product, attributes:[]},
+                include:{
+                    model:Product,
+                    attributes:[],
+                    include:{model:User, attributes:[]}
+                },
                 attributes:[
                     [Sequelize.col("Product.id"), "productId"],
                     [Sequelize.col("Product.name"), "productName"],
                     [Sequelize.col("Product.image"), "productImage"],
                     [Sequelize.col("Product.price"), "productPrice"],
+                    [Sequelize.col("Product.User.name"), "author"],
                     [Sequelize.fn("SUM", Sequelize.col("quantity")), "totalQuantityOrder"]
                 ],
-                group:["Product.id", "Product.name"],
+                group:["Product.id","Product.name", "Product.image, Product.price", "Product.User.name" ],
                 order:[[Sequelize.fn("SUM", Sequelize.col("quantity")), "desc"]],
                 limit:5
             })
@@ -311,30 +316,43 @@ class OrderController{
         }
     }
 
-    static async allTopOrder(req, res, next){
+    static async allTopOrder(req, res, next) {
         try {
-
             const data = await OrderDetail.findAll({
-                include:{model:Product, attributes:[]},
-                attributes:[
+                include: {
+                    model: Product,
+                    attributes: [],
+                    include: {
+                        model: User,
+                        attributes: []
+                    }
+                },
+                attributes: [
                     [Sequelize.col("Product.id"), "id"],
                     [Sequelize.col("Product.name"), "name"],
                     [Sequelize.col("Product.price"), "price"],
                     [Sequelize.col("Product.image"), "image"],
+                    [Sequelize.col("Product.User.name"), "author"],
                     [Sequelize.fn("SUM", Sequelize.col("quantity")), "totalQuantityOrder"]
                 ],
-                group:["Product.id", "Product.name"],
-                order:[[Sequelize.fn("SUM", sequelize.col("quantity")), "desc"]],
+                group: [
+                    "Product.id", 
+                    "Product.name", 
+                    "Product.price", 
+                    "Product.image", 
+                    "Product.User.name"
+                ],
+                order: [[Sequelize.fn("SUM", Sequelize.col("quantity")), "DESC"]],
                 limit: 5
-            })
-
-            res.status(200).json(data)
-            
+            });
+    
+            res.status(200).json(data);
         } catch (error) {
             console.log(error);
-            next(error)
+            next(error);
         }
     }
+    
 
     static async getOrderAdmin(req, res, next){
         try {
