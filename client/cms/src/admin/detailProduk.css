@@ -73,3 +73,20 @@ h2 {
 .delete-button:hover {
   background-color: #d32f2f;
 }
+/* samsung s20 */
+@media (max-width: 360px) {
+  .detail-produk-container {
+    margin-left: 0px;
+  }
+  .detail-produk-container h2 {
+    margin-left: -200px;
+  }
+  .produk-detail-card {
+    display: grid;
+    font-size: 5px;
+    margin-left: -20px;
+  }
+  .update-button {
+    margin-left: -160px;
+  }
+}

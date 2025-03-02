@@ -170,3 +170,127 @@
   color: #888;
   padding: 20px;
 }
+/* samsung s20 */
+@media (max-width: 360px) {
+  .table-container {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
+    /* height: 800px; */
+  }
+  .app-header {
+    display: grid;
+    margin-left: -15px;
+    justify-content: space-between;
+    align-items: left;
+    background-color: #00aa5b;
+    width: 350px;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    margin-top: 60px;
+  }
+  .app-header h1 {
+    font-size: 15px;
+  }
+  .search-bar {
+    width: 10px;
+    margin-right: 100px;
+  }
+  .category-buttons {
+    gap: 12px;
+    padding: 1px 2px;
+    margin-left: -5px;
+    display: flex;
+  }
+  .category-button {
+    margin-left: -10px;
+    padding: 2px 2px;
+    width: 70px;
+    height: 40px;
+    font-size: 11px;
+  }
+  .product-tabs {
+    margin-top: 10px;
+    margin-left: -15px;
+    gap: 10px;
+  }
+  /* .product-section {
+    display: flex;
+  } */
+  .product-table {
+    margin-left: -20px;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .product-card {
+    background: white;
+    display: grid;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s;
+    max-width: 200px;
+    max-height: 300px;
+  }
+  .product-table th,
+  .product-table td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  /* Tombol Aksi */
+  .btn-update,
+  .btn-delete {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 8px;
+    line-height: 8px;
+  }
+
+  .btn-update {
+    background-color: #00ff04;
+    color: white;
+    margin-right: 5px;
+  }
+  .btn-update:hover {
+    background-color: white;
+  }
+  .btn-delete:hover {
+    background-color: white;
+  }
+  .btn-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+  }
+}
+/* tab */
+@media (max-width: 800px) {
+  .category-buttons {
+    gap: 12px;
+    padding: 5px 10px;
+    margin-left: 5px;
+    display: flex;
+  }
+  .category-button {
+    margin-left: -10px;
+    padding: 5px 5px;
+    width: 90px;
+    height: 40px;
+    font-size: 11px;
+  }
+}

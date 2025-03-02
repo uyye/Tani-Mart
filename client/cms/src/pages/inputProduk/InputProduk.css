@@ -135,3 +135,16 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+@media (max-width: 360px) {
+  .tambah {
+    margin-left: -180px;
+  }
+}
+@media (max-width: 800px) {
+  .modal-container {
+    margin-top: 50px;
+  }
+  .add-product-container {
+    height: 90vh;
+  }
+}

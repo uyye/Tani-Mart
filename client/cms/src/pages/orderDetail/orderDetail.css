@@ -1,13 +1,16 @@
-/* Mobile Phone */
-@media (max-width: 428px) {
+@media (max-width: 360px) {
   .orderDetail-container {
-    font-size: 11px;
-    margin-top: 100px;
-    margin-left: -30px;
-    height: 310px;
+    margin-top: 90px;
   }
-  .order-list {
-    padding-left: -20px;
-    margin-top: 40px;
+  .order-list table {
+    margin-left: -20px;
+    gap: 2px;
+  }
+  .order-list th {
+    font-size: 9px;
+    background-color: green;
+  }
+  .order-list td {
+    font-size: 8px;
   }
 }

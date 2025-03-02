@@ -56,3 +56,17 @@
 .btn-delete:hover {
   background-color: #c82333;
 }
+/* samsung s20 */
+@media (max-width: 360px) {
+  .users-table {
+    margin-left: -10px;
+    font-size: 8px;
+  }
+  .btn-detail {
+    display: flex;
+    margin: 1px;
+    text-align: center;
+    padding: 5px 5px;
+    width: 41px;
+  }
+}

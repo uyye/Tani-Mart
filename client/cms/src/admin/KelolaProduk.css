@@ -12,7 +12,7 @@
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto  ;
+  overflow-y: auto;
 }
 .header {
   display: flex;
@@ -21,7 +21,7 @@
 }
 .header h2 {
   margin-left: -800px;
-  margin-top: 30px;
+  margin-top: -50px;
 }
 .add-product-btn {
   background-color: #10ac78;
@@ -91,4 +91,26 @@
 
 .detail-btn:hover {
   background-color: #2563eb;
+}
+/* samsung s20 */
+@media (max-width: 360px) {
+  .add-product-btn {
+    margin-left: 10px;
+    margin-top: -130px;
+  }
+  .produk-table {
+    margin-left: 10px;
+    font-size: 10px;
+  }
+}
+/* tab */
+@media (max-width: 800px) {
+  .header h2 {
+    margin-left: -490px;
+    margin-top: 30px;
+  }
+  .add-product-btn {
+    margin-left: 10px;
+    /* margin-top: -130px; */
+  }
 }

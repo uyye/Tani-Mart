@@ -262,3 +262,31 @@
   background-color: #ff4d4d; /* Warna merah saat aktif */
   color: #fff; /* Warna teks putih saat aktif */
 }
+/* samsung s20 */
+@media (max-width: 360px) {
+  .detail-container {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
+    display: table;
+    max-width: 450px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .product-image-section {
+    width: 320px;
+    margin-left: 10px;
+    margin-bottom: -30px;
+    align-items: center;
+  }
+  .store-details {
+    text-align: center;
+  }
+  .quantity-container {
+    margin-left: 100px;
+  }
+  .add-to-cart-button1 {
+    margin-left: 50px;
+  }
+}

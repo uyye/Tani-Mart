@@ -143,3 +143,16 @@ input:focus {
     padding: 0.5rem;
   }
 }
+@media (max-width: 800px) {
+  .register-container-cms .card {
+    margin-left: 0px;
+    margin-top: -140px;
+  }
+}
+/* samsung galaxy s20 */
+@media (max-width: 360px) {
+  .register-container-cms .card {
+    margin-left: 0px;
+    margin-top: -140px;
+  }
+}

@@ -36,3 +36,12 @@ footer .credit a {
   color: white;
   font-weight: 700;
 }
+/* samsung s20 */
+@media (max-width: 360px) {
+  footer {
+    font-size: 15px;
+  }
+  .credit p {
+    font-size: 10px;
+  }
+}

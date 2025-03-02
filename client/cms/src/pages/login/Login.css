@@ -104,21 +104,15 @@ input:focus {
   color: #000000;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design tab*/
+@media (max-width: 800px) {
+  .login-container {
+    font-size: 20px;
+  }
+}
+/* samsung galaxy s20 */
+@media (max-width: 360px) {
   .login-card {
-    padding: 1.5rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  input {
-    padding: 0.5rem;
-  }
-
-  .login-button {
-    padding: 0.5rem;
+    margin-left: -300px;
   }
 }

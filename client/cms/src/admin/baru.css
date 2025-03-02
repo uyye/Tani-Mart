@@ -301,3 +301,80 @@
   margin-bottom: 10px;
   color: #333;
 }
+/* Media Query untuk tampilan mobile (max-width: 360px) */
+@media (max-width: 360px) {
+  /* Mengatur container utama agar layout menjadi kolom */
+
+  /* Sembunyikan sidebar agar tampilan lebih bersih di layar kecil */
+  .side-navbar {
+    display: none;
+  }
+
+  /* Penyesuaian container konten utama */
+  .main-container {
+    width: 230px;
+    padding: 10px;
+  }
+
+  /* Header: teks di tengah dan padding disesuaikan */
+  .header {
+    line-height: 20px;
+    padding: 10px;
+    text-align: left;
+    width: 290px;
+    height: 80px;
+    margin-left: -30px;
+    font-size: 10px;
+  }
+  .profile-container {
+    display: flex;
+  }
+
+  /* Grid Statistik: satu kolom saja untuk menghindari pengecilan kartu */
+  .stats-grid {
+    /* display: grid; */
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-left: 70px;
+    width: 170px;
+  }
+
+  .stat-card {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  /* Grid Chart: satu kolom untuk masing-masing chart */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 220px;
+    margin-left: 20px;
+  }
+
+  .chart-card {
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Tabel Produk: membuat tabel lebih responsif dengan overflow jika perlu */
+  .products-card {
+    width: 220px;
+    padding: 10px;
+    overflow-x: auto;
+    margin-left: 20px;
+  }
+
+  .products-table {
+    width: 100%;
+    font-size: 8px;
+  }
+
+  /* Penyesuaian header actions jika ada */
+  .header-actions,
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

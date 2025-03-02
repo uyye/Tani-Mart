@@ -118,3 +118,9 @@ input:focus {
     padding: 0.5rem;
   }
 }
+/* samsung galaxy s20 */
+@media (max-width: 360px) {
+  .register-card {
+    margin-left: -300px;
+  }
+}

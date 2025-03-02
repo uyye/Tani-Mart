@@ -55,7 +55,7 @@
   margin: 5px;
   border-radius: 10%;
   padding: 10px 15px;
-  margin-left: 15px;
+  /* margin-left: 15px; */
 }
 select {
   padding: 8px;
@@ -65,7 +65,7 @@ select {
   cursor: pointer;
 }
 .mt-1 {
-  margin-left: -12px;
+  margin-left: 12px;
 }
 .grid {
   display: grid;
@@ -73,7 +73,7 @@ select {
   margin-left: -10px;
 }
 .gap-6 {
-  margin-left: -20px;
+  margin-left: -10px;
 }
 .border {
   border: 1px solid #e0e0e0;
@@ -85,23 +85,60 @@ select {
 .border:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+.flex .mt-1 {
+  color: #000000;
+  text-align: left;
+  margin-left: 10px;
+}
 .text-gray-600 {
   color: #666;
+  text-align: left;
+  margin-left: 80px;
 }
-
+.font-semibold {
+  margin-left: 80px;
+}
 .text-gray-400 {
   color: #aaa;
+  text-align: left;
 }
 
 .text-green-600 {
   color: #28a745;
+  margin-left: 80px;
 }
 
 .text-blue-600 {
   color: #000000;
+  /* text-align: left; */
+  padding: 5px 10px;
+  margin-left: 80px;
 }
 
 .text-blue-600:hover {
   color: #ff0000;
+}
+/* samsung s20 */
+@media (max-width: 360px) {
+  .gap-2 {
+    display: inline-block;
+  }
+  .gap-6 {
+    margin-left: 20px;
+    /* text-align: left; */
+  }
+  .p-4 {
+    display: grid;
+    margin-left: -20px;
+  }
+  .border {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 30px;
+    transition: 0.3s;
+    text-align: left;
+  }
+  .mt-1 {
+    text-align: left;
+  }
 }
