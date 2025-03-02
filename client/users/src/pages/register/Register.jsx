@@ -132,7 +132,7 @@ function Register() {
 
       {/* Card Register */}
       <div className="register-card animate__animated animate__zoomIn">
-        <h2>Daftar SIAFARM</h2>
+        <h2>Daftar Akun</h2>
         <form onSubmit={handleRegister}>
           <div className="form-group">
             <label>Nama</label>

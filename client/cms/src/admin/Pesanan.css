@@ -182,9 +182,11 @@
   text-align: center;
 }
 
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+.detail button {
+  background-color: #55f59a;
+  padding: 10px 10px;
+  color: #010101;
+  border-radius: 5px;
 }
 
 .border-gray-100 {
@@ -204,7 +206,7 @@
 }
 
 .text-blue-800 {
-  color: #1e40af;
+  color: #000000;
 }
 
 .bg-yellow-100 {
@@ -241,43 +243,14 @@
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
-  .flex-wrap {
-    flex-wrap: wrap;
-  }
+@media (max-width: 360px) {
+  /* Mengatur container utama agar layout menjadi kolom */
 
+  /* Sembunyikan sidebar agar tampilan lebih bersih di layar kecil */
+  .bg-white h2 {
+    font-size: 20px;
+  }
   /* .min-w-[200px] {
     min-width: 100%;
   } */
-
-  .gap-4 {
-    gap: 0.5rem;
-  }
-
-  .px-4 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-
-  .py-2 {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-  }
-
-  .text-xl {
-    font-size: 1.125rem;
-  }
-
-  .p-6 {
-    padding: 1rem;
-  }
-
-  .pb-3 {
-    padding-bottom: 0.5rem;
-  }
-
-  .py-4 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
 }

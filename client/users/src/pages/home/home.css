@@ -53,7 +53,7 @@ body {
 .hero-content {
   position: relative;
   z-index: 1; /* Pastikan teks di atas overlay */
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .hero-title {
@@ -200,18 +200,6 @@ body {
   padding: 1rem; /* Padding untuk container */
 }
 
-@media (min-width: 768px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
-  }
-}
-
-@media (min-width: 1024px) {
-  .products-grid {
-    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
-  }
-}
-
 .product-card1 {
   background-color: white;
   border-radius: 0.5rem;
@@ -306,4 +294,165 @@ body {
   text-align: center;
   margin-left: 160px;
   margin-top: 20px;
+}
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
+  }
+}
+/* samsung s20 */
+@media (max-width: 360px) {
+  .hero {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
+    height: 800px;
+  }
+  .hero-content {
+    margin-bottom: 90px;
+  }
+  .hero-title {
+    font-size: 25px;
+  }
+  .hero-description {
+    font-size: 13px;
+  }
+  .hero-button {
+    font-size: 15px;
+  }
+  .featured-section {
+    margin-top: -10px;
+    padding: 3rem 0;
+    background-color: rgb(213, 236, 229);
+    margin-bottom: -30px;
+  }
+
+  .slider-container {
+    position: relative;
+  }
+
+  .slider-wrapper {
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .slide {
+    min-width: 100%;
+    min-height: 100px;
+  }
+
+  .slide-content {
+    position: relative;
+    height: 140px;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    padding-top: -40px;
+    object-fit: cover;
+    border: solid rgb(8, 193, 113) 1px;
+  }
+
+  .slide-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+  }
+
+  .slide-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .slide-price {
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+  }
+
+  .slider-button:hover {
+    background-color: white;
+  }
+
+  .slider-button.prev {
+    left: 1rem;
+  }
+
+  .slider-button.next {
+    right: 1rem;
+  }
+  /* About Section */
+  .about-section {
+    padding: 2rem 1rem;
+    margin: 20px 17px 30px 17px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.383);
+    /* border: solid rgb(8, 193, 113) 1px; */
+  }
+
+  .about-section h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 10px;
+    color: black;
+  }
+  .about-section span {
+    color: #24a15f;
+  }
+  .about-content {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: justify;
+  }
+
+  .about-text {
+    color: #4b5563;
+    line-height: 1.9;
+    word-spacing: 9px;
+    font-size: 15px;
+  }
+  .about-logo {
+    text-align: center;
+    margin-left: 60px;
+    margin-top: 20px;
+    width: 150px;
+    margin-bottom: 10px;
+  }
+  /* produk terlaris */
+  .popular-section h2 {
+    font-size: 25px;
+  }
+  .product-card1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1px;
+    margin-left: 30px;
+  }
 }

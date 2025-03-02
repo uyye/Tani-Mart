@@ -17,47 +17,61 @@ import LineChart from "../components/LineChart/LineChart";
 
 import "./baru.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAdminCard, fetchAdminTopOrder } from "../features/statistic/statisticSlice";
+import {
+  fetchAdminCard,
+  fetchAdminTopOrder,
+} from "../features/statistic/statisticSlice";
 import SideNavbar from "../components/sideNavbar/SideNavbar";
 
 function App() {
   const [activeMenu, setActiveMenu] = useState("Dashboard Admin Siafarm");
 
-  const dispatch = useDispatch()
-  const dataCard = useSelector((state)=>state.statistics.adminStatistic)
-  const topOrder = useSelector((state)=>state.statistics.adminTopOrder)
-  
-  
+  const dispatch = useDispatch();
+  const dataCard = useSelector((state) => state.statistics.adminStatistic);
+  const topOrder = useSelector((state) => state.statistics.adminTopOrder);
+
   const orderStats = [
     {
       label: "Total Pesanan Hari Ini",
       value: dataCard["totalOrder"]?.dailyOrder,
-      change: dataCard["totalOrder"]?.percentage + " %" ,
-      trend: dataCard["totalOrder"]?.dailyOrder < dataCard["totalOrder"]?.yesterdayOrder ? "down" : "up"
+      change: dataCard["totalOrder"]?.percentage + " %",
+      trend:
+        dataCard["totalOrder"]?.dailyOrder <
+        dataCard["totalOrder"]?.yesterdayOrder
+          ? "down"
+          : "up",
     },
     {
       label: "Pendapatan Hari Ini",
       value: "Rp." + dataCard["commission"]?.dailyCommission.toLocaleString(),
-      change:dataCard["commission"]?.percentage + " %",
-      trend: dataCard["commission"]?.dailyCommission < dataCard["commission"]?.yesterdayCommission ? "down" : "up",
+      change: dataCard["commission"]?.percentage + " %",
+      trend:
+        dataCard["commission"]?.dailyCommission <
+        dataCard["commission"]?.yesterdayCommission
+          ? "down"
+          : "up",
     },
-    { label: "Withdraw",
+    {
+      label: "Withdraw",
       value: "Rp." + dataCard["withdraw"]?.dailyWithdraw.toLocaleString(),
       change: dataCard["withdraw"]?.percentage + " %",
-      trend: dataCard["withdraw"]?.dailyWithdraw < dataCard["withdraw"]?.yesterdayWithdraw ? "down" : "upc",
+      trend:
+        dataCard["withdraw"]?.dailyWithdraw <
+        dataCard["withdraw"]?.yesterdayWithdraw
+          ? "down"
+          : "upc",
     },
   ];
 
-
-  useEffect(()=>{
-    dispatch(fetchAdminCard())
-    dispatch(fetchAdminTopOrder())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchAdminCard());
+    dispatch(fetchAdminTopOrder());
+  }, [dispatch]);
 
   return (
     <div className="container-admin">
       {/* Sidebar */}
-      <SideNavbar/>
+      <SideNavbar />
 
       {/* Main Content */}
       <div className="main-container">
@@ -122,7 +136,12 @@ function App() {
                           <tr key={index}>
                             <td>{product.name}</td>
                             <td>{product.totalQuantityOrder} Item</td>
-                            <td>Rp.{parseInt(product.price * product.totalQuantityOrder).toLocaleString()}</td>
+                            <td>
+                              Rp.
+                              {parseInt(
+                                product.price * product.totalQuantityOrder
+                              ).toLocaleString()}
+                            </td>
                           </tr>
                         ))}
                       </tbody>

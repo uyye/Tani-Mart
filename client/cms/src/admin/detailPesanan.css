@@ -133,16 +133,26 @@ tbody tr:nth-child(even) {
 }
 
 /* Responsif */
-@media (max-width: 600px) {
+@media (max-width: 360px) {
   .order-detail-container {
     padding: 10px;
   }
 
   .text-2xl {
-    font-size: 20px;
+    font-size: 15px;
+    margin-top: -20px;
   }
-
+  .product-list .w-full {
+    font-size: 10px;
+    margin-left: -13px;
+  }
   table {
     font-size: 14px;
+  }
+}
+/* Responsif */
+@media (max-width: 800px) {
+  .order-detail-container {
+    margin-top: 10px;
   }
 }

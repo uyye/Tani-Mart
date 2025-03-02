@@ -6,7 +6,7 @@ import percaya from "../../assets/percaya.png";
 import produk from "../../assets/wk.png";
 export default function Card() {
   return (
-    <div>
+    <div className="keuntungan">
       <section className="untung">
         <h2>
           Keuntungan <span>Siafarm</span>

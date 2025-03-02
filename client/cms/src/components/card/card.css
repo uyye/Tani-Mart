@@ -1,6 +1,6 @@
 .keuntungan {
   padding: 2rem 1rem;
-  background-color: rgba(255, 255, 255, 0.383);
+  /* background-color: rgba(255, 255, 255, 0.383); */
   margin: 20px 17px 30px 17px;
   border-radius: 20px;
   /* border: solid rgb(8, 193, 113) 1px; */
@@ -71,14 +71,39 @@
   font-size: 0.95em;
   line-height: 1.7rem;
 }
-/* Mobile Phone */
-@media (max-width: 428px) {
-  html {
-    font-size: 35%;
+/* samsung galaxy s20 */
+@media (max-width: 360px) {
+  .keuntungan {
+    display: grid;
+    margin-left: -70px;
+  }
+  .untung h2 {
+    align-items: center;
+    margin-left: 50px;
   }
   .keuntungan-item {
     margin: 10px 5px 60px 60px;
     margin-bottom: 60px;
+    font-size: 16px;
+  }
+  .keuntungan-item p {
+    line-height: 18px;
+  }
+} /* samsung galaxy tab */
+@media (max-width: 800px) {
+  .keuntungan {
+    display: inline;
+    /* margin-left: -70px; */
+    gap: 2px;
+  }
+  .untung h2 {
+    align-items: center;
+    margin-left: 50px;
+  }
+  .keuntungan-item {
+    margin: 10px 10px 10px 40px;
+    margin-bottom: 60px;
+    font-size: 16px;
   }
   .keuntungan-item p {
     line-height: 18px;

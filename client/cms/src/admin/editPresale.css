@@ -1,12 +1,12 @@
 .containerEdit {
   width: 50%;
-  height: 97vh;
+  height: 100vh;
   margin: 40px auto;
   margin-top: 10px;
   background: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
 }
 .font-medium {
   /* margin: 3px 5px; */
@@ -19,7 +19,7 @@ h2 {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 40px;
-  margin-top: -10px;
+  margin-top: 10px;
   color: #333;
 }
 
@@ -63,7 +63,7 @@ select:focus {
 button[type="submit"] {
   padding: 10px 5px;
   margin-top: 10px;
-  margin-left: 160px;
+  margin-left: 210px;
   background: #05af4c;
   color: white;
 }
@@ -83,10 +83,23 @@ button[type="button"] {
 button[type="button"]:hover {
   background: #999;
 }
-
-/* Responsif */
-@media (max-width: 768px) {
-  .container {
-    width: 90%;
+.gap-4 {
+  margin-left: -70px;
+}
+@media (max-width: 360px) {
+  .containerEdit {
+    width: 300px;
+    height: 800px;
+    font-size: 15px;
+  }
+  .text-xl {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .isi {
+    margin: 2px;
+  }
+  .gap-4 {
+    margin-left: -200px;
   }
 }

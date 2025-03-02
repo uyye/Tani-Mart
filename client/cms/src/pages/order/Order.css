@@ -141,3 +141,9 @@ body {
     content: "Aksi";
   }
 }
+/* tab */
+@media (max-width: 800px) {
+  footer {
+    margin-top: 57vh;
+  }
+}

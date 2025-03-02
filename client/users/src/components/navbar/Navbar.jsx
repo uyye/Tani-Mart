@@ -7,18 +7,23 @@ import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     navigate("/");
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="navbar">
-      <a href="#">
-        <img src={logo} alt="Siafarm Logo" />
+      <a href="#" className="logo-container">
+        <img src={logo} alt="Siafarm Logo" className="logo" />
       </a>
-      <div className="navbar-nav">
+      <div className={`navbar-nav ${isMenuOpen ? "active" : ""}`}>
         {localStorage.getItem("access_token") ? (
           <>
             <Link to="/">Beranda</Link>
@@ -36,42 +41,25 @@ export default function Navbar() {
             <Link to="/keranjang" id="shopping-cart-button">
               <CgShoppingCart />
             </Link>
-
-            <Link
-              to="/login"
-              onClick={handleLogout}
-              style={{
-                backgroundColor: "#dc3545",
-                color: "#ffff",
-                border: "none",
-              }}
-            >
+            <Link to="/login" onClick={handleLogout} className="logout-button1">
               Logout
             </Link>
           </>
         ) : (
           <>
             <Link to="/login">Login Pembeli</Link>
-            {/* Mengarahkan link ke login CMS */}
-            <Link
-              to="/cms"
-              style={{
-                backgroundColor: "#059669",
-                color: "#fff",
-                border: "none",
-                marginLeft: "10px",
-                padding: "0.4rem 1rem",
-                borderRadius: "10px",
-              }}
-            >
+            <Link to="/cms" className="login-penjual">
               Login Penjual
             </Link>
           </>
         )}
-
-        <a href="#" id="hamburger-menu">
+        <button
+          id="hamburger-menu"
+          onClick={toggleMenu}
+          className="menu-button"
+        >
           <CiMenuBurger />
-        </a>
+        </button>
       </div>
     </nav>
   );

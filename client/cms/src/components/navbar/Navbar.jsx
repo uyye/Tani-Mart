@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import logo from "../../assets/logo siafarm.png";
 import "./Navbar.css";
 import { CiMenuBurger } from "react-icons/ci";
@@ -6,10 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     navigate("/");
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -56,10 +62,13 @@ export default function Navbar() {
           <Link to="/login">Masuk</Link>
         )}
 
-        <a href="#" id="hamburger-menu">
-          {" "}
+        <button
+          id="hamburger-menu"
+          onClick={toggleMenu}
+          className="menu-button"
+        >
           <CiMenuBurger />
-        </a>
+        </button>
       </div>
     </nav>
   );

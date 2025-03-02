@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import instance from "../../api/axiosInstance";
-import bankList from "../../assets/banks.json"
+import bankList from "../../assets/banks.json";
 
 function Register() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Register() {
     bankName: "", // Tambahkan state untuk nama bank
     bankAccountNumber: "", // Tambahkan state untuk nomor rekening
   });
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -52,7 +52,7 @@ function Register() {
   return (
     <div className="register-container-cms">
       <div className="card">
-        <h2>Daftar SIAFARM</h2>
+        <h2>Daftar Akun</h2>
         <form onSubmit={handleRegister}>
           <div className="form-group">
             <label>Nama </label>
@@ -98,11 +98,11 @@ function Register() {
             <label>Nama Bank</label>
             <select name="bankName" onChange={handleInputChange} required>
               <option value="">Pilih Bank</option>
-              {
-                bankList.banks?.map((bank, index)=>(
-                  <option key={index} value={bank.value}>{bank.label}</option>
-                ))
-              }
+              {bankList.banks?.map((bank, index) => (
+                <option key={index} value={bank.value}>
+                  {bank.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group">

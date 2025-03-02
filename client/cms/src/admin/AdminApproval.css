@@ -1,7 +1,6 @@
 /* Mengatur layout halaman approval */
 .admin-approval-page {
   display: flex;
-
   min-height: 100vh;
   background-color: #f2f2f2;
 }
@@ -108,4 +107,29 @@
 
 .close-button:hover {
   background-color: #333;
+}
+/* samsung s20 */
+@media (max-width: 360px) {
+  .approval-container {
+    margin-left: 0px;
+  }
+  .approve-actions {
+    margin-left: 20px;
+    margin-top: 30px;
+  }
+  .pending-status {
+    margin-top: -15px;
+  }
+  .approval-actions {
+    display: flex;
+    margin-left: -30px;
+  }
+  .approval-item p {
+    margin-top: -20px;
+    margin-bottom: 10px;
+  }
+  .approval-actions .reject-button {
+    padding-left: -20px;
+    margin-right: 20px;
+  }
 }

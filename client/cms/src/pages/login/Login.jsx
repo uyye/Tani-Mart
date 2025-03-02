@@ -32,11 +32,11 @@ function Login() {
       });
 
       localStorage.setItem("access_token", data.token);
-      const token = localStorage.getItem("access_token")
-      const decode = jwtDecode(token)
-      if(decode.role === "admin"){
-        navigate("/admin/dashboard")
-      }else if(decode.role === "seller"){
+      const token = localStorage.getItem("access_token");
+      const decode = jwtDecode(token);
+      if (decode.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (decode.role === "seller") {
         navigate("/");
       }
     } catch (error) {
@@ -129,7 +129,7 @@ function Login() {
 
       {/* Card Login */}
       <div className="login-card animate__animated animate__zoomIn">
-        <h2>SIAFARM</h2>
+        <h2>Login</h2>
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label>Username</label>

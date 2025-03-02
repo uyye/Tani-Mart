@@ -151,11 +151,11 @@ export default function Pesanan() {
                           </span>
                         </td>
                         <td className="py-4">{formateDate(order.createdAt)}</td>
-                        <td className="py-4">
+                        <td className="detail">
                           <button>
                             <Link
                               to={`/admin/DetailPesanan/${order.id}`}
-                              className="text-blue-600 hover:text-blue-800"
+                              className="dalam"
                             >
                               Detail
                             </Link>

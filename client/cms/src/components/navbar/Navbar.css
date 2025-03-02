@@ -166,7 +166,7 @@ body {
 /* Mobile Phone */
 @media (max-width: 450px) {
   html {
-    font-size: 55%;
+    font-size: 60%;
   }
 }
 .navbar .navbar-button1 {
@@ -184,4 +184,36 @@ body {
 
 #hamburger-menu {
   display: none;
+}
+@media (max-width: 360px) {
+  .navbar {
+    margin-left: -20px;
+  }
+  .navbar-button1 {
+    padding: 1px 2px;
+    margin: 1px -10px;
+    display: flex;
+    gap: 0.1px;
+  }
+  .navbar-nav {
+    background-color: #93fba9;
+    height: 150vh;
+    max-width: 200px;
+    margin-top: 1px;
+    margin-left: 180px;
+    padding: 5px;
+  }
+  #hamburger-menu {
+    display: inline-block; /* Tampilkan hamburger menu di layar kecil */
+    color: rgb(0, 0, 0);
+    padding: 5px 12px;
+    border-radius: 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 4px 3px 5px;
+    cursor: pointer;
+    border: 1px solid #48ad8b;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
 }
