@@ -257,13 +257,13 @@ export default function Home() {
                   <h3 className="product-title1">{product.name}</h3>
                   <p className="product-price1">Rp.{product.price} /kg </p>
                   <div className="product-meta1">
-                    <Star size={16} color="#FCD34D" />
-                    <span>{product.rating}</span>
-                    <span className="meta-separator">•</span>
+                    {/* <Star size={16} color="#FCD34D" /> */}
+                    {/* <span>{product.rating}</span> */}
+                    {/* <span className="meta-separator">•</span> */}
                     <ShoppingBag size={16} />
                     <span>{product.totalQuantityOrder} terjual</span>
                     <div className="product-store">
-                      <span className="store-name">{product.storeName}</span>
+                      <span className="store-name"> Toko {product.author}</span>
                     </div>
                   </div>
                 </div>
