@@ -1,3 +1,10 @@
+.orderDetail-container {
+  margin-top: 100px;
+}
+.order-list th {
+  background-color: green;
+  color: #fbf9f9;
+}
 @media (max-width: 360px) {
   .orderDetail-container {
     margin-top: 90px;

@@ -42,7 +42,7 @@ export default function Navbar() {
               to="/Input"
               id="AddProduct"
               alt="InputProduk"
-              title="Input Produk & Presale"
+              title="Input Produk Reguler & Presale"
             >
               <IoBagAdd />{" "}
             </Link>
