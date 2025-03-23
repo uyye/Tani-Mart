@@ -37,7 +37,7 @@ footer .credit a {
   font-weight: 700;
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   footer {
     margin-top: 400px;
   }

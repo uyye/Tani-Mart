@@ -308,7 +308,7 @@ body {
   }
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .hero {
     grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
     height: 800px;

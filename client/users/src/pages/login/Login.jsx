@@ -12,6 +12,7 @@ function Login() {
     name: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,16 +25,13 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await instance({
-        method: "post",
-        url: "/users/login",
-        data: dataLogin,
-      });
-      console.log(data);
+      const { data } = await instance.post("/users/login", dataLogin);
       localStorage.setItem("access_token", data.token);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      setErrorMessage(
+        "Nama pengguna atau kata sandi salah. Silakan coba lagi."
+      );
     }
   };
 
@@ -48,37 +46,20 @@ function Login() {
         id="tsparticles"
         init={particlesInit}
         options={{
-          background: {
-            color: {
-              value: "#6a11cb",
-            },
-          },
+          background: { color: { value: "#6a11cb" } },
           fpsLimit: 60,
           interactivity: {
             events: {
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
-              onHover: {
-                enable: true,
-                mode: "repulse",
-              },
+              onClick: { enable: true, mode: "push" },
+              onHover: { enable: true, mode: "repulse" },
             },
             modes: {
-              push: {
-                quantity: 4,
-              },
-              repulse: {
-                distance: 200,
-                duration: 0.4,
-              },
+              push: { quantity: 4 },
+              repulse: { distance: 200, duration: 0.4 },
             },
           },
           particles: {
-            color: {
-              value: "#ffffff",
-            },
+            color: { value: "#ffffff" },
             links: {
               color: "#ffffff",
               distance: 150,
@@ -86,35 +67,17 @@ function Login() {
               opacity: 0.5,
               width: 1,
             },
-            collisions: {
-              enable: true,
-            },
+            collisions: { enable: true },
             move: {
               direction: "none",
               enable: true,
-              outModes: {
-                default: "bounce",
-              },
-              random: false,
+              outModes: { default: "bounce" },
               speed: 2,
-              straight: false,
             },
-            number: {
-              density: {
-                enable: true,
-                area: 800,
-              },
-              value: 80,
-            },
-            opacity: {
-              value: 0.5,
-            },
-            shape: {
-              type: "circle",
-            },
-            size: {
-              value: { min: 1, max: 5 },
-            },
+            number: { density: { enable: true, area: 800 }, value: 80 },
+            opacity: { value: 0.5 },
+            shape: { type: "circle" },
+            size: { value: { min: 1, max: 5 } },
           },
           detectRetina: true,
         }}
@@ -123,6 +86,11 @@ function Login() {
       {/* Card Login */}
       <div className="login-card animate__animated animate__zoomIn">
         <h2>Login</h2>
+        {errorMessage && (
+          <div className="error-popup animate__animated animate__shakeX">
+            {errorMessage}
+          </div>
+        )}
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label>Username</label>

@@ -13,6 +13,7 @@ function Login() {
     name: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +41,9 @@ function Login() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      setErrorMessage(
+        "Nama pengguna atau kata sandi salah. Silakan coba lagi."
+      );
     }
   };
 
@@ -130,6 +133,11 @@ function Login() {
       {/* Card Login */}
       <div className="login-card animate__animated animate__zoomIn">
         <h2>Login</h2>
+        {errorMessage && (
+          <div className="error-popup animate__animated animate__shakeX">
+            {errorMessage}
+          </div>
+        )}
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label>Username</label>
