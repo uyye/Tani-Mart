@@ -74,7 +74,7 @@ h2 {
   background-color: #d32f2f;
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .detail-produk-container {
     margin-left: 0px;
   }

@@ -90,20 +90,22 @@ export default function EditPresale() {
             required
           />
         </div>
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Simpan Perubahan
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/Presale")}
-            className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
-          >
-            Batal
-          </button>
+        <div className="tomboll">
+          <div className="flex gap-4">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Simpan Perubahan
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/Presale")}
+              className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
+            >
+              Batal
+            </button>
+          </div>
         </div>
       </form>
     </div>

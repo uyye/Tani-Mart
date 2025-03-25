@@ -5,12 +5,12 @@
   background-color: green;
   color: #fbf9f9;
 }
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .orderDetail-container {
     margin-top: 90px;
   }
   .order-list table {
-    margin-left: -20px;
+    margin-left: 0px;
     gap: 2px;
   }
   .order-list th {

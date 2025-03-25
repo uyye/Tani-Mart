@@ -72,19 +72,15 @@
   line-height: 1.7rem;
 }
 /* samsung galaxy s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .keuntungan {
     display: grid;
-    margin-left: -70px;
+    margin-left: 70px;
+    width: 370px;
   }
   .untung h2 {
     align-items: center;
     margin-left: 50px;
-  }
-  .keuntungan-item {
-    margin: 10px 5px 60px 60px;
-    margin-bottom: 60px;
-    font-size: 16px;
   }
   .keuntungan-item p {
     line-height: 18px;

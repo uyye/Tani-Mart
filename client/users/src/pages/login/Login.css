@@ -118,7 +118,7 @@ input:focus {
   }
 }
 /* samsung galaxy s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .login-card {
     margin-left: -300px;
   }

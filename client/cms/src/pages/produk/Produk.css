@@ -171,7 +171,7 @@
   padding: 20px;
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .table-container {
     grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
     /* height: 800px; */
@@ -182,7 +182,7 @@
     justify-content: space-between;
     align-items: left;
     background-color: #00aa5b;
-    width: 350px;
+    width: 380px;
     padding: 10px;
     color: white;
     border-radius: 5px;
@@ -195,29 +195,30 @@
     width: 10px;
     margin-right: 100px;
   }
+  .kategori {
+    margin-left: -20px;
+  }
   .category-buttons {
-    gap: 12px;
+    gap: 2px;
     padding: 1px 2px;
     margin-left: -5px;
-    display: flex;
   }
   .category-button {
-    margin-left: -10px;
+    margin-left: -90px;
     padding: 2px 2px;
     width: 70px;
     height: 40px;
-    font-size: 11px;
   }
   .product-tabs {
     margin-top: 10px;
     margin-left: -15px;
-    gap: 10px;
+    gap: 5px;
   }
   /* .product-section {
     display: flex;
   } */
   .product-table {
-    margin-left: -20px;
+    margin-left: -5px;
     border-collapse: collapse;
     font-size: 12px;
   }

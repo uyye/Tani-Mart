@@ -175,3 +175,13 @@ h1 {
     text-align: center;
   }
 }
+@media (max-width: 390px) {
+  /* .order-products {
+    display: flex;
+  } */
+  .product-table {
+    max-width: 100px;
+    display: grid;
+    font-size: 10px;
+  }
+}

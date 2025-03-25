@@ -115,20 +115,21 @@ const ProductTable = () => {
       </header>
 
       {/* Tombol Filter Kategori */}
-      <div className="category-buttons">
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            className={`category-button ${
-              selectedCategory === category ? "active" : ""
-            }`}
-            onClick={() => handleFilterCategory(category)}
-          >
-            {category}
-          </button>
-        ))}
+      <div className="kategori">
+        <div className="category-buttons">
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              className={`category-button ${
+                selectedCategory === category ? "active" : ""
+              }`}
+              onClick={() => handleFilterCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
-
       {/* Tab Produk Reguler dan Pre-sale */}
       <div className="product-tabs">
         <button
