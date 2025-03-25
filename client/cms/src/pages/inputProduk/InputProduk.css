@@ -135,9 +135,22 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .tambah {
-    margin-left: -180px;
+    margin-left: -190px;
+    max-width: 400px;
+    font-size: 10px;
+  }
+  .form-title {
+    margin-top: -20px;
+  }
+  .add-product-container {
+    height: 1000px;
+    max-height: 900px;
+    background: none;
+  }
+  .add-product-form {
+    line-height: 1px;
   }
 }
 @media (max-width: 800px) {

@@ -109,7 +109,7 @@
   background-color: #333;
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .approval-container {
     margin-left: 0px;
   }

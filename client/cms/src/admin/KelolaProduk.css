@@ -93,7 +93,7 @@
   background-color: #2563eb;
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .add-product-btn {
     margin-left: 10px;
     margin-top: -130px;

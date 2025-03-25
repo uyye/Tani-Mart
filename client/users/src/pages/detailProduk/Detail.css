@@ -263,7 +263,7 @@
   color: #fff; /* Warna teks putih saat aktif */
 }
 /* samsung s20 */
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .detail-container {
     grid-template-columns: repeat(4, 1fr); /* 4 kolom di desktop */
     display: table;

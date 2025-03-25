@@ -869,3 +869,62 @@
     padding: 5px;
   }
 }
+@media (max-width: 390px) {
+  .buttonApproval {
+    font-size: 5px;
+    margin-left: 260px;
+    display: grid;
+  }
+  .hero-text h1 {
+    font-size: 25px;
+    margin-top: -20px;
+  }
+  .dashboard-grid {
+    margin-left: -50px;
+    margin-top: -180px;
+  }
+  .stat-card {
+    max-height: 150px;
+    line-height: 15px;
+  }
+  .stat-header h3 {
+    font-size: 20px;
+  }
+  .featured-section {
+    margin-top: -50px;
+  }
+  .slide {
+    margin-top: -20px;
+  }
+  .slide-image {
+    width: 390px;
+    height: 300px;
+  }
+  .slide-info {
+    display: none;
+  }
+  .slider-button.next {
+    margin-right: 410px;
+    margin-top: -90px;
+  }
+  .slider-button.prev {
+    margin-top: -90px;
+  }
+  .about-section1 {
+    margin-left: 10px;
+    margin-top: -200px;
+    width: 370px;
+  }
+  .about-text {
+    font-size: 10px;
+  }
+  .about-logo {
+    width: 200px;
+    margin-left: 80px;
+  }
+  .card {
+    font-size: 10px;
+    width: 370px;
+    margin-left: 10px;
+  }
+}
