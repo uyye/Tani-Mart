@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post("/", authentication, PaymentController.payment)
 router.post("/webhooks", authentication, PaymentController.midtransWebHook)
+router.post("/distributed", authentication, PaymentController.distributePayment)
 
 //statistic
 router.get("/daily/sales", authentication, PaymentController.dailyStatistic)

@@ -16,7 +16,7 @@ import {
   CheckSquare, // ikon untuk approval
 } from "lucide-react";
 import { useEffect } from "react";
-import { fetchDataUser } from "../features/users/userSlice";
+import { fetchDataUser, fetchDeleteUser } from "../features/users/userSlice";
 import SideNavbar from "../components/sideNavbar/SideNavbar";
 
 const usersData = [
@@ -46,8 +46,7 @@ export default function KelolaPengguna() {
   console.log(users);
  
   const handleDelete = (id) => {
-    const updatedUsers = users.filter((user) => user.id !== id);
-    setUsers(updatedUsers);
+    dispatch(fetchDeleteUser(id))
     alert("Pengguna berhasil dihapus!");
   };
 

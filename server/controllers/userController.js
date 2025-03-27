@@ -27,7 +27,6 @@ class UserController{
             }
             res.status(201).json(result)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     } 
@@ -62,7 +61,6 @@ class UserController{
             
             res.status(200).json(result)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -74,7 +72,6 @@ class UserController{
             res.status(200).json("update userAddress successfully")
             
         } catch (error) {
-            console.log(error);
             next(error)
             
         }
@@ -104,7 +101,6 @@ class UserController{
             res.status(200).json(data)
         } catch (error) {
             next(error)
-            console.log(error);
             
         }
     }
@@ -124,7 +120,6 @@ class UserController{
             await data.destroy()
             res.status(200).json({message:"User deleted successfully"})
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -139,7 +134,6 @@ class UserController{
             res.status(200).json(data)
             
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }

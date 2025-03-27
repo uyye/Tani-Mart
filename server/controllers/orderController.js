@@ -78,7 +78,6 @@ class OrderController{
         } catch (error) {
             if(transaction) await transaction.rollback()
             next(error)
-            console.log(error);
         }
     }
 
@@ -94,7 +93,6 @@ class OrderController{
             })
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -127,7 +125,6 @@ class OrderController{
 
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -151,7 +148,6 @@ class OrderController{
 
             res.status(200).json(data)            
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -163,7 +159,6 @@ class OrderController{
             })
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -181,54 +176,9 @@ class OrderController{
             })            
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
-
-    // static async payment(req, res, next){
-    //     let snap = new midtransClient.Snap({
-    //         isProduction : false,
-    //         serverKey : process.env.MIDTRANSSERVERKEY
-    //     });
-
-    //     const {orderId} = req.body
-    //     const orderData = await Order.findByPk(orderId, {
-    //         include:{
-    //             model:User,
-    //             attributes:{exclude:["password"]}
-    //         }
-    //     })   
-        
-    //     if (!orderData) {
-    //         throw{name:"NotFound", status:404, message:"Order data not found"}
-    //     }
-
-        
-    //     try {
-    //         let parameter = {
-    //             "transaction_details": {
-    //                 "order_id": `SIAFARM-${orderData.id}-${Date.now()}`,
-    //                 "gross_amount": orderData.totalPrice
-    //             },
-    //             "credit_card":{
-    //                 "secure" : true
-    //             },
-    //             "customer_details": {
-    //                 "first_name": orderData.User.name.split(" ")[0],
-    //                 "last_name": orderData.User.name.split(" ")[1] || "",
-    //                 "phone": orderData.phoneNumber
-    //             }
-    //         };
-
-    //         const token = await snap.createTransaction(parameter)            
-    //         res.status(200).json(token)
-            
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error)
-    //     }
-    // }
 
     static async orderStatistic(req, res, next){
         try {
@@ -245,7 +195,6 @@ class OrderController{
             })
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
             
         }
@@ -275,7 +224,6 @@ class OrderController{
 
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -311,7 +259,6 @@ class OrderController{
             
             res.status(200).json(result)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -348,7 +295,6 @@ class OrderController{
     
             res.status(200).json(data);
         } catch (error) {
-            console.log(error);
             next(error);
         }
     }
@@ -379,7 +325,6 @@ class OrderController{
             
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }

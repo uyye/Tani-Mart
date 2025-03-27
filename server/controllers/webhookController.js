@@ -21,9 +21,7 @@ const handlePaymentNotification = async (req, res, next)=>{
         if(transaction_status === "capture" || transaction_status === "settlement"){
             orderData.status = "success"
             for(const item of orderData.OrderDetails){
-                console.log(item.Product.stock , item.quantity);
                 item.Product.stock = item.Product.stock - item.quantity
-                console.log(item.Product.stock);
                 await item.Product.save()
             }
         }else if(transaction_status === "deny" || transaction_status === "cancel"){
@@ -34,11 +32,9 @@ const handlePaymentNotification = async (req, res, next)=>{
 
         await orderData.save()
         res.status(200).json({message:"payment status updated successfully"})
-        console.log("payment status updated successfully");
         
     } catch (error) {
         next(error)
-        console.log(error);
         
     }
 }

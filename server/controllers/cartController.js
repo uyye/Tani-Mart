@@ -37,7 +37,6 @@ class CartController{
                 cartItem
             })
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -58,7 +57,6 @@ class CartController{
               
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -90,7 +88,6 @@ class CartController{
             
         } catch (error) {
             next(error)
-            console.log(error);
         }
     }
 

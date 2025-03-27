@@ -1,9 +1,6 @@
 const errorHandler = (err, req, res, next)=>{
     let status = 500
-    let message = "internal server error"
-
-    console.log(err, ">>>>>>>>>>");
-    
+    let message = "internal server error"    
 
     switch (err.name) {
         case "BadRequest":

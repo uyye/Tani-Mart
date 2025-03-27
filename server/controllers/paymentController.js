@@ -77,7 +77,6 @@ class PaymentController {
       res.status(200).json({ message: "Payment token created", token });
     } catch (error) {
       next(error);
-      console.log(error);
     }
   }
 
@@ -88,6 +87,7 @@ class PaymentController {
       });
   
       const { orderId } = req.body;
+      
       try {
           const payments = await Payment.findAll({
               where: { orderId, status: "paid" },
@@ -142,7 +142,6 @@ class PaymentController {
           });
   
       } catch (error) {
-          console.error("Disbursement Error:", error);
           return next(error);
       }
   }
@@ -202,7 +201,6 @@ class PaymentController {
 
       res.status(200).json({ message: "Payment status updated successfully" });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -246,7 +244,6 @@ class PaymentController {
       
       res.status(200).json(result)
     }catch(error){
-      console.log(error);
       next(error)
     }
   }
@@ -293,7 +290,6 @@ class PaymentController {
 
       res.status(200).json(result)
     } catch (error) {
-      console.log(error);
       next(error)
       
     }
@@ -342,7 +338,6 @@ class PaymentController {
 
       res.status(200).json(result)
     }catch(error){
-      console.log(error);
       next(error)
       
     }
@@ -407,7 +402,6 @@ class PaymentController {
       });
   
     } catch (error) {
-      console.error(error);
       return next(error);
     }
   }
@@ -448,7 +442,6 @@ class PaymentController {
       res.status(200).json(result)
 
     } catch (error) {
-      console.log(error);
       next(error)
     }
   }
@@ -488,7 +481,6 @@ class PaymentController {
 
       res.status(200).json(result)
     } catch (error) {
-      console.log(error);
       next(error)
     }
   }
@@ -525,7 +517,6 @@ class PaymentController {
   
       res.status(200).json(result);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
