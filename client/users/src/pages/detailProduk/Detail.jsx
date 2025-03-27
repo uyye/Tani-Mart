@@ -12,6 +12,7 @@ import {
   fetchRemoveFavorite,
 } from "../../features/favorites/favoriteSlice";
 import formateDate from "../../helpers/formateDate";
+import ContactButton from "../../../../cms/src/components/contactButton/ContactButton";
 
 export default function DetailProduk() {
   const dispatch = useDispatch();
@@ -140,7 +141,8 @@ export default function DetailProduk() {
             <p className="contact-number">
               Kontak: {product.User?.phoneNumber}
             </p>
-            <button className="chat-button">Chat Penjual</button>
+            {/* <button className="chat-button">Chat Penjual</button> */}
+            <ContactButton phoneNumber={product.User?.phoneNumber}>Chat Penjual</ContactButton>
           </div>
         </div>
 

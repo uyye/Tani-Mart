@@ -26,6 +26,8 @@ import AdminApproval from "./admin/AdminApproval";
 import WithdrawPage from "./pages/withdraw/WithdrawPage";
 import AdminWithdrawValidationPage from "./admin/AdminWithdrawValidationPage";
 import AdminProductApprovalPage from "./admin/AdminProductApprovalPage";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +37,11 @@ const router = createBrowserRouter([
 
       if (!token) {
         return redirect("/login");
+      }
+
+      const decode = jwtDecode(token)
+      if (decode.role === "admin") {
+        return redirect("/admin/dashboard")
       }
 
       return null;

@@ -22,7 +22,6 @@ class FavoriteController{
             }
 
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -40,7 +39,6 @@ class FavoriteController{
                 res.status(200).json("success delete favoriteProduct")
             }
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -56,7 +54,6 @@ class FavoriteController{
             res.status(200).json(data)
             
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -71,7 +68,6 @@ class FavoriteController{
             res.status(200).json(data)
 
         } catch (error) {
-            console.log(error);
             next(error)
             
         }

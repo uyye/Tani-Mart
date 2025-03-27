@@ -54,7 +54,6 @@ class ProductController{
             const data = await Product.findAll(option)
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -74,58 +73,9 @@ class ProductController{
             })
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
-
-    // static async addProduct(req, res, next){
-    //     try {
-    //         let createProduct
-            
-    //         if(!req.file){
-    //             throw{name:"BadRequest", status:400, message:"image file require"}
-    //         }
-    //         let {name, category, description, price, stock, productStatus, discount, startDate, endDate}= req.body
-            
-
-    //         let base64 = Buffer.from(req.file.buffer).toString("base64")
-
-    //         let dataUrl = `data:${req.file.mimetype};base64,${base64}`
-
-    //         const response = await cloudinary.uploader.upload(dataUrl)
-    //         const image = response.secure_url
-    //         let discountPrice = price
-
-    //         if(productStatus === "presale"){
-    //              discountPrice = price - (discount / 100 * price)        
-    //             endDate = dayjs(startDate).add(7, "day").toISOString()
-    //             createProduct = await Product.create({name, image, category, description, price, stock, productStatus, authorId:req.user.id})
-    //             await Presale.create({
-    //                 productId:createProduct.id,
-    //                 startDate:startDate,
-    //                 endDate:endDate,
-    //                 price:discountPrice,
-    //                 discount:discount
-    //             })
-    //         }else{
-    //             createProduct = await Product.create({name, image, description, category, price, stock, productStatus, authorId:req.user.id})
-    //         }
-            
-    //         const result = {
-    //             message:"Product add successfully",
-    //             product:{
-    //                 id: createProduct.id,
-    //                 name: createProduct.name
-    //             }
-    //         }
-    //         res.status(201).json(result)
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error)
-            
-    //     }
-    // }
 
     static async addProduct(req, res, next) {
     try {
@@ -184,7 +134,6 @@ class ProductController{
             }
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
     }
@@ -247,7 +196,6 @@ class ProductController{
             };
             res.status(200).json(result);
         } catch (error) {
-            console.log(error);
             next(error);
         }
     }
@@ -265,7 +213,6 @@ class ProductController{
             
             res.status(200).json(deleteProduct)
         } catch (error) {
-            console.log(error);
             next(error)
             
         }
@@ -277,11 +224,9 @@ class ProductController{
                 where:{permission:"waiting", authorId:req.user.id}
             })
             
-            console.log(data, ">>>>>>>>>>>>>><<<<<<<<<<<<");
             
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -296,7 +241,6 @@ class ProductController{
 
             res.status(200).json(data)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -319,7 +263,6 @@ class ProductController{
     
             res.status(200).json({ message: "Success", product });
         } catch (error) {
-            console.log(error);
             next(error);
         }
     }
@@ -332,7 +275,6 @@ class ProductController{
             })
             res.status(200).json(product)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
