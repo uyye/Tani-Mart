@@ -129,5 +129,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-Tani-Mart.pem
-connection_string.txt
+credentials
