@@ -138,17 +138,6 @@ function Checkout() {
             </div> */}
 
             {/* Order Note */}
-            <div className="card order-note">
-              <h2 className="card-title">Catatan Pemesanan (Opsional)</h2>
-              <textarea
-                className="input-textarea"
-                rows="2"
-                placeholder="Tambahkan catatan untuk penjual
-"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </div>
           </div>
 
           {/* Kolom Kanan - Ringkasan Pesanan */}

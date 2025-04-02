@@ -73,11 +73,18 @@ export default function DetailProduk() {
   };
 
   const handleProductFavorite = async () => {
-    dispatch(fetchCreateFavorite(id));
-    await Swal.fire({
+    const token = localStorage.getItem("access_token")
+
+    if(token){
+      dispatch(fetchCreateFavorite(id));
+      await Swal.fire({
       icon: "success",
       text: "Berhasil menambahkan produk ke daftar whislist",
     });
+    }else{
+      navigate("/login")
+    }
+    
   };
 
   const handleDeleteFavorite = () => {

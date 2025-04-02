@@ -1,6 +1,10 @@
 'use strict';
+require("dotenv").config()
 
 const { hashing } = require('../helpers/bcrypt');
+
+console.log(process.env.DEFAULT_ADMIN, "APA ISISNYA INI");
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -15,11 +19,10 @@ module.exports = {
      * }], {});
      * 
     */
-  const hashedPassword = await hashing(process.env.DEFAULT_ADMIN);
 
    await queryInterface.bulkInsert("Users", [{
     name:"Ikram",
-    password:hashedPassword,
+    password:hashing(process.env.DEFAULT_ADMIN),
     address:"Bantaeng",
     phoneNumber:"087777635123",
     role:"admin",

@@ -37,6 +37,8 @@ export const fetchDataProduct = ()=>{
                 params:{search, filter}
             })
             
+            console.log(data, "><><><><");
+            
             dispatch(setProducts(data))
         } catch (error) {
             console.log(error);

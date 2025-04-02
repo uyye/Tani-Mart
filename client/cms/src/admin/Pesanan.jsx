@@ -154,7 +154,7 @@ export default function Pesanan() {
                         <td className="detail">
                           <button>
                             <Link
-                              to={`/admin/DetailPesanan/${order.id}`}
+                              to={`/admin/pesanan/${order.id}`}
                               className="dalam"
                             >
                               Detail
