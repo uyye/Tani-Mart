@@ -28,11 +28,7 @@ export default function SideNavbar() {
         },
         { icon: ShoppingCart, label: "Pesanan", path: "/admin/Pesanan" },
         { icon: Timer, label: "Presale", path: "/admin/Presale" },
-        {
-          icon: CheckSquare,
-          label: "Approval",
-          path: "/admin/AdminApproval",
-        },
+        {icon: CheckSquare,label: "Approval", path: "/admin/Approval"},
         { icon: Package, label: "Kelola Produk", path: "/admin/kelolaproduk" },
         { icon: Users, label: "Kelola Pengguna", path: "/admin/kelolapengguna" },
         // { icon: Wallet, label: "Kelola Transaksi", path: "/Kelolatransaksi" },
@@ -52,11 +48,9 @@ export default function SideNavbar() {
       };
 
       const handleLogout = () => {
-        const confirmLogout = window.confirm("Apakah Anda yakin ingin logout?");
-        if (confirmLogout) {
           localStorage.removeItem("access_token"); 
           navigate("/login");
-        }
+        
       };
     return(
         <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>

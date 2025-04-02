@@ -6,10 +6,14 @@ import {
   fetchRemoveFavorite,
 } from "../../features/favorites/favoriteSlice";
 import { Link } from "react-router-dom";
+import { PostCart } from "../../features/carts/cartSlice";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.dataFavorites.favorites);
+
+  console.log(data, "><>>>>>");
+  
 
   useEffect(() => {
     dispatch(fetchFavorites());
@@ -20,7 +24,7 @@ const Wishlist = () => {
   };
 
   const handleAddToCart = (id) => {
-    console.log(`Produk dengan ID ${id} ditambahkan ke keranjang`);
+    dispatch(PostCart(id, 1))
   };
 
   return (

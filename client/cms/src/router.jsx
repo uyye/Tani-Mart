@@ -108,20 +108,11 @@ const router = createBrowserRouter([
       { path: "/admin/DetailProduk/:id", element: <DetailProduk /> },
       { path: "/admin/DetailTransaksi", element: <DetailTransaksi /> },
       { path: "/admin/Pesanan", element: <Pesanan /> },
-      { path: "/admin/DetailPesanan", element: <DetailPesanan /> },
+      { path: "/admin/pesanan/:id", element: <DetailPesanan /> },
       { path: "/admin/Presale", element: <Presale /> },
       { path: "/admin/editPresale", element: <EditPresale /> },
       { path: "/admin/DetailPengguna/:id", element: <DetailPengguna /> },
-      { path: "/admin/AdminApproval", element: <AdminApproval /> },
-      // { path: "/WithdrawPage", element: <WithdrawPage /> },
-      // {
-      //   path: "/AdminWithdrawValidationPage",
-      //   element: <AdminWithdrawValidationPage />,
-      // },
-      // {
-      //   path: "/AdminProductApprovalPage",
-      //   element: <AdminProductApprovalPage />,
-      // },
+      { path: "/admin/approval", element: <AdminApproval /> }, 
     ],
   },
 

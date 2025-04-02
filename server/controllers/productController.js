@@ -31,6 +31,8 @@ class ProductController{
             }
 
             const data = await Product.findAll(option)
+            console.log(data, "CEK DATA");
+            
             res.status(200).json(data)
             
         } catch (error) {

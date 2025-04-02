@@ -51,6 +51,9 @@ const Produk = () => {
     (state) => state.dataProducts
   );
   const [activeTab, setActiveTab] = useState("reguler");
+  
+  console.log(products, ">>>>>>>");
+  
 
   const filterProduct = (category) => {
     if (category === "Semua") {
